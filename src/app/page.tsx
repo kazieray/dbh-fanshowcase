@@ -1,9 +1,5 @@
-import Hero from "@/components/home/Hero";
+import HomeExperience from "./_components/home-experience";
 
 export default function Home() {
-   return (
-      <main>
-         <Hero />
-      </main>
-   );
+   return <HomeExperience />;
 }
