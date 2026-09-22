@@ -36,7 +36,7 @@ export default function DesktopNav() {
             href="/play"
             className="group flex h-[52px] shrink-0 items-center rounded-full border border-white/[0.18] bg-white/[0.08] px-7 shadow-[inset_0_1px_0_rgba(255,255,255,0.04),0_1px_4px_rgba(0,0,0,0.12)] backdrop-blur-xl transition-all duration-300 hover:border-white/25 hover:bg-white/[0.12]"
          >
-            <span className="font-mono text-[10px] font-medium uppercase tracking-[0.08em] text-white/85 transition-colors duration-300 group-hover:text-white lg:text-[11px]">Main Sekarang</span>
+            <span className="font-mono text-[10px] font-medium uppercase tracking-[0.08em] text-white/85 transition-colors duration-300 group-hover:text-white lg:text-[11px]">Download Game</span>
          </Link>
       </div>
    );
