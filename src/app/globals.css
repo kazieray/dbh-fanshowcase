@@ -74,3 +74,44 @@ a {
       transition-duration: 0.01ms !important;
    }
 }
+
+/* ── LED Ring (CyberLife android temple indicator) ─────────────────────────── */
+.led-ring {
+   --size: 14px;
+   --thick: 2px;
+   --ring: var(--color-dbh-blue);
+   --glow: var(--color-dbh-blue);
+
+   display: inline-block;
+   width: var(--size);
+   height: var(--size);
+   border-radius: 50%;
+   border: var(--thick) solid var(--ring);
+   box-shadow: 0 0 6px 1px color-mix(in srgb, var(--glow) 55%, transparent),
+      inset 0 0 4px color-mix(in srgb, var(--glow) 25%, transparent);
+   flex-shrink: 0;
+}
+
+/* ── Scanline overlay (gameplay page cinematic aesthetic) ───────────────────── */
+.scanlines::after {
+   content: "";
+   pointer-events: none;
+   position: absolute;
+   inset: 0;
+   background: repeating-linear-gradient(
+      to bottom,
+      transparent 0px,
+      transparent 3px,
+      rgba(0, 0, 0, 0.06) 3px,
+      rgba(0, 0, 0, 0.06) 4px
+   );
+   z-index: 1;
+}
+
+/* ── Gameplay video glow border ─────────────────────────────────────────────── */
+.video-glow {
+   box-shadow:
+      0 0 0 1px rgba(82, 199, 255, 0.12),
+      0 0 40px rgba(82, 199, 255, 0.08),
+      0 32px 80px rgba(0, 0, 0, 0.6);
+}
