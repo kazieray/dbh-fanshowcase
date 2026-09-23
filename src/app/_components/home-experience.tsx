@@ -3,6 +3,9 @@
 import { useRef, useState } from "react";
 
 import Hero from "./hero";
+import StorySection from "./story-section";
+import ProtagonistsSection from "./protagonists-section";
+import FeaturesSection from "./features-section";
 import Preloader from "./preloader";
 import Navbar from "@/components/navigation/navbar";
 
@@ -42,7 +45,7 @@ export default function HomeExperience() {
 
       function update(currentTime: number) {
          const elapsed = currentTime - startTime;
-         const progress = Math.min(elapsed / duration, 1);
+         const progress = Math.max(0, Math.min(elapsed / duration, 1));
 
          audioElement.volume = targetVolume * progress;
 
@@ -55,10 +58,21 @@ export default function HomeExperience() {
    }
 
    return (
-      <main className="relative min-h-svh bg-dbh-bg">
+      <main className="relative min-h-svh bg-[url('/images/bg-dbh.jpg')] bg-cover bg-fixed bg-center bg-no-repeat">
+         {/* Global Dark Overlay */}
+         <div className="pointer-events-none fixed inset-0 z-0 bg-black/65" />
+
          <audio ref={audioRef} src="/sounds/dbh-ambience.mp3" preload="auto" loop />
 
          <Hero active={heroActive} />
+         
+         {heroActive && (
+            <>
+               <StorySection />
+               <ProtagonistsSection />
+               <FeaturesSection />
+            </>
+         )}
 
          <Navbar active={heroActive} />
 
