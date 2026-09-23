@@ -36,6 +36,8 @@ export default function HomeExperience() {
 
       if (!audioElement) return;
 
+      const audio = audioElement;
+
       const targetVolume = 0.35;
       const duration = 1800;
       const startTime = performance.now();
@@ -44,7 +46,7 @@ export default function HomeExperience() {
          const elapsed = currentTime - startTime;
          const progress = Math.min(elapsed / duration, 1);
 
-         audioElement.volume = targetVolume * progress;
+         audio.volume = targetVolume * progress;
 
          if (progress < 1) {
             requestAnimationFrame(update);
