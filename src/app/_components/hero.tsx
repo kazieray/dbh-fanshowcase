@@ -2,6 +2,7 @@
 
 import { useLayoutEffect, useRef } from "react";
 import gsap from "gsap";
+import Particles from "./particles";
 
 type HeroProps = {
    active: boolean;
@@ -129,12 +130,14 @@ export default function Hero({ active }: HeroProps) {
          <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-black/20 via-black/5 to-black/65" />
          <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-black/35 via-transparent to-black/15" />
 
+         <Particles active={active} />
+
          <div ref={darknessRef} className="pointer-events-none absolute inset-0 z-[5] bg-black" />
 
          <div className="relative z-10 flex h-full flex-col justify-end px-4 pb-8 sm:px-7 sm:pb-10 lg:px-12 lg:pb-12">
             <div className="w-full">
-               <div className="overflow-hidden">
-                  <h1 className="hero-reveal font-display text-[clamp(3.8rem,13vw,12rem)] font-medium uppercase leading-[0.72] tracking-[-0.075em] text-white">Detroit</h1>
+               <div className="overflow-visible">
+                  <h1 className="hero-reveal font-display text-[clamp(3.8rem,13vw,12rem)] font-medium uppercase leading-[0.72] tracking-[-0.075em] text-white transition-all duration-500 hover:scale-[1.02] hover:text-dbh-blue hover:drop-shadow-[0_0_20px_rgba(82,199,255,0.5)] cursor-crosshair">Detroit</h1>
                </div>
 
                <div className="mt-[clamp(0.7rem,2vw,1.5rem)] flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
