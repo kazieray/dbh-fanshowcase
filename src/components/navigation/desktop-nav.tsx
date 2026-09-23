@@ -1,23 +1,13 @@
 "use client";
 
 import { navItems } from "@/data/nav-items";
+
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useRef, MouseEvent } from "react";
 
 export default function DesktopNav() {
    const pathname = usePathname();
-   const buttonRef = useRef<HTMLAnchorElement>(null);
-
-   const handleMouseMove = (e: MouseEvent<HTMLAnchorElement>) => {
-      if (!buttonRef.current) return;
-      const rect = buttonRef.current.getBoundingClientRect();
-      const x = e.clientX - rect.left;
-      const y = e.clientY - rect.top;
-      buttonRef.current.style.setProperty("--x", `${x}px`);
-      buttonRef.current.style.setProperty("--y", `${y}px`);
-   };
 
    return (
       <div className="hidden items-center justify-center gap-3 md:flex">
@@ -44,11 +34,9 @@ export default function DesktopNav() {
 
          <Link
             href="/play"
-            ref={buttonRef}
-            onMouseMove={handleMouseMove}
-            className="group relative flex h-[52px] shrink-0 items-center overflow-hidden rounded-full border border-white/[0.18] bg-white/[0.08] px-7 shadow-[inset_0_1px_0_rgba(255,255,255,0.04),0_1px_4px_rgba(0,0,0,0.12)] backdrop-blur-xl transition-all duration-300 hover:border-white/40 hover:bg-white/[0.12]"
-            <div className="pointer-events-none absolute inset-0 -z-10 opacity-0 transition-opacity duration-300 group-hover:opacity-100" style={{ background: "radial-gradient(circle 60px at var(--x, 50%) var(--y, 50%), rgba(82, 199, 255, 0.4), transparent 100%)" }} />
-            <span className="relative z-10 font-mono text-[10px] font-medium uppercase tracking-[0.08em] text-white/85 transition-colors duration-300 group-hover:text-white group-hover:drop-shadow-[0_0_8px_rgba(255,255,255,0.8)] lg:text-[11px]">Main Sekarang</span>
+            className="group flex h-[52px] shrink-0 items-center rounded-full border border-white/[0.18] bg-white/[0.08] px-7 shadow-[inset_0_1px_0_rgba(255,255,255,0.04),0_1px_4px_rgba(0,0,0,0.12)] backdrop-blur-xl transition-all duration-300 hover:border-white/25 hover:bg-white/[0.12]"
+         >
+            <span className="font-mono text-[10px] font-medium uppercase tracking-[0.08em] text-white/85 transition-colors duration-300 group-hover:text-white lg:text-[11px]">Download Game</span>
          </Link>
       </div>
    );
