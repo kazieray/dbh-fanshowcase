@@ -16,18 +16,6 @@ export default function StorySection() {
       if (!sectionRef.current) return;
 
       const ctx = gsap.context(() => {
-         // Parallax background
-         gsap.to(bgRef.current, {
-            yPercent: 20,
-            ease: "none",
-            scrollTrigger: {
-               trigger: sectionRef.current,
-               start: "top bottom",
-               end: "bottom top",
-               scrub: true,
-            },
-         });
-
          // Text fade up
          gsap.fromTo(
             textRef.current,
@@ -48,19 +36,7 @@ export default function StorySection() {
    }, []);
 
    return (
-      <section ref={sectionRef} className="relative flex min-h-screen items-center justify-center overflow-hidden bg-dbh-surface py-24">
-         {/* Parallax Background */}
-         <div ref={bgRef} className="absolute -inset-y-[15%] inset-x-0 z-0">
-            <Image
-               src="/images/detroit_cityscape.png"
-               alt="Detroit City 2038"
-               fill
-               className="object-cover opacity-30"
-               sizes="100vw"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-dbh-surface via-transparent to-dbh-surface" />
-         </div>
-
+      <section id="story-section" ref={sectionRef} className="relative flex min-h-screen items-center justify-center overflow-hidden bg-black/65 py-24">
          {/* Content */}
          <div ref={textRef} className="relative z-10 mx-auto max-w-4xl px-6 text-center">
             <h2 className="mb-6 font-display text-4xl font-medium uppercase tracking-widest text-dbh-blue sm:text-5xl md:text-6xl">
