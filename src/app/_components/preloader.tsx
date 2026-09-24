@@ -224,31 +224,41 @@ export default function Preloader({ onEnter, onExitComplete }: PreloaderProps) {
             "-=0.4",
          )
          .to(
-            ".loader-panel-top",
+            rootRef.current,
             {
-               yPercent: -100,
-               duration: 1.05,
-               ease: "power4.inOut",
-            },
-            "+=0.05",
-         )
-         .to(
-            ".loader-panel-bottom",
-            {
-               yPercent: 100,
-               duration: 1.05,
-               ease: "power4.inOut",
-            },
-            "<",
+               opacity: 0,
+               duration: 1.5,
+               ease: "power2.inOut",
+            }
          );
    }
 
    return (
-      <div ref={rootRef} role="dialog" aria-modal="true" aria-labelledby="preloader-title" aria-describedby="preloader-status" className="fixed inset-0 z-[9999] min-h-svh overflow-hidden bg-dbh-bg text-dbh-white">
-         <div aria-hidden="true" className="loader-panel-top absolute inset-x-0 top-0 h-1/2 bg-dbh-bg" />
-         <div aria-hidden="true" className="loader-panel-bottom absolute inset-x-0 bottom-0 h-1/2 bg-dbh-bg" />
+      <div ref={rootRef} role="dialog" aria-modal="true" aria-labelledby="preloader-title" aria-describedby="preloader-status" className="fixed inset-0 z-[9999] min-h-svh overflow-hidden bg-[#050b14] text-dbh-white">
+         
+         {/* Animated CyberLife Grid Background */}
+         <style dangerouslySetInnerHTML={{__html: `
+            @keyframes pan-grid {
+               from { background-position: 0 0; }
+               to { background-position: 4rem 4rem; }
+            }
+         `}} />
+         <div 
+            className="absolute inset-0 z-0 opacity-30"
+            style={{
+               backgroundImage: `
+                  linear-gradient(to right, rgba(0, 180, 255, 0.15) 1px, transparent 1px),
+                  linear-gradient(to bottom, rgba(0, 180, 255, 0.15) 1px, transparent 1px)
+               `,
+               backgroundSize: '4rem 4rem',
+               animation: 'pan-grid 20s linear infinite',
+               maskImage: 'radial-gradient(circle at center, black 20%, transparent 80%)',
+               WebkitMaskImage: 'radial-gradient(circle at center, black 20%, transparent 80%)'
+            }}
+         />
 
-         <div aria-hidden="true" className="pointer-events-none absolute left-1/2 top-1/2 h-[80vw] max-h-[900px] w-[80vw] max-w-[900px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-dbh-blue/[0.025] blur-[80px] sm:blur-[120px]" />
+         {/* Ambient Glow */}
+         <div aria-hidden="true" className="pointer-events-none absolute left-1/2 top-1/2 h-[80vw] max-h-[900px] w-[80vw] max-w-[900px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-cyan-500/[0.03] blur-[100px] z-0" />
 
          <div className="relative z-10 flex h-svh min-h-[480px] flex-col px-4 py-5 sm:px-7 sm:py-7 lg:px-12 lg:py-10">
             <header className="loader-meta flex items-center justify-between">

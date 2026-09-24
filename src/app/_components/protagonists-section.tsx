@@ -12,21 +12,21 @@ const protagonists = [
       id: "kara",
       name: "Kara",
       role: "The Deviant",
-      image: "/images/kara.png",
+      image: "/images/kara.webp",
       desc: "Seorang asisten rumah tangga yang mengembangkan kesadaran buatan demi melindungi seorang gadis kecil dari bahaya.",
    },
    {
       id: "connor",
       name: "Connor",
       role: "The Investigator",
-      image: "/images/connor.png",
+      image: "/images/connor.jpeg",
       desc: "Prototip mutakhir yang ditugaskan untuk menyelidiki anomali di antara para android dan memburu para 'Deviant'.",
    },
    {
       id: "markus",
       name: "Markus",
       role: "The Leader",
-      image: "/images/markus.png",
+      image: "/images/markus.jpg",
       desc: "Seorang android perawat yang bangkit menjadi pemimpin pergerakan revolusi untuk membebaskan kaumnya.",
    },
 ];
@@ -60,7 +60,7 @@ export default function ProtagonistsSection() {
    }, []);
 
    return (
-      <section ref={sectionRef} className="relative bg-transparent px-6 py-24 sm:px-12 lg:px-24">
+      <section id="protagonists-section" ref={sectionRef} className="relative bg-black/65 px-6 py-24 sm:px-12 lg:px-24">
          <div className="mb-16 text-center">
             <h2 className="font-display text-3xl font-medium uppercase tracking-widest text-white sm:text-4xl">
                Tiga Takdir
@@ -75,7 +75,7 @@ export default function ProtagonistsSection() {
                   ref={(el) => {
                      cardsRef.current[index] = el;
                   }}
-                  className="relative overflow-hidden bg-dbh-surface border border-white/10 transition-all duration-500 hover:scale-105 hover:border-dbh-blue/50 md:hover:!opacity-100 md:group-hover:opacity-40"
+                  className="group/card relative overflow-hidden bg-dbh-surface border border-white/10 transition-all duration-500 hover:scale-105 hover:border-dbh-blue/50 md:hover:!opacity-100 md:group-hover:opacity-40"
                >
                   <div className="relative aspect-[3/4] w-full">
                      <Image
@@ -83,7 +83,7 @@ export default function ProtagonistsSection() {
                         alt={char.name}
                         fill
                         sizes="(max-width: 768px) 100vw, (max-width: 1200px) 33vw, 33vw"
-                        className="object-cover opacity-80 transition-opacity duration-500 hover:opacity-100 grayscale hover:grayscale-0"
+                        className="object-cover object-top opacity-80 transition-opacity duration-500 group-hover/card:opacity-100 grayscale group-hover/card:grayscale-0"
                      />
                      <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent" />
                   </div>
