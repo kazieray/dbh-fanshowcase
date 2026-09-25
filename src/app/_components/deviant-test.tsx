@@ -190,38 +190,38 @@ export default function DeviantTest() {
             <div ref={uiRef} className="relative z-10 w-full max-w-7xl h-full min-h-[600px] p-8 md:p-16 flex flex-col md:flex-row items-center justify-between pointer-events-none">
                
                {/* Top Left: Objective */}
-               <div className="absolute top-10 md:top-20 left-6 md:left-12 objective-text">
-                  <div className="text-white font-light tracking-[0.1em] text-sm md:text-xl">ANALYZE</div>
-                  <div className="text-white font-bold tracking-widest text-2xl md:text-4xl uppercase mt-1 mb-2 shadow-black drop-shadow-md">
+               <div className="absolute top-8 md:top-20 left-4 md:left-12 objective-text max-w-[90%]">
+                  <div className="text-white font-light tracking-[0.1em] text-xs md:text-xl">ANALYZE</div>
+                  <div className="text-white font-bold tracking-wide md:tracking-widest text-xl md:text-4xl uppercase mt-1 mb-2 shadow-black drop-shadow-md">
                      DEVIANT TENDENCIES
                   </div>
-                  <div className="flex items-center gap-4 text-cyan-400/60 text-xs font-mono">
+                  <div className="flex items-center gap-4 text-cyan-400/60 text-[10px] md:text-xs font-mono">
                      <span>065.1</span>
-                     <div className="w-8 h-[1px] bg-cyan-400/40"></div>
+                     <div className="w-6 md:w-8 h-[1px] bg-cyan-400/40"></div>
                      <span>004.4</span>
                   </div>
                </div>
 
                {/* Center: Scenario & Stress Level */}
-               <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-xl text-center md:text-left md:ml-12">
-                  <div className="mb-8">
-                     <h3 className="text-cyan-400/80 text-xs uppercase tracking-[0.2em] mb-3">[{currentQuestion.scenario}]</h3>
-                     <p className="text-white text-sm md:text-base leading-relaxed font-light drop-shadow-md max-w-md">
+               <div className="absolute top-[40%] md:top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[90%] md:w-full max-w-xl text-center md:text-left md:ml-12">
+                  <div className="mb-6 md:mb-8">
+                     <h3 className="text-cyan-400/80 text-[10px] md:text-xs uppercase tracking-[0.2em] mb-3 leading-relaxed">[{currentQuestion.scenario}]</h3>
+                     <p className="text-white text-sm md:text-base leading-relaxed font-light drop-shadow-md max-w-md mx-auto md:mx-0">
                         {currentQuestion.text}
                      </p>
                   </div>
 
                   {/* Stress Level Indicator */}
-                  <div className="inline-flex flex-col gap-2 mt-4 ml-4 md:ml-0">
-                     <div className="flex items-center gap-4">
+                  <div className="inline-flex flex-col gap-2 mt-2 md:mt-4">
+                     <div className="flex items-center justify-center md:justify-start gap-4">
                         <div ref={stressRef} className="text-red-500 font-display text-4xl md:text-5xl">
                            {stressLevel}%
                         </div>
-                        <div className="text-white/60 text-[10px] md:text-xs uppercase tracking-widest leading-tight">
+                        <div className="text-white/60 text-[10px] md:text-xs uppercase tracking-widest leading-tight text-left">
                            DEVIANCY<br/>LEVEL
                         </div>
                      </div>
-                     <div className="w-48 h-[2px] bg-white/10 relative">
+                     <div className="w-48 mx-auto md:mx-0 h-[2px] bg-white/10 relative">
                         <div 
                            className="absolute top-0 left-0 h-full bg-red-500 transition-all duration-1000 ease-out" 
                            style={{ width: `${stressLevel}%` }}
@@ -231,7 +231,7 @@ export default function DeviantTest() {
                </div>
 
                {/* Right Side: Dialogue Choices */}
-               <div ref={optionsRef} className={`absolute right-6 md:right-24 top-1/2 -translate-y-1/2 flex flex-col gap-6 ${isProcessing ? 'pointer-events-none' : 'pointer-events-auto'}`}>
+               <div ref={optionsRef} className={`absolute right-4 md:right-24 top-[78%] md:top-1/2 -translate-y-1/2 flex flex-col gap-4 md:gap-6 ${isProcessing ? 'pointer-events-none' : 'pointer-events-auto'}`}>
                   {currentQuestion.options.map((option) => (
                      <button
                         key={option.id}

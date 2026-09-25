@@ -124,7 +124,6 @@ export default function Hero({ active }: HeroProps) {
    return (
       <section ref={rootRef} className="relative isolate h-svh min-h-[560px] overflow-hidden bg-transparent">
          <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-black/20 via-black/5 to-black/65" />
-         <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-black/35 via-transparent to-black/15" />
 
          <Particles active={active} />
 

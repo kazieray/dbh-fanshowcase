@@ -36,7 +36,7 @@ export default function StorySection() {
    }, []);
 
    return (
-      <section id="story-section" ref={sectionRef} className="relative flex min-h-screen items-center justify-center overflow-hidden bg-black/65 py-24">
+      <section id="story-section" ref={sectionRef} className="relative z-10 flex min-h-screen items-center justify-center overflow-hidden bg-black/65 py-24">
          {/* Content */}
          <div ref={textRef} className="relative z-10 mx-auto max-w-4xl px-6 text-center">
             <h2 className="mb-6 font-display text-4xl font-medium uppercase tracking-widest text-dbh-blue sm:text-5xl md:text-6xl">
