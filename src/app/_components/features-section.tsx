@@ -23,32 +23,32 @@ const flowchartNodes = [
 
 export default function FeaturesSection() {
   const sectionRef   = useRef<HTMLElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
   const flowchartRef = useRef<HTMLDivElement>(null);
   const nodeRefs     = useRef<Record<number, HTMLDivElement | null>>({});
   const [hoveredNode, setHoveredNode] = useState<number | null>(null);
   const [paths, setPaths] = useState<{key: string, d: string}[]>([]);
+  const [scale, setScale] = useState(1);
 
   // ─── Dynamic Line Routing ─────────────────────────────────────────────────
   // We calculate SVG paths dynamically by measuring the actual DOM positions of the nodes.
   // This guarantees pixel-perfect connections regardless of font sizes, paddings, or screen scaling.
   const updatePaths = useCallback(() => {
     if (!flowchartRef.current) return;
-    const parent = flowchartRef.current.getBoundingClientRect();
 
     const getRect = (id: number) => {
       const el = nodeRefs.current[id];
       if (!el) return null;
-      const rect = el.getBoundingClientRect();
       const nodeDef = flowchartNodes.find(n => n.id === id);
       
-      // If a node has an absolute-positioned icon on its left, the bounding client rect 
-      // of the div won't include it. We subtract an offset so the line stops before the icon.
+      // If a node has an absolute-positioned icon on its left, offset it.
       const iconOffset = nodeDef?.icon ? 28 : 0;
       
+      // Since nodes have -translate-y-1/2, el.offsetTop is precisely the visual center Y!
       return {
-        left: rect.left - parent.left - iconOffset,
-        right: rect.right - parent.left,
-        centerY: rect.top - parent.top + rect.height / 2,
+        left: el.offsetLeft - iconOffset,
+        right: el.offsetLeft + el.offsetWidth,
+        centerY: el.offsetTop,
       };
     };
 
@@ -70,8 +70,8 @@ export default function FeaturesSection() {
     const colD = Math.round((rightMostClue + r[6]!.left) / 2);
 
     const createJunction = (fromIds: number[], toIds: number[], midX: number) => {
-      const fromNodes = fromIds.map(id => r[id]).filter(Boolean);
-      const toNodes = toIds.map(id => r[id]).filter(Boolean);
+      const fromNodes = fromIds.map(id => r[id]).filter((n): n is NonNullable<typeof n> => n !== null);
+      const toNodes = toIds.map(id => r[id]).filter((n): n is NonNullable<typeof n> => n !== null);
       
       if (fromNodes.length === 0 || toNodes.length === 0) return "";
 
@@ -107,17 +107,28 @@ export default function FeaturesSection() {
   }, []);
 
   useLayoutEffect(() => {
-    // Initial draw and observe resize for responsive adjustments
-    if (!flowchartRef.current) return;
-    const observer = new ResizeObserver(() => {
+    if (!containerRef.current || !flowchartRef.current) return;
+    
+    // Scale container down if viewport is smaller than 1200px
+    const containerObserver = new ResizeObserver((entries) => {
+      const w = entries[0].contentRect.width;
+      const available = w - 32; // 16px padding on each side
+      setScale(available < 1200 ? available / 1200 : 1);
+    });
+    containerObserver.observe(containerRef.current);
+
+    // Update lines if node sizes change (e.g. font loaded)
+    const flowObserver = new ResizeObserver(() => {
       updatePaths();
     });
-    observer.observe(flowchartRef.current);
+    flowObserver.observe(flowchartRef.current);
     
-    // Also explicitly update once immediately
     updatePaths();
 
-    return () => observer.disconnect();
+    return () => {
+      containerObserver.disconnect();
+      flowObserver.disconnect();
+    };
   }, [updatePaths]);
 
   // ─── GSAP Animations ────────────────────────────────────────────────────────
@@ -157,13 +168,13 @@ export default function FeaturesSection() {
     }, sectionRef);
 
     return () => ctx.revert();
-  }, [paths.length > 0]); // Re-run animation hook only when paths are first ready
+  }, [paths.length]); // Re-run animation hook only when paths are first ready
 
   return (
     <section
       id="features-section"
       ref={sectionRef}
-      className="relative flex min-h-screen flex-col items-center py-24 px-6 bg-black/65 overflow-x-hidden overflow-y-hidden"
+      className="relative hidden md:flex min-h-screen flex-col items-center py-24 px-6 bg-black/65 overflow-x-hidden overflow-y-hidden"
     >
       {/* Grid overlay */}
       <div
@@ -186,11 +197,32 @@ export default function FeaturesSection() {
 
       {/* Floating + marks */}
       <div className="absolute inset-0 w-full h-full pointer-events-none z-0">
-        {[...Array(20)].map((_, i) => (
+        {[
+          { top: "15.3%", left: "42.1%" },
+          { top: "82.5%", left: "10.4%" },
+          { top: "33.9%", left: "75.2%" },
+          { top: "68.1%", left: "22.8%" },
+          { top: "45.6%", left: "89.3%" },
+          { top: "91.2%", left: "55.7%" },
+          { top: "8.4%", left: "95.1%" },
+          { top: "54.7%", left: "31.6%" },
+          { top: "77.3%", left: "68.9%" },
+          { top: "26.5%", left: "5.2%" },
+          { top: "63.8%", left: "49.4%" },
+          { top: "11.1%", left: "81.6%" },
+          { top: "88.9%", left: "37.5%" },
+          { top: "39.4%", left: "62.3%" },
+          { top: "96.2%", left: "18.7%" },
+          { top: "21.7%", left: "53.9%" },
+          { top: "71.5%", left: "86.4%" },
+          { top: "48.3%", left: "12.8%" },
+          { top: "2.9%", left: "29.1%" },
+          { top: "59.6%", left: "73.5%" },
+        ].map((pos, i) => (
           <div
             key={i}
             className="absolute text-white/20 font-light text-xs"
-            style={{ top: `${Math.random() * 100}%`, left: `${Math.random() * 100}%` }}
+            style={pos}
           >
             +
           </div>
@@ -220,10 +252,21 @@ export default function FeaturesSection() {
       </div>
 
       {/* ── Flowchart ── */}
-      <div className="w-full overflow-x-auto pb-12 cursor-grab active:cursor-grabbing hide-scrollbar">
+      <div 
+        ref={containerRef}
+        className="w-full flex justify-center pb-12 overflow-hidden"
+      >
         <div
           ref={flowchartRef}
-          className="relative z-10 select-none mx-auto w-[1200px] h-[500px]"
+          className="relative z-10 select-none origin-top"
+          style={{ 
+            width: '1200px', 
+            height: '500px', 
+            transform: `scale(${scale})`, 
+            marginBottom: `-${500 * (1 - scale)}px`,
+            marginLeft: `-${1200 * (1 - scale) / 2}px`,
+            marginRight: `-${1200 * (1 - scale) / 2}px`,
+          }}
         >
           {/* Corner brackets (decorative area boundary) */}
           <div className="absolute border-l-2 border-t-2 border-white/20 w-8 h-8 pointer-events-none" style={{ left: "39%", top: "15%" }} />

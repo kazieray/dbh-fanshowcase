@@ -70,6 +70,7 @@ export default function HomeExperience() {
       const startTime = performance.now();
 
       function update(currentTime: number) {
+         if (!audioElement) return;
          const elapsed = currentTime - startTime;
          const progress = Math.max(0, Math.min(elapsed / duration, 1));
 
@@ -87,6 +88,9 @@ export default function HomeExperience() {
       <main className="relative min-h-svh bg-dbh-bg">
          {/* Background Layers */}
          <div className="bg-layer-1 pointer-events-none fixed inset-0 z-0 bg-[url('/images/bg-dbh.jpg')] bg-cover bg-center bg-no-repeat" style={{ willChange: "transform" }} />
+         
+         {/* Global Vignette Overlay */}
+         <div className="pointer-events-none fixed inset-0 z-[1] bg-gradient-to-r from-black/35 via-transparent to-black/15" />
 
          <audio ref={audioRef} src="/sounds/dbh-ambience.mp3" preload="auto" loop />
 
