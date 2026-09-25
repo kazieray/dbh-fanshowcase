@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState, useLayoutEffect } from "react";
+import { useState, useLayoutEffect } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
@@ -12,15 +12,14 @@ import ProtagonistsSection from "./protagonists-section";
 import FeaturesSection from "./features-section";
 import DeviantTest from "./deviant-test";
 import Preloader from "./preloader";
+import { useAudio } from "./audio-provider";
 import Navbar from "@/components/navigation/navbar";
 
 export default function HomeExperience() {
-   const audioRef = useRef<HTMLAudioElement>(null);
+   const { setAudioEnabled } = useAudio();
 
    const [heroActive, setHeroActive] = useState(false);
    const [preloaderVisible, setPreloaderVisible] = useState(true);
-   const [, setSoundEnabled] = useState(false);
-   const [, setMenuOpen] = useState(false);
 
    useLayoutEffect(() => {
       if (!heroActive) return;
@@ -45,52 +44,13 @@ export default function HomeExperience() {
 
    async function handleEnter(withSound: boolean) {
       setHeroActive(true);
-      setSoundEnabled(withSound);
-
-      if (withSound && audioRef.current) {
-         audioRef.current.volume = 0;
-
-         try {
-            await audioRef.current.play();
-            fadeAudioIn();
-         } catch (error) {
-            console.error("Audio gagal diputar:", error);
-            setSoundEnabled(false);
-         }
-      }
-   }
-
-   function fadeAudioIn() {
-      const audioElement = audioRef.current;
-
-      if (!audioElement) return;
-
-      const audio = audioElement;
-
-      const targetVolume = 0.35;
-      const duration = 1800;
-      const startTime = performance.now();
-
-      function update(currentTime: number) {
-         const elapsed = currentTime - startTime;
-         const progress = Math.max(0, Math.min(elapsed / duration, 1));
-
-         audio.volume = targetVolume * progress;
-
-         if (progress < 1) {
-            requestAnimationFrame(update);
-         }
-      }
-
-      requestAnimationFrame(update);
+      await setAudioEnabled(withSound);
    }
 
    return (
       <main className="relative min-h-svh bg-dbh-bg">
          {/* Background Layers */}
          <div className="bg-layer-1 pointer-events-none fixed inset-0 z-0 bg-[url('/images/bg-dbh.jpg')] bg-cover bg-center bg-no-repeat" style={{ willChange: "transform" }} />
-
-         <audio ref={audioRef} src="/sounds/dbh-ambience.mp3" preload="auto" loop />
 
          <Hero active={heroActive} />
          

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import { AudioProvider } from "./_components/audio-provider";
 import CustomCursor from "./_components/custom-cursor";
 
 export const metadata: Metadata = {
@@ -15,7 +16,7 @@ export default function RootLayout({
    return (
       <html lang="id" suppressHydrationWarning>
          <body suppressHydrationWarning>
-            {children}
+            <AudioProvider>{children}</AudioProvider>
             <CustomCursor />
          </body>
       </html>
