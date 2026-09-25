@@ -72,30 +72,204 @@ const features = [
    },
 ];
 
-const YOUTUBE_ID = "JVywqFx0GdE";
-
 // ─────────────────────────────────────────────────────────────────────────────
-// Video Thumbnail Placeholder
+// Tri-Character Video Showcase (Connor, Markus & Kara from /videos)
 // ─────────────────────────────────────────────────────────────────────────────
 
-function VideoSection() {
-   const [playing, setPlaying] = useState(false);
+interface VideoCardProps {
+   title: string;
+   model: string;
+   role: string;
+   tagline: string;
+   description: string;
+   videoSrc: string;
+   accentColor: string;
+   ledColor: string;
+   icon: string;
+}
+
+function CharacterVideoCard({
+   title,
+   model,
+   role,
+   tagline,
+   description,
+   videoSrc,
+   accentColor,
+   ledColor,
+   icon,
+}: VideoCardProps) {
+   const videoRef = useRef<HTMLVideoElement>(null);
+   const [isPlaying, setIsPlaying] = useState(true);
+   const [isMuted, setIsMuted] = useState(true);
+   const [progress, setProgress] = useState(0);
+
+   const togglePlay = () => {
+      if (!videoRef.current) return;
+      if (videoRef.current.paused) {
+         videoRef.current.play();
+         setIsPlaying(true);
+      } else {
+         videoRef.current.pause();
+         setIsPlaying(false);
+      }
+   };
+
+   const toggleMute = () => {
+      if (!videoRef.current) return;
+      const nextMuted = !videoRef.current.muted;
+      videoRef.current.muted = nextMuted;
+      setIsMuted(nextMuted);
+   };
+
+   const handleTimeUpdate = () => {
+      if (!videoRef.current) return;
+      const cur = videoRef.current.currentTime;
+      const dur = videoRef.current.duration || 1;
+      setProgress((cur / dur) * 100);
+   };
+
+   return (
+      <div className="char-video-card group flex flex-col opacity-0">
+         {/* Video Display Box */}
+         <div className="relative aspect-video w-full overflow-hidden rounded-2xl border border-white/10 bg-black/80 shadow-2xl transition-all duration-500 hover:border-white/20">
+            {/* Top info badge */}
+            <div className="absolute left-3 top-3 z-20 flex items-center gap-2 rounded-full border border-white/10 bg-black/60 px-3 py-1 backdrop-blur-md sm:left-4 sm:top-4">
+               <span
+                  className="h-2 w-2 rounded-full animate-pulse shadow-sm"
+                  style={{ backgroundColor: ledColor, boxShadow: `0 0 8px ${ledColor}` }}
+               />
+               <span className="font-mono text-[8px] uppercase tracking-[0.2em] text-white/80 sm:text-[9px]">
+                  {model}
+               </span>
+               <span className="text-white/20">•</span>
+               <span className="font-mono text-[7px] uppercase tracking-[0.16em] text-white/50 sm:text-[8px]">
+                  {role}
+               </span>
+            </div>
+
+            {/* Native Video Element - MUTED BY DEFAULT */}
+            <video
+               ref={videoRef}
+               src={videoSrc}
+               playsInline
+               autoPlay
+               loop
+               muted={isMuted}
+               onTimeUpdate={handleTimeUpdate}
+               onPlay={() => setIsPlaying(true)}
+               onPause={() => setIsPlaying(false)}
+               className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.02]"
+            />
+
+            {/* Subtle Gradient Overlays */}
+            <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/20" />
+
+            {/* Progress scrubber bar */}
+            <div className="absolute bottom-0 left-0 right-0 z-20 h-1 bg-white/10">
+               <div
+                  className="h-full transition-all duration-150"
+                  style={{ width: `${progress}%`, backgroundColor: accentColor }}
+               />
+            </div>
+
+            {/* PlayStation-style Bottom Controls */}
+            <div className="absolute bottom-3 left-3 right-3 z-20 flex items-center justify-between sm:bottom-4 sm:left-4 sm:right-4">
+               {/* Play/Pause Button (PS5 Showcase Style) */}
+               <button
+                  type="button"
+                  onClick={togglePlay}
+                  aria-label={isPlaying ? `Pause ${title} gameplay video` : `Play ${title} gameplay video`}
+                  className="flex h-9 w-9 items-center justify-center rounded-lg border border-white/20 bg-black/65 text-white/90 backdrop-blur-md transition-all duration-300 hover:scale-105 hover:border-white/50 hover:bg-black/85 hover:text-white active:scale-95"
+               >
+                  {isPlaying ? (
+                     <svg viewBox="0 0 24 24" fill="currentColor" className="h-4 w-4" aria-hidden="true">
+                        <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z" />
+                     </svg>
+                  ) : (
+                     <svg viewBox="0 0 24 24" fill="currentColor" className="ml-0.5 h-4 w-4" aria-hidden="true">
+                        <path d="M8 5v14l11-7z" />
+                     </svg>
+                  )}
+               </button>
+
+               {/* Sound & Status Controls - Muted indicator */}
+               <div className="flex items-center gap-2">
+                  <button
+                     type="button"
+                     onClick={toggleMute}
+                     aria-label={isMuted ? "Unmute audio" : "Mute audio"}
+                     className="flex h-9 items-center gap-1.5 rounded-lg border border-white/20 bg-black/65 px-2.5 text-white/80 backdrop-blur-md transition-all duration-300 hover:border-white/50 hover:bg-black/85 hover:text-white"
+                  >
+                     {isMuted ? (
+                        <>
+                           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} className="h-3.5 w-3.5" aria-hidden="true">
+                              <path d="M11 5L6 9H2v6h4l5 4V5zM23 9l-6 6M17 9l6 6" strokeLinecap="round" strokeLinejoin="round" />
+                           </svg>
+                           <span className="font-mono text-[7px] uppercase tracking-wider text-white/50 sm:text-[8px]">Tanpa Suara</span>
+                        </>
+                     ) : (
+                        <>
+                           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} className="h-3.5 w-3.5 text-dbh-blue" aria-hidden="true">
+                              <path d="M11 5L6 9H2v6h4l5 4V5zM15.54 8.46a5 5 0 010 7.07M19.07 4.93a10 10 0 010 14.14" strokeLinecap="round" strokeLinejoin="round" />
+                           </svg>
+                           <span className="font-mono text-[7px] uppercase tracking-wider text-dbh-blue sm:text-[8px]">Audio ON</span>
+                        </>
+                     )}
+                  </button>
+               </div>
+            </div>
+         </div>
+
+         {/* Content info below video */}
+         <div className="mt-4 flex items-start gap-3">
+            <div
+               className="mt-1 flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border border-white/10 bg-white/[0.03] text-base backdrop-blur-sm"
+               style={{ color: accentColor }}
+               aria-hidden="true"
+            >
+               {icon}
+            </div>
+
+            <div>
+               <div className="flex flex-wrap items-center gap-2">
+                  <h3 className="font-display text-[15px] font-semibold uppercase tracking-[-0.01em] text-white sm:text-[17px]">
+                     {title}
+                  </h3>
+                  <span
+                     className="rounded px-1.5 py-0.5 font-mono text-[7px] uppercase tracking-widest text-white/90"
+                     style={{ backgroundColor: `${accentColor}25`, border: `1px solid ${accentColor}50` }}
+                  >
+                     {tagline}
+                  </span>
+               </div>
+               <p className="mt-1 font-mono text-[8px] uppercase leading-relaxed tracking-[0.05em] text-white/50 sm:text-[9px]">
+                  {description}
+               </p>
+            </div>
+         </div>
+      </div>
+   );
+}
+
+function TriCharacterVideoSection() {
    const containerRef = useRef<HTMLDivElement>(null);
 
    useLayoutEffect(() => {
       if (!containerRef.current) return;
       const ctx = gsap.context(() => {
          gsap.fromTo(
-            containerRef.current,
-            { opacity: 0, y: 48 },
+            ".char-video-card",
+            { opacity: 0, y: 44 },
             {
                opacity: 1,
                y: 0,
-               duration: 1.1,
+               duration: 1.0,
+               stagger: 0.18,
                ease: "power3.out",
                scrollTrigger: {
                   trigger: containerRef.current,
-                  start: "top 82%",
+                  start: "top 78%",
                },
             },
          );
@@ -103,118 +277,91 @@ function VideoSection() {
       return () => ctx.revert();
    }, []);
 
+   const connorVideo = "/videos/YTDown.com_YouTube_Connor-VS-SWAT-Team-Fair-Fight_Media_aI5f4bCSzgw_001_1080p.mp4";
+   const markusVideo = "/videos/YTDown.com_YouTube_Markus-final-speech-The-best-possible-en_Media_fhFSFMOU-wM_001_1080p.mp4";
+   const karaVideo = "/videos/kara-scene.mp4";
+
    return (
-      <section aria-labelledby="gameplay-video-title" className="relative px-4 py-20 sm:px-7 sm:py-28 lg:px-12 lg:py-36">
-         {/* ambient glow */}
+      <section aria-labelledby="gameplay-video-title" className="relative px-4 py-16 sm:px-7 sm:py-24 lg:px-12 lg:py-28">
+         {/* ambient glows */}
          <div
             aria-hidden="true"
-            className="pointer-events-none absolute left-1/2 top-1/2 h-[60vw] max-h-[600px] w-[80vw] max-w-[900px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-dbh-blue/[0.04] blur-[120px]"
+            className="pointer-events-none absolute left-1/6 top-1/2 h-[45vw] max-h-[500px] w-[40vw] max-w-[500px] -translate-y-1/2 rounded-full bg-dbh-blue/[0.04] blur-[120px]"
+         />
+         <div
+            aria-hidden="true"
+            className="pointer-events-none absolute right-1/6 top-1/2 h-[45vw] max-h-[500px] w-[40vw] max-w-[500px] -translate-y-1/2 rounded-full bg-rose-500/[0.04] blur-[120px]"
          />
 
-         <div ref={containerRef} className="relative mx-auto max-w-5xl opacity-0">
-            {/* heading */}
+         <div ref={containerRef} className="relative mx-auto max-w-7xl">
+            {/* Header */}
             <div className="mb-10 sm:mb-14">
-               <p className="font-mono text-[8px] uppercase tracking-[0.3em] text-dbh-blue sm:text-[9px]">
-                  Official Gameplay
-               </p>
+               <div className="flex items-center gap-2">
+                  <span className="h-1.5 w-1.5 rounded-full bg-dbh-blue" />
+                  <p className="font-mono text-[8px] uppercase tracking-[0.3em] text-dbh-blue sm:text-[9px]">
+                     In-Game Character Gameplay (Muted by Default)
+                  </p>
+               </div>
                <h2
                   id="gameplay-video-title"
-                  className="mt-3 font-display text-[clamp(1.8rem,5vw,4rem)] font-medium uppercase leading-[0.92] tracking-[-0.04em] text-white"
+                  className="mt-3 font-display text-[clamp(1.8rem,4.5vw,3.8rem)] font-medium uppercase leading-[0.92] tracking-[-0.04em] text-white"
                >
-                  Lihat Sendiri
+                  Connor, Markus & Kara
                   <br />
-                  <span className="text-white/40">Bagaimana Rasanya</span>
+                  <span className="text-white/40">Tiga Sudut Pandang, Satu Takdir Utama</span>
                </h2>
+               <p className="mt-3 max-w-2xl font-mono text-[8px] uppercase leading-relaxed tracking-[0.12em] text-white/40 sm:text-[9px]">
+                  Saksikan langsung footage gameplay dari ketiga karakter utama. Semua video diputar tanpa suara (muted) secara default. Klik tombol kontrol pada video untuk memutar/menjeda.
+               </p>
             </div>
 
-            {/* video player */}
-            <div className="relative overflow-hidden rounded-2xl video-glow scanlines">
-               {/* cinematic letterbox bars */}
-               <div className="pointer-events-none absolute inset-x-0 top-0 z-10 h-[5%] bg-black" />
-               <div className="pointer-events-none absolute inset-x-0 bottom-0 z-10 h-[5%] bg-black" />
+            {/* Tri Video Grid (3 Columns for Connor, Markus, Kara) */}
+            <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 lg:gap-7">
+               {/* Connor Showcase Card */}
+               <CharacterVideoCard
+                  title="Connor // RK800"
+                  model="MODEL RK800 #313 248 317"
+                  role="Deviant Hunter"
+                  tagline="Tactical Combat"
+                  description="Kombinasi analisis forensik real-time, rekonstruksi probabilitas kejadian, dan aksi Quick-Time Event berkecepatan tinggi saat menghadapi perlawanan bersenjata."
+                  videoSrc={connorVideo}
+                  accentColor="#52c7ff"
+                  ledColor="#00d2ff"
+                  icon="⌖"
+               />
 
-               {!playing ? (
-                  /* ── Custom Play Overlay ── */
-                  <button
-                     id="gameplay-video-play"
-                     type="button"
-                     aria-label="Putar video gameplay Detroit: Become Human"
-                     onClick={() => setPlaying(true)}
-                     className="group relative flex aspect-video w-full items-center justify-center overflow-hidden bg-black"
-                  >
-                     {/* YouTube thumbnail */}
-                     {/* eslint-disable-next-line @next/next/no-img-element */}
-                     <img
-                        src={`https://img.youtube.com/vi/${YOUTUBE_ID}/maxresdefault.jpg`}
-                        alt="Detroit: Become Human — Gameplay Thumbnail"
-                        className="absolute inset-0 h-full w-full object-cover opacity-70 transition-opacity duration-700 group-hover:opacity-55"
-                     />
+               {/* Markus Showcase Card */}
+               <CharacterVideoCard
+                  title="Markus // RK200"
+                  model="MODEL RK200 #684 842 971"
+                  role="Jericho Leader"
+                  tagline="Deviant Revolution"
+                  description="Dilema moral kepemimpinan, orasi pembebasan bangsa android, dan konsekuensi pilihan perdamaian atau revolusi terbuka yang mengubah sejarah Detroit."
+                  videoSrc={markusVideo}
+                  accentColor="#f59e0b"
+                  ledColor="#f59e0b"
+                  icon="◈"
+               />
 
-                     {/* gradient overlays */}
-                     <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-black/50" />
-                     <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-black/20 via-transparent to-black/20" />
-
-                     {/* top label */}
-                     <div className="absolute left-4 top-4 z-10 flex items-center gap-2 sm:left-6 sm:top-6">
-                        <span className="h-[5px] w-[5px] animate-pulse rounded-full bg-red-500" />
-                        <span className="font-mono text-[7px] uppercase tracking-[0.22em] text-white/60 sm:text-[8px]">
-                           Official Gameplay Reveal
-                        </span>
-                     </div>
-
-                     {/* play button */}
-                     <div className="relative z-10 flex flex-col items-center gap-4">
-                        <div className="flex h-16 w-16 items-center justify-center rounded-full border border-white/20 bg-black/40 backdrop-blur-md transition-all duration-500 group-hover:scale-110 group-hover:border-dbh-blue/60 group-hover:bg-dbh-blue/10 sm:h-20 sm:w-20">
-                           {/* play triangle */}
-                           <svg
-                              viewBox="0 0 24 24"
-                              fill="currentColor"
-                              className="ml-1 h-7 w-7 text-white/80 transition-colors duration-300 group-hover:text-dbh-blue sm:h-9 sm:w-9"
-                              aria-hidden="true"
-                           >
-                              <path d="M8 5v14l11-7z" />
-                           </svg>
-                        </div>
-
-                        <p className="font-mono text-[8px] uppercase tracking-[0.2em] text-white/50 transition-colors duration-300 group-hover:text-white/70 sm:text-[9px]">
-                           Putar Video
-                        </p>
-                     </div>
-
-                     {/* bottom bar */}
-                     <div className="absolute bottom-4 left-4 right-4 z-10 flex items-end justify-between sm:bottom-6 sm:left-6 sm:right-6">
-                        <div>
-                           <p className="font-display text-[11px] font-medium uppercase tracking-[-0.01em] text-white/80 sm:text-sm">
-                              Detroit: Become Human
-                           </p>
-                           <p className="font-mono text-[7px] uppercase tracking-[0.15em] text-white/40 sm:text-[8px]">
-                              Official Gameplay Trailer • 2018
-                           </p>
-                        </div>
-                        <p className="font-mono text-[7px] uppercase tracking-[0.15em] text-white/30 sm:text-[8px]">
-                           YouTube
-                        </p>
-                     </div>
-                  </button>
-               ) : (
-                  /* ── Actual YouTube embed ── */
-                  <div className="relative aspect-video w-full bg-black">
-                     <iframe
-                        id="gameplay-video-iframe"
-                        className="absolute inset-0 h-full w-full"
-                        src={`https://www.youtube.com/embed/${YOUTUBE_ID}?autoplay=1&rel=0&modestbranding=1&color=white`}
-                        title="Detroit: Become Human — Official Gameplay"
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                        allowFullScreen
-                     />
-                  </div>
-               )}
+               {/* Kara Showcase Card (ADDED) */}
+               <CharacterVideoCard
+                  title="Kara // AX400"
+                  model="MODEL AX400 #589 421 993"
+                  role="Fugitive Android"
+                  tagline="Maternal Deviancy"
+                  description="Perjuangan emosional melarikan diri bersama Alice, menembus batas program demi rasa kasih sayang, dan melintasi perbatasan Kanada untuk mencari kedamaian."
+                  videoSrc={karaVideo}
+                  accentColor="#f43f5e"
+                  ledColor="#ec4899"
+                  icon="◇"
+               />
             </div>
 
-            {/* caption */}
-            <p className="mt-5 text-center font-mono text-[8px] uppercase tracking-[0.2em] text-white/25 sm:text-[9px]">
-               Detroit: Become Human — Official Gameplay Reveal • Quantic Dream / Sony Interactive Entertainment
-            </p>
+            {/* Sub-caption bar */}
+            <div className="mt-10 flex flex-wrap items-center justify-between gap-3 border-t border-white/[0.07] pt-4 font-mono text-[7px] uppercase tracking-[0.2em] text-white/30 sm:text-[8px]">
+               <p>Detroit: Become Human — Footage Gameplay Resmi (Connor, Markus & Kara)</p>
+               <p className="text-dbh-blue/60">Interaktif • Audio Muted (Tanpa Suara)</p>
+            </div>
          </div>
       </section>
    );
@@ -613,7 +760,7 @@ export default function GameplayExperience() {
          <Navbar active={true} />
 
          <GameplayHero />
-         <VideoSection />
+         <TriCharacterVideoSection />
          <FeaturesSection />
          <StatsSection />
          <CtaSection />

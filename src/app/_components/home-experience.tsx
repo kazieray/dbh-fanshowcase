@@ -12,7 +12,6 @@ export default function HomeExperience() {
    const [heroActive, setHeroActive] = useState(false);
    const [preloaderVisible, setPreloaderVisible] = useState(true);
    const [, setSoundEnabled] = useState(false);
-   const [, setMenuOpen] = useState(false);
 
    async function handleEnter(withSound: boolean) {
       setHeroActive(true);
@@ -41,6 +40,7 @@ export default function HomeExperience() {
       const startTime = performance.now();
 
       function update(currentTime: number) {
+         if (!audioElement) return;
          const elapsed = currentTime - startTime;
          const progress = Math.min(elapsed / duration, 1);
 
