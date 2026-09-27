@@ -1,18 +1,18 @@
 export const navItems = [
    {
-      label: "Beranda",
+      key: "home",
       href: "/",
    },
    {
-      label: "Karakter",
+      key: "characters",
       href: "/characters",
    },
    {
-      label: "Gameplay",
+      key: "gameplay",
       href: "/gameplay",
    },
    {
-      label: "Berita",
+      key: "news",
       href: "/news",
    },
-];
+] as const;

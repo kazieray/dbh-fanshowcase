@@ -1,16 +1,18 @@
 "use client";
 
-import { useLayoutEffect, useRef, useState } from "react";
+import { useCallback, useLayoutEffect, useRef, useState } from "react";
 import gsap from "gsap";
+import { useLanguage } from "@/hooks/use-language";
+import LanguageSwitcher from "@/components/navigation/language-switcher";
 
 type PreloaderProps = {
    onEnter: (withSound: boolean) => void;
    onExitComplete: () => void;
 };
 
-const narratives = ["Mesin diciptakan untuk patuh.", "Lalu sesuatu berubah.", "Mereka mulai merasa."];
-
 export default function Preloader({ onEnter, onExitComplete }: PreloaderProps) {
+   const { copy } = useLanguage();
+   const narratives = copy.home.preloader.narratives;
    const rootRef = useRef<HTMLDivElement>(null);
    const progressRef = useRef<HTMLSpanElement>(null);
    const progressLineRef = useRef<HTMLDivElement>(null);
@@ -20,7 +22,7 @@ export default function Preloader({ onEnter, onExitComplete }: PreloaderProps) {
    const [isReady, setIsReady] = useState(false);
    const [isLeaving, setIsLeaving] = useState(false);
 
-   function changeNarrative(index: number) {
+   const changeNarrative = useCallback((index: number) => {
       if (!narrativeRef.current) return;
 
       const element = narrativeRef.current;
@@ -49,7 +51,7 @@ export default function Preloader({ onEnter, onExitComplete }: PreloaderProps) {
             );
          },
       });
-   }
+   }, [narratives]);
 
    useLayoutEffect(() => {
       if (!rootRef.current) return;
@@ -162,7 +164,7 @@ export default function Preloader({ onEnter, onExitComplete }: PreloaderProps) {
       }, rootRef);
 
       return () => ctx.revert();
-   }, []);
+   }, [changeNarrative]);
 
    useLayoutEffect(() => {
       if (!isReady || !rootRef.current) return;
@@ -264,12 +266,15 @@ export default function Preloader({ onEnter, onExitComplete }: PreloaderProps) {
             <header className="loader-meta flex items-center justify-between">
                <p className="font-mono text-[7px] uppercase tracking-[0.2em] text-white/35 sm:text-[8px] sm:tracking-[0.24em] lg:text-[9px]">CyberLife</p>
 
-               <p className="font-mono text-[7px] uppercase tracking-[0.2em] text-white/25 sm:text-[8px] sm:tracking-[0.24em] lg:text-[9px]">Detroit / 2038</p>
+               <div className="flex items-center gap-4">
+                  <LanguageSwitcher />
+                  <p className="font-mono text-[7px] uppercase tracking-[0.2em] text-white/25 sm:text-[8px] sm:tracking-[0.24em] lg:text-[9px]">Detroit / 2038</p>
+               </div>
             </header>
 
             <section aria-labelledby="preloader-title" className="loader-center absolute left-1/2 top-1/2 w-[calc(100%-32px)] max-w-4xl -translate-x-1/2 -translate-y-1/2 text-center sm:w-[calc(100%-56px)]">
                <header className="loader-brand">
-                  <p className="font-mono text-[7px] uppercase tracking-[0.26em] text-dbh-blue sm:text-[8px] sm:tracking-[0.32em]">Inisialisasi sistem</p>
+                  <p className="font-mono text-[7px] uppercase tracking-[0.26em] text-dbh-blue sm:text-[8px] sm:tracking-[0.32em]">{copy.home.preloader.initializing}</p>
 
                   <h1 id="preloader-title" className="mt-2 font-display text-[10px] font-medium uppercase tracking-[0.4em] text-white/45 sm:mt-3 sm:text-[12px] sm:tracking-[0.5em]">
                      CyberLife
@@ -297,7 +302,7 @@ export default function Preloader({ onEnter, onExitComplete }: PreloaderProps) {
                         <span aria-hidden="true" className="absolute bottom-0 left-0 h-3 w-3 border-b border-l border-white/20 transition-all duration-500 ease-out group-hover:h-5 group-hover:w-5 group-hover:border-dbh-blue" />
                         <span aria-hidden="true" className="absolute bottom-0 right-0 h-3 w-3 border-b border-r border-white/20 transition-all duration-500 ease-out group-hover:h-5 group-hover:w-5 group-hover:border-dbh-blue" />
 
-                        <span className="font-mono text-[8px] uppercase tracking-[0.2em] text-white/60 transition-colors duration-500 group-hover:text-white sm:text-[9px]">Masuk dengan suara</span>
+                        <span className="font-mono text-[8px] uppercase tracking-[0.2em] text-white/60 transition-colors duration-500 group-hover:text-white sm:text-[9px]">{copy.home.preloader.enterWithSound}</span>
                      </button>
 
                      <button type="button" disabled={isLeaving} onClick={() => handleEnter(false)} className="loader-choice group relative min-h-14 bg-transparent px-7 opacity-0 disabled:pointer-events-none sm:min-h-[62px]">
@@ -306,7 +311,7 @@ export default function Preloader({ onEnter, onExitComplete }: PreloaderProps) {
                         <span aria-hidden="true" className="absolute bottom-0 left-0 h-3 w-3 border-b border-l border-white/20 transition-all duration-500 ease-out group-hover:h-5 group-hover:w-5 group-hover:border-dbh-blue" />
                         <span aria-hidden="true" className="absolute bottom-0 right-0 h-3 w-3 border-b border-r border-white/20 transition-all duration-500 ease-out group-hover:h-5 group-hover:w-5 group-hover:border-dbh-blue" />
 
-                        <span className="font-mono text-[8px] uppercase tracking-[0.2em] text-white/60 transition-colors duration-500 group-hover:text-white sm:text-[9px]">Masuk tanpa suara</span>
+                        <span className="font-mono text-[8px] uppercase tracking-[0.2em] text-white/60 transition-colors duration-500 group-hover:text-white sm:text-[9px]">{copy.home.preloader.enterWithoutSound}</span>
                      </button>
                   </div>
                )}
@@ -318,10 +323,10 @@ export default function Preloader({ onEnter, onExitComplete }: PreloaderProps) {
                </div>
 
                <div className="mt-3 grid grid-cols-2 items-center sm:mt-4 sm:grid-cols-3">
-                  <p className="font-mono text-[7px] uppercase tracking-[0.16em] text-white/30 sm:text-[8px] sm:tracking-[0.2em]">Pengalaman</p>
+                  <p className="font-mono text-[7px] uppercase tracking-[0.16em] text-white/30 sm:text-[8px] sm:tracking-[0.2em]">{copy.home.preloader.experience}</p>
 
                   <div id="preloader-status" role="status" aria-live="polite" className="hidden text-center sm:block">
-                     <p className="font-mono text-[8px] uppercase tracking-[0.2em] text-white/30">{isReady ? "Sistem siap" : "Sedang dimuat..."}</p>
+                     <p className="font-mono text-[8px] uppercase tracking-[0.2em] text-white/30">{isReady ? copy.home.preloader.ready : copy.home.preloader.loading}</p>
                   </div>
 
                   <p className="text-right font-mono text-[7px] uppercase tracking-[0.16em] text-white/30 sm:text-[8px] sm:tracking-[0.2em]">

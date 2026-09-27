@@ -1,36 +1,18 @@
 "use client";
 
-import { createContext, useContext, useRef, type ReactNode } from "react";
+import { createContext, useCallback, useContext, useMemo, useRef, useState, type ReactNode } from "react";
 
 type AudioContextValue = {
+   isAudioEnabled: boolean;
    setAudioEnabled: (enabled: boolean) => Promise<void>;
+   toggleAudio: () => Promise<void>;
 };
 
 const AudioContext = createContext<AudioContextValue | null>(null);
 
 export function AudioProvider({ children }: { children: ReactNode }) {
    const audioRef = useRef<HTMLAudioElement>(null);
-
-   async function setAudioEnabled(enabled: boolean) {
-      const audio = audioRef.current;
-
-      if (!audio) return;
-
-      if (!enabled) {
-         audio.pause();
-         audio.currentTime = 0;
-         return;
-      }
-
-      audio.volume = 0;
-
-      try {
-         await audio.play();
-         fadeAudioIn(audio);
-      } catch (error) {
-         console.error("Audio gagal diputar:", error);
-      }
-   }
+   const [isAudioEnabled, setIsAudioEnabled] = useState(false);
 
    function fadeAudioIn(audio: HTMLAudioElement) {
       const targetVolume = 0.35;
@@ -51,8 +33,60 @@ export function AudioProvider({ children }: { children: ReactNode }) {
       requestAnimationFrame(update);
    }
 
+   const setAudioEnabled = useCallback(async (enabled: boolean) => {
+      const audio = audioRef.current;
+
+      if (!audio) return;
+
+      if (!enabled) {
+         audio.muted = true;
+         audio.volume = 0;
+         audio.pause();
+         audio.currentTime = 0;
+         setIsAudioEnabled(false);
+         return;
+      }
+
+      audio.muted = false;
+      audio.volume = 0;
+
+      try {
+         await audio.play();
+         setIsAudioEnabled(true);
+         fadeAudioIn(audio);
+      } catch (error) {
+         setIsAudioEnabled(false);
+         console.error("Audio gagal diputar:", error);
+      }
+   }, []);
+
+   const toggleAudio = useCallback(async () => {
+      const audio = audioRef.current;
+
+      if (!audio) return;
+
+      if (isAudioEnabled) {
+         audio.muted = true;
+         setIsAudioEnabled(false);
+         return;
+      }
+
+      audio.muted = false;
+      audio.volume = 0;
+
+      try {
+         await audio.play();
+         setIsAudioEnabled(true);
+         fadeAudioIn(audio);
+      } catch (error) {
+         setIsAudioEnabled(false);
+         console.error("Audio gagal diputar:", error);
+      }
+   }, [isAudioEnabled]);
+   const value = useMemo(() => ({ isAudioEnabled, setAudioEnabled, toggleAudio }), [isAudioEnabled, setAudioEnabled, toggleAudio]);
+
    return (
-      <AudioContext.Provider value={{ setAudioEnabled }}>
+      <AudioContext.Provider value={value}>
          <audio ref={audioRef} src="/sounds/dbh-ambience.mp3" preload="auto" loop aria-hidden="true" />
          {children}
       </AudioContext.Provider>

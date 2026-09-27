@@ -14,12 +14,14 @@ import DeviantTest from "./deviant-test";
 import Preloader from "./preloader";
 import { useAudio } from "./audio-provider";
 import Navbar from "@/components/navigation/navbar";
+import { useHomeIntro } from "@/context/home-intro-context";
 
 export default function HomeExperience() {
    const { setAudioEnabled } = useAudio();
+   const { hasEnteredHome, markHomeEntered } = useHomeIntro();
 
-   const [heroActive, setHeroActive] = useState(false);
-   const [preloaderVisible, setPreloaderVisible] = useState(true);
+   const [heroActive, setHeroActive] = useState(hasEnteredHome);
+   const [preloaderVisible, setPreloaderVisible] = useState(!hasEnteredHome);
 
    useLayoutEffect(() => {
       if (!heroActive) return;
@@ -43,6 +45,7 @@ export default function HomeExperience() {
    }, [heroActive]);
 
    async function handleEnter(withSound: boolean) {
+      markHomeEntered();
       setHeroActive(true);
       await setAudioEnabled(withSound);
    }
@@ -51,6 +54,8 @@ export default function HomeExperience() {
       <main className="relative min-h-svh bg-dbh-bg">
          {/* Background Layers */}
          <div className="bg-layer-1 pointer-events-none fixed inset-0 z-0 bg-[url('/images/bg-dbh.jpg')] bg-cover bg-center bg-no-repeat" style={{ willChange: "transform" }} />
+         {/* Global Vignette Overlay */}
+         <div className="pointer-events-none fixed inset-0 z-[1] bg-gradient-to-r from-black/15 via-transparent to-black/5" />
 
          <Hero active={heroActive} />
          

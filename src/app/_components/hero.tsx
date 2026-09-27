@@ -3,12 +3,14 @@
 import { useLayoutEffect, useRef } from "react";
 import gsap from "gsap";
 import Particles from "./particles";
+import { useLanguage } from "@/hooks/use-language";
 
 type HeroProps = {
    active: boolean;
 };
 
 export default function Hero({ active }: HeroProps) {
+   const { copy } = useLanguage();
    const rootRef = useRef<HTMLElement>(null);
    const imageRef = useRef<HTMLDivElement>(null);
    const darknessRef = useRef<HTMLDivElement>(null);
@@ -124,7 +126,8 @@ export default function Hero({ active }: HeroProps) {
    return (
       <section ref={rootRef} className="relative isolate h-svh min-h-[560px] overflow-hidden bg-transparent">
          <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-black/20 via-black/5 to-black/65" />
-         <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-black/35 via-transparent to-black/15" />
+
+         <Particles active={active} />
 
          <Particles active={active} />
 
@@ -141,7 +144,7 @@ export default function Hero({ active }: HeroProps) {
                      <p className="hero-reveal font-display text-[clamp(1.15rem,3vw,3rem)] font-light uppercase leading-none tracking-[0.04em] text-white/80">Become Human</p>
                   </div>
 
-                  <p className="hero-fade max-w-[310px] font-mono text-[8px] uppercase leading-[1.7] tracking-[0.15em] text-white/45 sm:text-[9px]">Tiga android. Tiga perjalanan. Satu pertanyaan tentang arti menjadi manusia.</p>
+                  <p className="hero-fade max-w-[310px] font-mono text-[8px] uppercase leading-[1.7] tracking-[0.15em] text-white/45 sm:text-[9px]">{copy.home.heroDescription}</p>
                </div>
             </div>
          </div>

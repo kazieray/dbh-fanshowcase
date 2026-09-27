@@ -4,6 +4,7 @@ import { useLayoutEffect, useRef } from "react";
 import Image from "next/image";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useLanguage } from "@/hooks/use-language";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -32,6 +33,7 @@ const protagonists = [
 ];
 
 export default function ProtagonistsSection() {
+   const { copy } = useLanguage();
    const sectionRef = useRef<HTMLElement>(null);
    const cardsRef = useRef<(HTMLDivElement | null)[]>([]);
 
@@ -63,9 +65,9 @@ export default function ProtagonistsSection() {
       <section id="protagonists-section" ref={sectionRef} className="relative bg-black/65 px-6 py-24 sm:px-12 lg:px-24">
          <div className="mb-16 text-center">
             <h2 className="font-display text-3xl font-medium uppercase tracking-widest text-white sm:text-4xl">
-               Tiga Takdir
+               {copy.home.protagonists.title}
             </h2>
-            <p className="mt-4 font-mono text-sm tracking-widest text-white/50">PILIH JALAN MEREKA</p>
+            <p className="mt-4 font-mono text-sm tracking-widest text-white/50">{copy.home.protagonists.subtitle}</p>
          </div>
 
          <div className="group mx-auto grid max-w-7xl grid-cols-1 gap-8 md:grid-cols-3">
@@ -92,10 +94,10 @@ export default function ProtagonistsSection() {
                         {char.name}
                      </h3>
                      <p className="mb-3 font-mono text-xs uppercase tracking-widest text-dbh-blue">
-                        {char.role}
+                        {copy.home.protagonists.roles[index]}
                      </p>
                      <p className="font-mono text-sm leading-relaxed text-white/70">
-                        {char.desc}
+                        {copy.home.protagonists.descriptions[index]}
                      </p>
                   </div>
                </div>

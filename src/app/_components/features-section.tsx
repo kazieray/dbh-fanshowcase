@@ -3,6 +3,7 @@
 import React, { useLayoutEffect, useRef, useState, useCallback } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useLanguage } from "@/hooks/use-language";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -22,33 +23,32 @@ const flowchartNodes = [
 ];
 
 export default function FeaturesSection() {
+  const { copy } = useLanguage();
   const sectionRef   = useRef<HTMLElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
   const flowchartRef = useRef<HTMLDivElement>(null);
   const nodeRefs     = useRef<Record<number, HTMLDivElement | null>>({});
   const [hoveredNode, setHoveredNode] = useState<number | null>(null);
   const [paths, setPaths] = useState<{key: string, d: string}[]>([]);
+  const [scale, setScale] = useState(1);
 
   // ─── Dynamic Line Routing ─────────────────────────────────────────────────
   // We calculate SVG paths dynamically by measuring the actual DOM positions of the nodes.
   // This guarantees pixel-perfect connections regardless of font sizes, paddings, or screen scaling.
   const updatePaths = useCallback(() => {
     if (!flowchartRef.current) return;
-    const parent = flowchartRef.current.getBoundingClientRect();
 
     const getRect = (id: number) => {
       const el = nodeRefs.current[id];
       if (!el) return null;
-      const rect = el.getBoundingClientRect();
       const nodeDef = flowchartNodes.find(n => n.id === id);
-      
-      // If a node has an absolute-positioned icon on its left, the bounding client rect 
-      // of the div won't include it. We subtract an offset so the line stops before the icon.
+  // If a node has an absolute-positioned icon on its left, offset it.
       const iconOffset = nodeDef?.icon ? 28 : 0;
-      
+
       return {
-        left: rect.left - parent.left - iconOffset,
-        right: rect.right - parent.left,
-        centerY: rect.top - parent.top + rect.height / 2,
+        left: el.offsetLeft - iconOffset,
+        right: el.offsetLeft + el.offsetWidth,
+        centerY: el.offsetTop,
       };
     };
 
@@ -70,8 +70,8 @@ export default function FeaturesSection() {
     const colD = Math.round((rightMostClue + r[6]!.left) / 2);
 
     const createJunction = (fromIds: number[], toIds: number[], midX: number) => {
-      const fromNodes = fromIds.map(id => r[id]).filter(Boolean);
-      const toNodes = toIds.map(id => r[id]).filter(Boolean);
+      const fromNodes = fromIds.map(id => r[id]).filter((n): n is NonNullable<typeof n> => n !== null);
+      const toNodes = toIds.map(id => r[id]).filter((n): n is NonNullable<typeof n> => n !== null);
       
       if (fromNodes.length === 0 || toNodes.length === 0) return "";
 
@@ -107,17 +107,25 @@ export default function FeaturesSection() {
   }, []);
 
   useLayoutEffect(() => {
-    // Initial draw and observe resize for responsive adjustments
-    if (!flowchartRef.current) return;
-    const observer = new ResizeObserver(() => {
+    if (!containerRef.current || !flowchartRef.current) return;
+
+    const containerObserver = new ResizeObserver((entries) => {
+      const width = entries[0].contentRect.width;
+      const available = width - 32;
+      setScale(available < 1200 ? available / 1200 : 1);
+    });
+    containerObserver.observe(containerRef.current);
+
+    const flowObserver = new ResizeObserver(() => {
       updatePaths();
     });
-    observer.observe(flowchartRef.current);
-    
-    // Also explicitly update once immediately
+    flowObserver.observe(flowchartRef.current);
     updatePaths();
 
-    return () => observer.disconnect();
+    return () => {
+      containerObserver.disconnect();
+      flowObserver.disconnect();
+    };
   }, [updatePaths]);
 
   // ─── GSAP Animations ────────────────────────────────────────────────────────
@@ -157,13 +165,13 @@ export default function FeaturesSection() {
     }, sectionRef);
 
     return () => ctx.revert();
-  }, [paths.length > 0]); // Re-run animation hook only when paths are first ready
+  }, [paths.length]); // Re-run animation hook only when paths are first ready
 
   return (
     <section
       id="features-section"
       ref={sectionRef}
-      className="relative flex min-h-screen flex-col items-center py-24 px-6 bg-black/65 overflow-x-hidden overflow-y-hidden"
+      className="relative hidden md:flex min-h-screen flex-col items-center py-24 px-6 bg-black/65 overflow-x-hidden overflow-y-hidden"
     >
       {/* Grid overlay */}
       <div
@@ -186,11 +194,32 @@ export default function FeaturesSection() {
 
       {/* Floating + marks */}
       <div className="absolute inset-0 w-full h-full pointer-events-none z-0">
-        {[...Array(20)].map((_, i) => (
+        {[
+          { top: "15.3%", left: "42.1%" },
+          { top: "82.5%", left: "10.4%" },
+          { top: "33.9%", left: "75.2%" },
+          { top: "68.1%", left: "22.8%" },
+          { top: "45.6%", left: "89.3%" },
+          { top: "91.2%", left: "55.7%" },
+          { top: "8.4%", left: "95.1%" },
+          { top: "54.7%", left: "31.6%" },
+          { top: "77.3%", left: "68.9%" },
+          { top: "26.5%", left: "5.2%" },
+          { top: "63.8%", left: "49.4%" },
+          { top: "11.1%", left: "81.6%" },
+          { top: "88.9%", left: "37.5%" },
+          { top: "39.4%", left: "62.3%" },
+          { top: "96.2%", left: "18.7%" },
+          { top: "21.7%", left: "53.9%" },
+          { top: "71.5%", left: "86.4%" },
+          { top: "48.3%", left: "12.8%" },
+          { top: "2.9%", left: "29.1%" },
+          { top: "59.6%", left: "73.5%" },
+        ].map((pos, i) => (
           <div
             key={i}
             className="absolute text-white/20 font-light text-xs"
-            style={{ top: `${Math.random() * 100}%`, left: `${Math.random() * 100}%` }}
+            style={pos}
           >
             +
           </div>
@@ -200,30 +229,40 @@ export default function FeaturesSection() {
       {/* ── Section Header ── */}
       <div className="relative z-10 flex flex-col items-center justify-center text-center w-full max-w-4xl mx-auto mb-32 mt-12 feature-text">
         <h2 className="text-4xl md:text-6xl font-display font-bold text-white mb-6 tracking-wide uppercase drop-shadow-lg">
-          SETIAP PILIHAN <span className="text-[#32b2e8]">BERARTI</span>
+          {copy.home.features.title} <span className="text-[#32b2e8]">{copy.home.features.accent}</span>
         </h2>
         <p className="text-gray-300 text-lg md:text-xl font-mono leading-relaxed max-w-3xl drop-shadow-md">
-          Bentuk narasi ambisius ini melalui ribuan pilihan dan lusinan akhiran yang berbeda.
-          Siapa yang hidup dan siapa yang mati, semuanya ada di tangan Anda.
+          {copy.home.features.description}
         </p>
       </div>
 
       {/* ── Flowchart Header ── */}
       <div className="relative z-10 w-full max-w-6xl text-left mb-8 pl-4 feature-text">
         <h3 className="text-white/60 font-sans tracking-widest text-sm sm:text-base uppercase mb-1">
-          100% COMPLETED
+          {copy.home.features.completed}
         </h3>
         <div className="w-full max-w-xl h-px bg-white/30 mb-2" />
         <h2 className="font-display text-4xl sm:text-6xl lg:text-7xl font-light uppercase tracking-tight text-white">
-          THE HOSTAGE
+          {copy.home.features.chapter}
         </h2>
       </div>
 
       {/* ── Flowchart ── */}
-      <div className="w-full overflow-x-auto pb-12 cursor-grab active:cursor-grabbing hide-scrollbar">
+      <div
+        ref={containerRef}
+        className="w-full flex justify-center pb-12 overflow-hidden"
+      >
         <div
           ref={flowchartRef}
-          className="relative z-10 select-none mx-auto w-[1200px] h-[500px]"
+          className="relative z-10 select-none origin-top"
+          style={{
+            width: '1200px',
+            height: '500px',
+            transform: `scale(${scale})`,
+            marginBottom: `-${500 * (1 - scale)}px`,
+            marginLeft: `-${1200 * (1 - scale) / 2}px`,
+            marginRight: `-${1200 * (1 - scale) / 2}px`,
+          }}
         >
           {/* Corner brackets (decorative area boundary) */}
           <div className="absolute border-l-2 border-t-2 border-white/20 w-8 h-8 pointer-events-none" style={{ left: "39%", top: "15%" }} />
@@ -252,7 +291,7 @@ export default function FeaturesSection() {
           </svg>
 
           {/* ── Nodes ── */}
-          {flowchartNodes.map((node) => (
+          {flowchartNodes.map((node, nodeIndex) => (
             <div
               key={node.id}
               ref={(el) => {
@@ -306,7 +345,7 @@ export default function FeaturesSection() {
                   .filter(Boolean)
                   .join(" ")}
               >
-                {node.label.split("\n").map((part, idx, arr) => (
+                {copy.home.features.nodes[nodeIndex].split("\n").map((part, idx, arr) => (
                   <React.Fragment key={idx}>
                     {part}
                     {idx < arr.length - 1 && <br />}
@@ -320,7 +359,7 @@ export default function FeaturesSection() {
 
               {node.status === "completed" && !node.isGroup && !node.icon && (
                 <div className="absolute -bottom-5 left-0 text-white/40 text-[9px] uppercase tracking-widest">
-                  CHECKPOINT
+                  {copy.home.features.checkpoint}
                 </div>
               )}
             </div>

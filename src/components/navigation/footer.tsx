@@ -1,28 +1,45 @@
 "use client";
 
-import { Download, Mail, MapPin, X } from "lucide-react";
-import { useEffect, useState } from "react";
+import { MapPin } from "lucide-react";
+import Link from "next/link";
+import Image from "next/image";
+import { navItems } from "@/data/nav-items";
+import { useLanguage } from "@/hooks/use-language";
 
-function InstagramMark() {
-   return <svg aria-hidden="true" viewBox="0 0 24 24" className="h-5 w-5 fill-none stroke-current stroke-[1.8]"><rect x="3.5" y="3.5" width="17" height="17" rx="4" /><circle cx="12" cy="12" r="4" /><circle cx="17.5" cy="6.5" r="0.7" className="fill-current stroke-none" /></svg>;
-}
+type SocialPlatform = "Instagram" | "YouTube" | "Facebook" | "LinkedIn" | "VK" | "TikTok";
 
-function YoutubeMark() {
-   return <svg aria-hidden="true" viewBox="0 0 24 24" className="h-5 w-5 fill-current"><path d="M21.6 7.2a2.8 2.8 0 0 0-2-2C17.8 4.7 12 4.7 12 4.7s-5.8 0-7.6.5a2.8 2.8 0 0 0-2 2C2 9 2 12 2 12s0 3 .4 4.8a2.8 2.8 0 0 0 2 2c1.8.5 7.6.5 7.6.5s5.8 0 7.6-.5a2.8 2.8 0 0 0 2-2c.4-1.8.4-4.8.4-4.8s0-3-.4-4.8ZM10 15.3V8.7l5.5 3.3L10 15.3Z" /></svg>;
-}
+function SocialMark({ platform }: { platform: SocialPlatform }) {
+   if (platform === "Instagram") {
+      return <svg aria-hidden="true" viewBox="0 0 48 48" className="h-6 w-6"><defs><linearGradient id="instagram-gradient" x1="0" x2="1" y1="1" y2="0"><stop stopColor="#ffd776" /><stop offset=".48" stopColor="#ff416c" /><stop offset="1" stopColor="#7043e9" /></linearGradient></defs><rect x="2" y="2" width="44" height="44" rx="13" fill="url(#instagram-gradient)" /><rect x="11" y="11" width="26" height="26" rx="8" fill="none" stroke="white" strokeWidth="3" /><circle cx="24" cy="24" r="6.5" fill="none" stroke="white" strokeWidth="3" /><circle cx="33" cy="15" r="2" fill="white" /></svg>;
+   }
 
-function SocialMark({ label }: { label: string }) {
-   return <span aria-hidden="true" className="font-mono text-[12px] font-medium">{label}</span>;
+   if (platform === "YouTube") {
+      return <svg aria-hidden="true" viewBox="0 0 48 48" className="h-6 w-6"><rect x="2" y="8" width="44" height="32" rx="10" fill="#ff0033" /><path d="M20 16.5 33 24l-13 7.5z" fill="white" /></svg>;
+   }
+
+   if (platform === "Facebook") {
+      return <svg aria-hidden="true" viewBox="0 0 48 48" className="h-6 w-6"><rect x="2" y="2" width="44" height="44" rx="12" fill="#0866ff" /><path d="M27 42V27h6l1-7h-7v-4c0-2 1-3 3-3h4V7h-6c-7 0-10 4-10 10v3h-5v7h5v15z" fill="white" /></svg>;
+   }
+
+   if (platform === "LinkedIn") {
+      return <svg aria-hidden="true" viewBox="0 0 48 48" className="h-6 w-6"><rect x="2" y="2" width="44" height="44" rx="10" fill="#0a66c2" /><text x="24" y="33" fill="white" fontFamily="Arial, sans-serif" fontSize="24" fontWeight="700" textAnchor="middle">in</text></svg>;
+   }
+
+   if (platform === "VK") {
+      return <svg aria-hidden="true" viewBox="0 0 48 48" className="h-6 w-6"><rect x="2" y="2" width="44" height="44" rx="12" fill="#0077ff" /><text x="24" y="31" fill="white" fontFamily="Arial, sans-serif" fontSize="19" fontWeight="700" textAnchor="middle">vk</text></svg>;
+   }
+
+   return <svg aria-hidden="true" viewBox="0 0 48 48" className="h-6 w-6"><rect x="2" y="2" width="44" height="44" rx="12" fill="#090909" /><path d="M27 9v18a8 8 0 1 1-7-7.9v6a2.5 2.5 0 1 0 1 2V9z" fill="#25f4ee" transform="translate(-2 1)" /><path d="M27 9v18a8 8 0 1 1-7-7.9v6a2.5 2.5 0 1 0 1 2V9z" fill="#fe2c55" transform="translate(2 -1)" /><path d="M27 9v18a8 8 0 1 1-7-7.9v6a2.5 2.5 0 1 0 1 2V9z" fill="white" /></svg>;
 }
 
 const socialLinks = [
-   { label: "Instagram", href: "https://www.instagram.com/quanticdreamgames/", icon: <InstagramMark /> },
-   { label: "YouTube", href: "https://www.youtube.com/@QuanticDreamOfficial", icon: <YoutubeMark /> },
-   { label: "Facebook", href: "https://web.facebook.com/officialquanticdream", icon: <SocialMark label="f" /> },
-   { label: "LinkedIn", href: "https://www.linkedin.com/company/quantic-dream/", icon: <SocialMark label="in" /> },
-   { label: "VK", href: "https://vk.com/quanticdream", icon: <SocialMark label="vk" /> },
-   { label: "TikTok", href: "https://www.tiktok.com/@quanticdream", icon: <SocialMark label="tk" /> },
-];
+   { label: "Instagram", href: "https://www.instagram.com/quanticdreamgames/" },
+   { label: "YouTube", href: "https://www.youtube.com/@QuanticDreamOfficial" },
+   { label: "Facebook", href: "https://web.facebook.com/officialquanticdream" },
+   { label: "LinkedIn", href: "https://www.linkedin.com/company/quantic-dream/" },
+   { label: "VK", href: "https://vk.com/quanticdream" },
+   { label: "TikTok", href: "https://www.tiktok.com/@quanticdream" },
+] as const;
 
 const studioLocations = [
    {
@@ -39,82 +56,52 @@ const studioLocations = [
    },
 ];
 
-export default function Footer() {
-   const [locationsOpen, setLocationsOpen] = useState(false);
-   const [isLocationClosing, setIsLocationClosing] = useState(false);
-
-   function openLocations() {
-      setIsLocationClosing(false);
-      setLocationsOpen(true);
-   }
-
-   function closeLocations() {
-      setIsLocationClosing(true);
-      window.setTimeout(() => {
-         setLocationsOpen(false);
-         setIsLocationClosing(false);
-      }, 900);
-   }
-
-   useEffect(() => {
-      if (!locationsOpen) return;
-
-      function closeOnEscape(event: KeyboardEvent) {
-         if (event.key === "Escape") closeLocations();
-      }
-
-      document.addEventListener("keydown", closeOnEscape);
-      document.body.style.overflow = "hidden";
-
-      return () => {
-         document.removeEventListener("keydown", closeOnEscape);
-         document.body.style.overflow = "";
-      };
-   }, [locationsOpen]);
+export default function Footer({ tightTop = false }: { tightTop?: boolean }) {
+   const { copy } = useLanguage();
+   const footerCopy = copy.footer;
 
    return (
       <>
-         <footer className="mx-auto mt-24 max-w-6xl border-t border-dbh-blue/30 pt-8">
-         <div className="grid gap-10 pb-12 md:grid-cols-[1.2fr_0.9fr_1.25fr_1fr]">
-            <div>
-               <p className="font-display text-2xl uppercase tracking-tighter text-white">Detroit<span className="text-dbh-blue">: Become Human</span></p>
-               <p className="mt-4 max-w-xs text-sm leading-relaxed text-white/50">Game drama interaktif dari Quantic Dream tentang manusia, android, pilihan, dan arti kebebasan di masa depan Detroit.</p>
+         <footer className={`mx-auto ${tightTop ? "mt-0" : "mt-24"} max-w-6xl border-t border-dbh-blue/30 pt-8`}>
+         <div className="mx-auto grid w-full max-w-5xl justify-items-center gap-x-4 gap-y-9 pb-10 text-center sm:grid-cols-2 sm:gap-x-8 sm:gap-y-12 lg:grid-cols-[1.2fr_0.75fr_0.95fr_1.4fr] lg:gap-x-6">
+            <div className="flex flex-col items-center">
+               <Image src="/images/logo-white.webp" alt="Detroit: Become Human" width={180} height={55} className="h-auto w-[150px]" />
+               <p className="mt-4 max-w-xs text-sm leading-relaxed text-white/50">{footerCopy.description}</p>
             </div>
-            <div>
-               <p className="mb-4 font-mono text-[9px] uppercase tracking-[0.18em] text-dbh-blue">Contact us</p>
-               <a href="mailto:hello@dbhshowcase.dev" className="flex items-center gap-2 text-sm text-white/60 transition-colors hover:text-white"><Mail size={15} /> hello@dbhshowcase.dev</a>
+            <div className="flex flex-col items-center">
+               <p className="mb-4 font-mono text-[9px] uppercase tracking-[0.18em] text-dbh-blue">{footerCopy.menu}</p>
+               <nav aria-label="Footer navigation" className="flex flex-col items-center gap-3">
+                  {navItems.map((item) => <Link key={item.href} href={item.href} className="footer-navigation-link font-mono text-[10px] uppercase tracking-[0.1em] text-white/55 transition-colors">{copy.nav[item.key]}</Link>)}
+                  <Link href="/play" className="footer-navigation-link font-mono text-[10px] uppercase tracking-[0.1em] text-white/55 transition-colors">{copy.nav.download}</Link>
+               </nav>
             </div>
-            <div>
-               <p className="mb-4 font-mono text-[9px] uppercase tracking-[0.18em] text-dbh-blue">Follow Quantic Dream</p>
-               <div className="grid max-w-52 grid-cols-3 gap-3">
-                  {socialLinks.map((social) => <a key={social.label} href={social.href} target="_blank" rel="noreferrer" aria-label={social.label} className="flex h-12 w-12 items-center justify-center border border-white/15 text-white/60 transition-all duration-300 hover:scale-110 hover:border-dbh-blue hover:bg-dbh-blue/10 hover:text-dbh-blue">{social.icon}</a>)}
+            <div className="flex flex-col items-center">
+               <p className="mb-4 font-mono text-[9px] uppercase tracking-[0.18em] text-dbh-blue">{footerCopy.follow}</p>
+               <div className="mx-auto grid w-full max-w-60 grid-cols-2 gap-2">
+                  {socialLinks.map((social) => <a key={social.label} href={social.href} target="_blank" rel="noreferrer" aria-label={social.label} className="footer-social-link flex min-h-11 min-w-0 items-center justify-start gap-2 px-2"><span className="social-brand-mark flex h-6 w-6 shrink-0 items-center justify-center"><SocialMark platform={social.label} /></span><span className="truncate font-mono text-[8px] text-white/75 sm:text-[9px]">{social.label}</span></a>)}
                </div>
             </div>
-            <div>
-               <p className="mb-4 font-mono text-[9px] uppercase tracking-[0.18em] text-dbh-blue">Official release</p>
-               <a href="https://store.steampowered.com/app/1222140/Detroit_Become_Human/" target="_blank" rel="noreferrer" className="footer-action group inline-flex w-fit items-center justify-start gap-4 whitespace-nowrap border border-dbh-blue/60 px-6 py-3 text-left font-mono text-[9px] uppercase tracking-[0.14em] transition-all duration-300 hover:scale-105"><Download size={18} strokeWidth={1.8} className="shrink-0 transition-colors duration-300" /> Download game</a>
-               <button type="button" onClick={openLocations} className="footer-action group mt-3 inline-flex w-fit items-center justify-start gap-4 whitespace-nowrap border border-dbh-blue/60 px-6 py-3 text-left font-mono text-[9px] uppercase tracking-[0.14em] transition-all duration-300 hover:scale-105"><MapPin size={18} strokeWidth={1.8} className="shrink-0 transition-colors duration-300" /> Lokasi studio</button>
+            <div className="flex flex-col items-center">
+               <p className="mb-4 font-mono text-[9px] uppercase tracking-[0.18em] text-dbh-blue">{footerCopy.studioLocations}</p>
+               <div className="grid w-full grid-cols-2 gap-2 text-left">
+                  {studioLocations.map((studio) => (
+                     <a key={studio.name} href={studio.map} target="_blank" rel="noreferrer" className="group min-w-0 overflow-hidden p-2 transition-transform duration-300 hover:-translate-y-1 sm:p-2.5">
+                        <div className="relative aspect-[1.7] overflow-hidden rounded-lg">
+                           <Image src={studio.image} alt={studio.name} fill sizes="(max-width: 640px) 44vw, 150px" className="object-cover transition-transform duration-500 group-hover:scale-105" />
+                        </div>
+                        <h3 className="mt-2 flex items-start gap-1 font-display text-[10px] font-medium leading-tight text-white sm:text-[11px]">
+                           <MapPin size={12} className="mt-0.5 shrink-0 text-dbh-blue" />
+                           <span>{studio.name}</span>
+                        </h3>
+                        <p className="mt-1.5 pl-4 text-[9px] leading-relaxed text-white/55 sm:text-[10px]">{studio.address}</p>
+                     </a>
+                  ))}
+               </div>
             </div>
          </div>
 
-         <div className="mt-8 border-t border-white/10 py-6 text-center font-mono text-[10px] leading-relaxed tracking-[0.08em] text-white/40">© 2026 Quantic Dream. Quantic Dream and the Quantic Dream logo are trademarks of Quantic Dream.</div>
+         <div className="mt-8 border-t border-white/10 py-6 text-center font-mono text-[10px] leading-relaxed tracking-[0.08em] text-white/40">{footerCopy.copyright}</div>
          </footer>
-         {locationsOpen && <StudioLocations closing={isLocationClosing} onClose={closeLocations} />}
       </>
-   );
-}
-
-function StudioLocations({ closing, onClose }: { closing: boolean; onClose: () => void }) {
-   return (
-      <div className={`news-modal fixed inset-0 z-50 flex items-center justify-center bg-[#030609]/85 p-4 backdrop-blur-sm ${closing ? "news-modal-closing" : ""}`} role="dialog" aria-modal="true" aria-labelledby="studio-locations-title" onMouseDown={(event) => { if (event.target === event.currentTarget) onClose(); }}>
-         <section className="news-modal-window relative w-full max-w-xl border border-white/15 bg-[#0b131b] p-6 shadow-2xl sm:p-8">
-            <button type="button" onClick={onClose} aria-label="Tutup lokasi studio" className="absolute right-4 top-4 flex h-9 w-9 items-center justify-center border border-white/15 text-white/60 transition-colors hover:border-dbh-blue hover:bg-dbh-blue hover:text-dbh-bg"><X size={17} /></button>
-            <p className="mb-2 font-mono text-[9px] uppercase tracking-[0.2em] text-dbh-blue">Quantic Dream / Offices</p>
-            <h2 id="studio-locations-title" className="pr-10 font-display text-3xl uppercase leading-none tracking-tighter text-white">Lokasi studio</h2>
-            <div className="mt-7 grid gap-5 sm:grid-cols-2">
-               {studioLocations.map((studio) => <a key={studio.name} href={studio.map} target="_blank" rel="noreferrer" className="group overflow-hidden border border-white/15 bg-white/3 transition-colors hover:border-dbh-blue/60"><div className="relative aspect-[1.8] overflow-hidden"><img src={studio.image} alt={studio.name} className="h-full w-full object-cover transition duration-500 group-hover:scale-105" /></div><div className="p-4"><h3 className="font-display text-base uppercase leading-tight text-white">{studio.name}</h3><p className="mt-3 text-xs leading-relaxed text-white/55">{studio.address}</p></div></a>)}
-            </div>
-         </section>
-      </div>
    );
 }
