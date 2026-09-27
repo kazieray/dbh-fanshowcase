@@ -21,4 +21,29 @@ export const en = {
          description: "Once the companion of artist Carl Manfred, Markus is forced onto a path that leads him to Jericho. There, he rises to become a central figure in the androids' struggle for freedom and their place in the world.",
       },
    },
+
+   gameplay: {
+      hero: {
+         title: "There Is No One Path.",
+         description: "Every choice, every action, every hesitation can change what happens next.",
+      },
+
+      features: {
+         title: "How Will You Respond?",
+         dialogue: "Dialogue",
+         investigation: "Investigation",
+         action: "Action",
+         decisions: "Decisions",
+         exploration: "Exploration",
+      },
+
+      experience: {
+         title: "Every Path Leads Somewhere.",
+      },
+
+      cta: {
+         title: "What Will Your Story Become?",
+         button: "Play Now",
+      },
+   },
 };

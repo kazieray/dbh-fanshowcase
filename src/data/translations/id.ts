@@ -24,4 +24,29 @@ export const id = {
             "Awalnya hidup sebagai pendamping seniman Carl Manfred, Markus kemudian dipaksa menempuh jalan yang membawanya menuju Jericho. Di sana, ia menjadi salah satu tokoh utama dalam perjuangan para android untuk meraih kebebasan dan menentukan tempat mereka di dunia.",
       },
    },
+
+   gameplay: {
+      hero: {
+         title: "Tak Hanya Ada Satu Jalan.",
+         description: "Setiap pilihan, setiap tindakan, bahkan setiap keraguan dapat mengubah apa yang terjadi selanjutnya.",
+      },
+
+      features: {
+         title: "Bagaimana Kamu Akan Bertindak?",
+         dialogue: "Dialog",
+         investigation: "Investigasi",
+         action: "Aksi",
+         decisions: "Keputusan",
+         exploration: "Eksplorasi",
+      },
+
+      experience: {
+         title: "Setiap Jalan Membawa ke Suatu Akhir.",
+      },
+
+      cta: {
+         title: "Akan Menjadi Apa Ceritamu?",
+         button: "Main Sekarang",
+      },
+   },
 };
