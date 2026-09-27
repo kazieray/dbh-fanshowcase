@@ -4,7 +4,6 @@ import { useLayoutEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import gsap from "gsap";
-
 import DesktopNav from "./desktop-nav";
 import MobileMenu from "./mobile-menu";
 
@@ -21,7 +20,7 @@ export default function Navbar({ active }: NavbarProps) {
 
       const ctx = gsap.context(() => {
          gsap.set(".navbar-reveal", {
-            y: -12,
+            y: -10,
             opacity: 0,
          });
       }, rootRef);
@@ -36,9 +35,9 @@ export default function Navbar({ active }: NavbarProps) {
          gsap.to(".navbar-reveal", {
             y: 0,
             opacity: 1,
-            duration: 0.8,
-            delay: 2.25,
-            ease: "power4.out",
+            duration: 0.7,
+            delay: 1.2,
+            ease: "power3.out",
          });
       }, rootRef);
 
@@ -52,13 +51,13 @@ export default function Navbar({ active }: NavbarProps) {
                <DesktopNav />
 
                <div className="flex items-center justify-between md:hidden">
-                  <Link href="/" aria-label="Detroit Become Human — Beranda" className="shrink-0">
+                  <Link href="/" aria-label="Detroit Become Human — Home" className="shrink-0">
                      <Image src="/images/logo-white.webp" alt="Detroit: Become Human" width={180} height={55} priority className="h-auto w-[105px] sm:w-[115px]" />
                   </Link>
 
                   <button
                      type="button"
-                     aria-label={menuOpen ? "Tutup menu" : "Buka menu"}
+                     aria-label={menuOpen ? "Close menu" : "Open menu"}
                      aria-expanded={menuOpen}
                      onClick={() => setMenuOpen((current) => !current)}
                      className="flex h-9 items-center gap-2 rounded-full border border-white/15 bg-black/30 py-1 pl-4 pr-1 backdrop-blur-md transition-colors duration-300 hover:bg-white/10"

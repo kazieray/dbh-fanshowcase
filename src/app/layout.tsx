@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import CustomCursor from "./_components/custom-cursor";
+import { LanguageProvider } from "@/context/language-context";
 
 export const metadata: Metadata = {
    title: "Detroit: Become Human",
@@ -13,10 +14,12 @@ export default function RootLayout({
    children: React.ReactNode;
 }>) {
    return (
-      <html lang="id" suppressHydrationWarning>
+      <html lang="en" suppressHydrationWarning>
          <body suppressHydrationWarning>
-            {children}
-            <CustomCursor />
+            <LanguageProvider>
+               {children}
+               <CustomCursor />
+            </LanguageProvider>
          </body>
       </html>
    );

@@ -4,7 +4,7 @@ export const id = {
       characters: "Karakter",
       gameplay: "Gameplay",
       news: "Berita",
-      download: "Download Game",
+      download: "Unduh Game",
    },
 
    characters: {

@@ -2,12 +2,12 @@
 
 import { createRef, useMemo, useRef } from "react";
 import Navbar from "@/components/navigation/navbar";
-import { en } from "@/data/translations/en";
 import { type CharacterId } from "@/data/characters";
-import { useCharacterIdle, useCharacterNavigation } from "@/hooks/use-character";
+import { useCharacterEntrance, useCharacterIdle, useCharacterNavigation } from "@/hooks/use-character";
 import CharacterBackground from "./_components/character-background";
 import CharacterStage from "./_components/character-stage";
 import CharacterInfo from "./_components/character-info";
+import { useLanguage } from "@/hooks/use-language";
 
 export default function CharactersPage() {
    const mobileCharacterRef = useRef<HTMLDivElement>(null);
@@ -45,9 +45,12 @@ export default function CharactersPage() {
 
    const { activeIndex, character, isTransitioning, previousCharacter, nextCharacter, selectCharacter } = useCharacterNavigation(stageRefs, backgroundsRef, infoRefs);
 
+   useCharacterEntrance(stageRefs, infoRefs);
    useCharacterIdle(stageRefs, activeIndex, isTransitioning);
 
-   const copy = en.characters[character.id];
+
+   const { copy } = useLanguage();
+   const characterCopy = copy.characters[character.id];
 
    return (
       <main className="relative h-svh overflow-hidden bg-[#05080d] text-white">
@@ -61,8 +64,8 @@ export default function CharactersPage() {
 
          <CharacterInfo
             character={character}
-            role={copy.role}
-            description={copy.description}
+            role={characterCopy.role}
+            description={characterCopy.description}
             isTransitioning={isTransitioning}
             nameRef={nameRef}
             metaRef={metaRef}

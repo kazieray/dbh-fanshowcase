@@ -1,27 +1,32 @@
 "use client";
 
-import { navItems } from "@/data/nav-items";
-
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { navItems } from "@/data/nav-items";
+import { useLanguage } from "@/hooks/use-language";
+import LanguageSwitcher from "./language-switcher";
 
 export default function DesktopNav() {
    const pathname = usePathname();
+   const { copy } = useLanguage();
+   const navCopy = copy.nav;
 
    return (
       <div className="hidden items-center justify-center gap-3 md:flex">
-         <Link href="/" aria-label="Detroit Become Human — Beranda" className="mr-2 shrink-0">
+         <Link href="/" aria-label="Detroit Become Human — Home" className="mr-2 shrink-0">
             <Image src="/images/logo-white.webp" alt="Detroit: Become Human" width={180} height={55} priority className="h-auto w-[118px] lg:w-[132px]" />
          </Link>
 
-         <nav aria-label="Navigasi utama" className="flex h-[52px] items-center rounded-full border border-white/[0.16] bg-black/30 px-3 shadow-[inset_0_1px_0_rgba(255,255,255,0.05),0_2px_8px_rgba(0,0,0,0.16)] backdrop-blur-xl">
+         <nav aria-label="Main navigation" className="flex h-[52px] items-center rounded-full border border-white/[0.16] bg-black/30 px-3 shadow-[inset_0_1px_0_rgba(255,255,255,0.05),0_2px_8px_rgba(0,0,0,0.16)] backdrop-blur-xl">
             {navItems.map((item) => {
                const isActive = item.href === "/" ? pathname === "/" : pathname.startsWith(item.href);
 
                return (
                   <Link key={item.href} href={item.href} aria-current={isActive ? "page" : undefined} className="group relative flex h-full items-center px-4 lg:px-5">
-                     <span className={`font-mono text-[10px] font-medium uppercase tracking-[0.08em] transition-colors duration-300 lg:text-[11px] ${isActive ? "text-dbh-blue" : "text-white/70 group-hover:text-white"}`}>{item.label}</span>
+                     <span className={`font-mono text-[10px] font-medium uppercase tracking-[0.08em] transition-colors duration-300 lg:text-[11px] ${isActive ? "text-dbh-blue" : "text-white/70 group-hover:text-white"}`}>
+                        {navCopy[item.key]}
+                     </span>
 
                      <span
                         aria-hidden="true"
@@ -33,11 +38,13 @@ export default function DesktopNav() {
          </nav>
 
          <Link
-            href="/play"
+            href="/download"
             className="group flex h-[52px] shrink-0 items-center rounded-full border border-white/[0.18] bg-white/[0.08] px-7 shadow-[inset_0_1px_0_rgba(255,255,255,0.04),0_1px_4px_rgba(0,0,0,0.12)] backdrop-blur-xl transition-all duration-300 hover:border-white/25 hover:bg-white/[0.12]"
          >
-            <span className="font-mono text-[10px] font-medium uppercase tracking-[0.08em] text-white/85 transition-colors duration-300 group-hover:text-white lg:text-[11px]">Download Game</span>
+            <span className="font-mono text-[10px] font-medium uppercase tracking-[0.08em] text-white/85 transition-colors duration-300 group-hover:text-white lg:text-[11px]">{navCopy.download}</span>
          </Link>
+
+         <LanguageSwitcher />
       </div>
    );
 }

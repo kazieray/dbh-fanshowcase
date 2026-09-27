@@ -2,8 +2,11 @@
 
 import { useLayoutEffect, useRef } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import gsap from "gsap";
 import { navItems } from "@/data/nav-items";
+import { useLanguage } from "@/hooks/use-language";
+import LanguageSwitcher from "./language-switcher";
 
 type MobileMenuProps = {
    open: boolean;
@@ -14,6 +17,10 @@ export default function MobileMenu({ open, onClose }: MobileMenuProps) {
    const rootRef = useRef<HTMLDivElement>(null);
    const backdropRef = useRef<HTMLButtonElement>(null);
    const sheetRef = useRef<HTMLDivElement>(null);
+
+   const pathname = usePathname();
+   const { copy } = useLanguage();
+   const navCopy = copy.nav;
 
    useLayoutEffect(() => {
       if (!rootRef.current || !backdropRef.current || !sheetRef.current) return;
@@ -43,33 +50,38 @@ export default function MobileMenu({ open, onClose }: MobileMenuProps) {
 
    return (
       <div ref={rootRef} className="fixed inset-0 z-50 md:hidden">
-         <button ref={backdropRef} type="button" aria-label="Tutup menu" onClick={onClose} className="absolute inset-0 bg-black/30 backdrop-blur-md" />
+         <button ref={backdropRef} type="button" aria-label="Close menu" onClick={onClose} className="absolute inset-0 bg-black/30 backdrop-blur-md" />
 
          <div
             ref={sheetRef}
             role="dialog"
             aria-modal="true"
-            aria-label="Menu navigasi"
+            aria-label="Navigation menu"
             className="absolute inset-x-0 bottom-0 max-h-[85svh] overflow-y-auto rounded-t-[22px] border-t border-white/10 bg-[#07090c]/95 px-4 pb-[max(1.25rem,env(safe-area-inset-bottom))] pt-3 shadow-[0_-24px_80px_rgba(0,0,0,0.35)]"
          >
             <div aria-hidden="true" className="mx-auto mb-5 h-[3px] w-10 rounded-full bg-white/20" />
 
-            <nav aria-label="Menu mobile">
-               {navItems.map((item) => (
-                  <Link key={item.href} href={item.href} onClick={onClose} className="mobile-menu-item group flex min-h-[58px] items-center border-b border-white/[0.08] opacity-0">
-                     <span className="font-display text-[13px] font-medium uppercase tracking-[-0.01em] text-white/80 transition-colors duration-300 group-hover:text-white">{item.label}</span>
-                  </Link>
-               ))}
-            </nav>
+            <nav aria-label="Mobile navigation">
+               {navItems.map((item) => {
+                  const isActive = item.href === "/" ? pathname === "/" : pathname.startsWith(item.href);
 
-            <footer className="mobile-menu-item mt-8 flex items-end justify-between opacity-0">
-               <div>
-                  <p className="font-mono text-[7px] uppercase tracking-[0.18em] text-white/25">Detroit, Michigan</p>
-                  <p className="mt-1 font-mono text-[7px] uppercase tracking-[0.18em] text-white/25">2038</p>
+                  return (
+                     <Link key={item.href} href={item.href} onClick={onClose} aria-current={isActive ? "page" : undefined} className="mobile-menu-item group flex min-h-[58px] items-center border-b border-white/[0.08] opacity-0">
+                        <span className={`font-display text-[13px] font-medium uppercase tracking-[-0.01em] transition-colors duration-300 ${isActive ? "text-dbh-blue" : "text-white/80 group-hover:text-white"}`}>{navCopy[item.key]}</span>
+                     </Link>
+                  );
+               })}
+
+               <Link href="/play" onClick={onClose} aria-current={pathname.startsWith("/download") ? "page" : undefined} className="mobile-menu-item group flex min-h-[58px] items-center border-b border-white/[0.08] opacity-0">
+                  <span className={`font-display text-[13px] font-medium uppercase tracking-[-0.01em] transition-colors duration-300 ${pathname.startsWith("/play") ? "text-dbh-blue" : "text-white/80 group-hover:text-white"}`}>
+                     {navCopy.download}
+                  </span>
+               </Link>
+
+               <div className="mobile-menu-item mt-6 flex items-center border-t border-white/[0.08] pt-5 opacity-0">
+                  <LanguageSwitcher />
                </div>
-
-               <p className="font-mono text-[7px] uppercase tracking-[0.18em] text-dbh-blue/60">CyberLife</p>
-            </footer>
+            </nav>
          </div>
       </div>
    );
