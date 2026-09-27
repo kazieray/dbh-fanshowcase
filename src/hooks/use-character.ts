@@ -213,10 +213,26 @@ export function useCharacterNavigation(stageRefs: CharacterStageRefs, background
          transitionLockRef.current = true;
          setIsTransitioning(true);
 
-         activeIndexRef.current = nextIndex;
-         setActiveIndex(nextIndex);
+         /*
+          * DESKTOP:
+          * All three characters are mounted at the same time,
+          * so React can change the active slot immediately.
+          *
+          * MOBILE:
+          * Only one character is rendered, so we wait until
+          * the old character is invisible before swapping state.
+          */
+         if (isDesktop) {
+            activeIndexRef.current = nextIndex;
+            setActiveIndex(nextIndex);
+         }
 
          if (reduceMotion) {
+            if (!isDesktop) {
+               activeIndexRef.current = nextIndex;
+               setActiveIndex(nextIndex);
+            }
+
             const backgrounds = backgroundsElement.querySelectorAll<HTMLElement>("[data-background-index]");
 
             backgrounds.forEach((background, index) => {
@@ -270,6 +286,17 @@ export function useCharacterNavigation(stageRefs: CharacterStageRefs, background
 
                if (isDesktop) {
                   setDesktopComposition(stageRefs, nextIndex);
+               } else {
+                  const mobileCharacterElement = stageRefs.mobileCharacterRef.current;
+
+                  if (mobileCharacterElement) {
+                     gsap.set(mobileCharacterElement, {
+                        x: 0,
+                        y: 0,
+                        opacity: 1,
+                        scale: 1,
+                     });
+                  }
                }
 
                transitionLockRef.current = false;
@@ -277,7 +304,9 @@ export function useCharacterNavigation(stageRefs: CharacterStageRefs, background
             },
          });
 
-         /* BACKGROUND */
+         /*
+          * BACKGROUND
+          */
          timeline.to(
             currentBackground,
             {
@@ -298,7 +327,9 @@ export function useCharacterNavigation(stageRefs: CharacterStageRefs, background
             0,
          );
 
-         /* INFO OUT */
+         /*
+          * INFO OUT
+          */
          timeline.to(
             nameElement,
             {
@@ -332,7 +363,9 @@ export function useCharacterNavigation(stageRefs: CharacterStageRefs, background
             0.05,
          );
 
-         /* LAPTOP + DESKTOP */
+         /*
+          * LAPTOP + DESKTOP
+          */
          if (isDesktop) {
             const oldSlots = getDesktopSlots(currentIndex);
             const newSlots = getDesktopSlots(nextIndex);
@@ -360,7 +393,9 @@ export function useCharacterNavigation(stageRefs: CharacterStageRefs, background
                   });
                }
 
-               /* SUPPORT -> ACTIVE */
+               /*
+                * SUPPORT -> ACTIVE
+                */
                if (oldSlot !== "active" && newSlot === "active") {
                   gsap.set(element, {
                      zIndex: 10,
@@ -422,7 +457,9 @@ export function useCharacterNavigation(stageRefs: CharacterStageRefs, background
                   return;
                }
 
-               /* ACTIVE -> SUPPORT */
+               /*
+                * ACTIVE -> SUPPORT
+                */
                if (oldSlot === "active" && newSlot !== "active") {
                   if (activeLayer) {
                      timeline.to(
@@ -497,7 +534,9 @@ export function useCharacterNavigation(stageRefs: CharacterStageRefs, background
                   return;
                }
 
-               /* SUPPORT -> OPPOSITE SUPPORT */
+               /*
+                * SUPPORT -> OPPOSITE SUPPORT
+                */
                if (oldSlot !== "active" && newSlot !== "active" && oldSlot !== newSlot && sideLayer) {
                   timeline.fromTo(
                      sideLayer,
@@ -518,37 +557,67 @@ export function useCharacterNavigation(stageRefs: CharacterStageRefs, background
                }
             });
          } else {
-            /* MOBILE + SMALL TABLET */
+            /*
+             * MOBILE + SMALL TABLET
+             *
+             * IMPORTANT:
+             * Mobile only has one rendered character.
+             *
+             * OLD character goes out first.
+             * State changes only while opacity is 0.
+             * NEW character then comes in once.
+             */
             const mobileCharacterElement = stageRefs.mobileCharacterRef.current;
             const direction = nextIndex > currentIndex ? 1 : -1;
 
             if (mobileCharacterElement) {
                gsap.killTweensOf(mobileCharacterElement);
 
+               /*
+                * OLD CHARACTER OUT
+                */
                timeline.to(
                   mobileCharacterElement,
                   {
-                     x: direction * -22,
-                     y: 5,
+                     x: direction * -18,
+                     y: 4,
                      opacity: 0,
                      scale: 0.99,
-                     duration: 0.34,
+                     duration: 0.3,
                      ease: "power2.inOut",
                   },
                   0,
                );
 
+               /*
+                * SWAP CHARACTER WHILE INVISIBLE
+                */
+               timeline.call(
+                  () => {
+                     activeIndexRef.current = nextIndex;
+                     setActiveIndex(nextIndex);
+                  },
+                  [],
+                  0.3,
+               );
+
+               /*
+                * PREPARE NEW CHARACTER
+                */
                timeline.set(
                   mobileCharacterElement,
                   {
-                     x: direction * 26,
-                     y: 5,
+                     x: direction * 22,
+                     y: 4,
                      opacity: 0,
                      scale: 0.99,
                   },
-                  0.34,
+                  0.32,
                );
 
+               /*
+                * NEW CHARACTER IN
+                */
                timeline.to(
                   mobileCharacterElement,
                   {
@@ -556,15 +625,21 @@ export function useCharacterNavigation(stageRefs: CharacterStageRefs, background
                      y: 0,
                      opacity: 1,
                      scale: 1,
-                     duration: 0.58,
+                     duration: 0.52,
                      ease: "power3.out",
                   },
-                  0.35,
+                  0.36,
                );
             }
          }
 
-         /* INFO PREPARE */
+         /*
+          * INFO PREPARE
+          *
+          * At this point mobile has not swapped character yet.
+          * The text is hidden first, then React updates while
+          * the text remains invisible.
+          */
          timeline.set(
             nameElement,
             {
@@ -592,7 +667,9 @@ export function useCharacterNavigation(stageRefs: CharacterStageRefs, background
             0.24,
          );
 
-         /* INFO IN */
+         /*
+          * INFO IN
+          */
          timeline.to(
             nameElement,
             {
@@ -601,7 +678,7 @@ export function useCharacterNavigation(stageRefs: CharacterStageRefs, background
                duration: 0.5,
                ease: "power3.out",
             },
-            0.32,
+            0.36,
          );
 
          timeline.to(
@@ -612,7 +689,7 @@ export function useCharacterNavigation(stageRefs: CharacterStageRefs, background
                duration: 0.46,
                ease: "power3.out",
             },
-            0.37,
+            0.41,
          );
 
          timeline.to(
@@ -623,7 +700,7 @@ export function useCharacterNavigation(stageRefs: CharacterStageRefs, background
                duration: 0.5,
                ease: "power3.out",
             },
-            0.42,
+            0.46,
          );
       },
       [backgroundsRef, infoRefs, stageRefs],
