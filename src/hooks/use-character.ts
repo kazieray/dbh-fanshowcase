@@ -17,8 +17,7 @@ type CharacterInfoRefs = {
    descriptionRef: RefObject<HTMLParagraphElement | null>;
 };
 
-const LEFT_OFFSET = 520;
-const RIGHT_OFFSET = 80;
+const DESKTOP_MEDIA_QUERY = "(min-width: 768px)";
 
 function getCharacterId(index: number) {
    return characters[index].id as CharacterId;
@@ -33,12 +32,6 @@ function getDesktopSlots(activeIndex: number) {
       [getCharacterId(activeIndex)]: "active",
       [getCharacterId(rightIndex)]: "right",
    } as Record<CharacterId, DesktopSlot>;
-}
-
-function getSideX(slot: DesktopSlot) {
-   if (slot === "left") return -LEFT_OFFSET;
-   if (slot === "right") return -RIGHT_OFFSET;
-   return 0;
 }
 
 function getDesktopCharacterElements(stageRefs: CharacterStageRefs) {
@@ -85,22 +78,27 @@ function setDesktopComposition(stageRefs: CharacterStageRefs, activeIndex: numbe
 
       if (sideLayer) {
          gsap.killTweensOf(sideLayer);
+
          gsap.set(sideLayer, {
-            x: getSideX(slot),
             opacity: slot === "active" ? 0 : 1,
+            y: 0,
+            scale: 1,
             pointerEvents: slot === "active" ? "none" : "auto",
          });
       }
 
       if (sideVisual) {
          gsap.killTweensOf(sideVisual);
+
          gsap.set(sideVisual, {
+            opacity: 1,
             scale: 1,
          });
       }
 
       if (activeLayer) {
          gsap.killTweensOf(activeLayer);
+
          gsap.set(activeLayer, {
             opacity: slot === "active" ? 1 : 0,
             y: 0,
@@ -122,7 +120,7 @@ export function useCharacterIdle(stageRefs: CharacterStageRefs, activeIndex: num
 
       if (reduceMotion.matches) return;
 
-      const isDesktop = window.matchMedia("(min-width: 1024px)").matches;
+      const isDesktop = window.matchMedia(DESKTOP_MEDIA_QUERY).matches;
 
       if (isDesktop) {
          const characterElement = stageRefs.desktopCharacterRefs[getCharacterId(activeIndex)].current;
@@ -137,6 +135,7 @@ export function useCharacterIdle(stageRefs: CharacterStageRefs, activeIndex: num
 
          return () => {
             idleTween.kill();
+
             gsap.set(activeLayer, {
                y: 0,
             });
@@ -151,6 +150,7 @@ export function useCharacterIdle(stageRefs: CharacterStageRefs, activeIndex: num
 
       return () => {
          idleTween.kill();
+
          gsap.set(mobileCharacterElement, {
             y: 0,
          });
@@ -161,8 +161,10 @@ export function useCharacterIdle(stageRefs: CharacterStageRefs, activeIndex: num
 export function useCharacterNavigation(stageRefs: CharacterStageRefs, backgroundsRef: RefObject<HTMLDivElement | null>, infoRefs: CharacterInfoRefs) {
    const [activeIndex, setActiveIndex] = useState(0);
    const [isTransitioning, setIsTransitioning] = useState(false);
+
    const activeIndexRef = useRef(0);
    const transitionLockRef = useRef(false);
+
    const character = characters[activeIndex];
 
    useEffect(() => {
@@ -170,11 +172,21 @@ export function useCharacterNavigation(stageRefs: CharacterStageRefs, background
    }, [activeIndex]);
 
    useEffect(() => {
-      const isDesktop = window.matchMedia("(min-width: 1024px)").matches;
+      const updateComposition = () => {
+         const isDesktop = window.matchMedia(DESKTOP_MEDIA_QUERY).matches;
 
-      if (isDesktop) {
-         setDesktopComposition(stageRefs, activeIndexRef.current);
-      }
+         if (isDesktop) {
+            setDesktopComposition(stageRefs, activeIndexRef.current);
+         }
+      };
+
+      updateComposition();
+
+      window.addEventListener("resize", updateComposition);
+
+      return () => {
+         window.removeEventListener("resize", updateComposition);
+      };
    }, [stageRefs]);
 
    const changeCharacter = useCallback(
@@ -195,16 +207,16 @@ export function useCharacterNavigation(stageRefs: CharacterStageRefs, background
 
          if (!currentBackground || !nextBackground) return;
 
-         const isDesktop = window.matchMedia("(min-width: 1024px)").matches;
+         const isDesktop = window.matchMedia(DESKTOP_MEDIA_QUERY).matches;
          const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
          transitionLockRef.current = true;
          setIsTransitioning(true);
 
-         if (reduceMotion) {
-            activeIndexRef.current = nextIndex;
-            setActiveIndex(nextIndex);
+         activeIndexRef.current = nextIndex;
+         setActiveIndex(nextIndex);
 
+         if (reduceMotion) {
             const backgrounds = backgroundsElement.querySelectorAll<HTMLElement>("[data-background-index]");
 
             backgrounds.forEach((background, index) => {
@@ -238,6 +250,9 @@ export function useCharacterNavigation(stageRefs: CharacterStageRefs, background
          });
 
          const timeline = gsap.timeline({
+            defaults: {
+               overwrite: "auto",
+            },
             onComplete: () => {
                gsap.set(currentBackground, {
                   opacity: 0,
@@ -257,7 +272,6 @@ export function useCharacterNavigation(stageRefs: CharacterStageRefs, background
                   setDesktopComposition(stageRefs, nextIndex);
                }
 
-               activeIndexRef.current = nextIndex;
                transitionLockRef.current = false;
                setIsTransitioning(false);
             },
@@ -268,7 +282,7 @@ export function useCharacterNavigation(stageRefs: CharacterStageRefs, background
             currentBackground,
             {
                opacity: 0,
-               duration: 0.65,
+               duration: 0.85,
                ease: "power2.inOut",
             },
             0,
@@ -278,7 +292,7 @@ export function useCharacterNavigation(stageRefs: CharacterStageRefs, background
             nextBackground,
             {
                opacity: 1,
-               duration: 0.65,
+               duration: 0.85,
                ease: "power2.inOut",
             },
             0,
@@ -288,9 +302,9 @@ export function useCharacterNavigation(stageRefs: CharacterStageRefs, background
          timeline.to(
             nameElement,
             {
-               y: -8,
+               y: -6,
                opacity: 0,
-               duration: 0.18,
+               duration: 0.22,
                ease: "power2.in",
             },
             0,
@@ -299,26 +313,26 @@ export function useCharacterNavigation(stageRefs: CharacterStageRefs, background
          timeline.to(
             metaElement,
             {
-               y: -6,
+               y: -5,
                opacity: 0,
-               duration: 0.16,
+               duration: 0.2,
                ease: "power2.in",
             },
-            0.03,
+            0.025,
          );
 
          timeline.to(
             descriptionElement,
             {
-               y: -5,
+               y: -4,
                opacity: 0,
-               duration: 0.16,
+               duration: 0.2,
                ease: "power2.in",
             },
-            0.06,
+            0.05,
          );
 
-         /* DESKTOP */
+         /* LAPTOP + DESKTOP */
          if (isDesktop) {
             const oldSlots = getDesktopSlots(currentIndex);
             const newSlots = getDesktopSlots(nextIndex);
@@ -340,6 +354,7 @@ export function useCharacterNavigation(stageRefs: CharacterStageRefs, background
 
                if (activeLayer) {
                   gsap.killTweensOf(activeLayer);
+
                   gsap.set(activeLayer, {
                      y: 0,
                   });
@@ -352,23 +367,24 @@ export function useCharacterNavigation(stageRefs: CharacterStageRefs, background
                   });
 
                   if (sideLayer) {
-                     timeline.to(
-                        sideLayer,
-                        {
-                           x: 0,
-                           opacity: 0,
-                           duration: 0.28,
-                           ease: "power2.inOut",
-                        },
-                        0.02,
-                     );
-
                      timeline.set(
                         sideLayer,
                         {
                            pointerEvents: "none",
                         },
-                        0.3,
+                        0,
+                     );
+
+                     timeline.to(
+                        sideLayer,
+                        {
+                           opacity: 0,
+                           y: -6,
+                           scale: 1.025,
+                           duration: 0.52,
+                           ease: "power2.inOut",
+                        },
+                        0,
                      );
                   }
 
@@ -376,11 +392,11 @@ export function useCharacterNavigation(stageRefs: CharacterStageRefs, background
                      timeline.to(
                         sideVisual,
                         {
-                           scale: 1.015,
-                           duration: 0.28,
-                           ease: "power2.inOut",
+                           opacity: 0.82,
+                           duration: 0.4,
+                           ease: "sine.inOut",
                         },
-                        0.02,
+                        0,
                      );
                   }
 
@@ -389,15 +405,17 @@ export function useCharacterNavigation(stageRefs: CharacterStageRefs, background
                         activeLayer,
                         {
                            opacity: 0,
-                           scale: 0.985,
+                           y: 10,
+                           scale: 0.975,
                         },
                         {
                            opacity: 1,
+                           y: 0,
                            scale: 1,
-                           duration: 0.4,
+                           duration: 0.72,
                            ease: "power3.out",
                         },
-                        0.24,
+                        0.1,
                      );
                   }
 
@@ -406,16 +424,15 @@ export function useCharacterNavigation(stageRefs: CharacterStageRefs, background
 
                /* ACTIVE -> SUPPORT */
                if (oldSlot === "active" && newSlot !== "active") {
-                  const destinationX = getSideX(newSlot);
-
                   if (activeLayer) {
                      timeline.to(
                         activeLayer,
                         {
                            opacity: 0,
-                           scale: 0.985,
-                           duration: 0.22,
-                           ease: "power2.in",
+                           y: 5,
+                           scale: 0.98,
+                           duration: 0.46,
+                           ease: "power2.inOut",
                         },
                         0,
                      );
@@ -425,22 +442,24 @@ export function useCharacterNavigation(stageRefs: CharacterStageRefs, background
                      timeline.set(
                         sideLayer,
                         {
-                           x: 0,
                            opacity: 0,
+                           y: 8,
+                           scale: 0.985,
                            pointerEvents: "none",
                         },
-                        0.18,
+                        0,
                      );
 
                      timeline.to(
                         sideLayer,
                         {
-                           x: destinationX,
                            opacity: 1,
-                           duration: 0.42,
+                           y: 0,
+                           scale: 1,
+                           duration: 0.68,
                            ease: "power3.out",
                         },
-                        0.22,
+                        0.14,
                      );
 
                      timeline.set(
@@ -448,7 +467,7 @@ export function useCharacterNavigation(stageRefs: CharacterStageRefs, background
                         {
                            pointerEvents: "auto",
                         },
-                        0.64,
+                        0.82,
                      );
                   }
 
@@ -456,14 +475,14 @@ export function useCharacterNavigation(stageRefs: CharacterStageRefs, background
                      timeline.fromTo(
                         sideVisual,
                         {
-                           scale: 1.015,
+                           opacity: 0.72,
                         },
                         {
-                           scale: 1,
-                           duration: 0.42,
-                           ease: "power3.out",
+                           opacity: 1,
+                           duration: 0.56,
+                           ease: "sine.inOut",
                         },
-                        0.22,
+                        0.18,
                      );
                   }
 
@@ -472,7 +491,7 @@ export function useCharacterNavigation(stageRefs: CharacterStageRefs, background
                      {
                         zIndex: 1,
                      },
-                     0.22,
+                     0.46,
                   );
 
                   return;
@@ -480,37 +499,26 @@ export function useCharacterNavigation(stageRefs: CharacterStageRefs, background
 
                /* SUPPORT -> OPPOSITE SUPPORT */
                if (oldSlot !== "active" && newSlot !== "active" && oldSlot !== newSlot && sideLayer) {
-                  timeline.to(
+                  timeline.fromTo(
                      sideLayer,
                      {
                         opacity: 0,
-                        duration: 0.15,
-                        ease: "power2.in",
+                        y: 5,
+                        scale: 0.99,
                      },
-                     0,
-                  );
-
-                  timeline.set(
-                     sideLayer,
-                     {
-                        x: getSideX(newSlot),
-                     },
-                     0.17,
-                  );
-
-                  timeline.to(
-                     sideLayer,
                      {
                         opacity: 1,
-                        duration: 0.32,
-                        ease: "power2.out",
+                        y: 0,
+                        scale: 1,
+                        duration: 0.62,
+                        ease: "power3.out",
                      },
-                     0.22,
+                     0.16,
                   );
                }
             });
          } else {
-            /* MOBILE + TABLET */
+            /* MOBILE + SMALL TABLET */
             const mobileCharacterElement = stageRefs.mobileCharacterRef.current;
             const direction = nextIndex > currentIndex ? 1 : -1;
 
@@ -520,12 +528,12 @@ export function useCharacterNavigation(stageRefs: CharacterStageRefs, background
                timeline.to(
                   mobileCharacterElement,
                   {
-                     x: direction * -28,
-                     y: 6,
+                     x: direction * -22,
+                     y: 5,
                      opacity: 0,
-                     scale: 0.985,
-                     duration: 0.28,
-                     ease: "power2.in",
+                     scale: 0.99,
+                     duration: 0.34,
+                     ease: "power2.inOut",
                   },
                   0,
                );
@@ -533,12 +541,12 @@ export function useCharacterNavigation(stageRefs: CharacterStageRefs, background
                timeline.set(
                   mobileCharacterElement,
                   {
-                     x: direction * 34,
-                     y: 4,
+                     x: direction * 26,
+                     y: 5,
                      opacity: 0,
                      scale: 0.99,
                   },
-                  0.28,
+                  0.34,
                );
 
                timeline.to(
@@ -548,68 +556,52 @@ export function useCharacterNavigation(stageRefs: CharacterStageRefs, background
                      y: 0,
                      opacity: 1,
                      scale: 1,
-                     duration: 0.5,
+                     duration: 0.58,
                      ease: "power3.out",
                   },
-                  0.3,
+                  0.35,
                );
             }
          }
 
-         /*
-          * REACT STATE
-          */
-         timeline.call(
-            () => {
-               activeIndexRef.current = nextIndex;
-               setActiveIndex(nextIndex);
-            },
-            [],
-            0.3,
-         );
-
-         /*
-          * INFO PREPARE
-          */
+         /* INFO PREPARE */
          timeline.set(
             nameElement,
             {
-               y: 12,
+               y: 10,
                opacity: 0,
             },
-            0.3,
+            0.24,
          );
 
          timeline.set(
             metaElement,
             {
-               y: 9,
+               y: 8,
                opacity: 0,
             },
-            0.3,
+            0.24,
          );
 
          timeline.set(
             descriptionElement,
             {
-               y: 7,
+               y: 6,
                opacity: 0,
             },
-            0.3,
+            0.24,
          );
 
-         /*
-          * INFO IN
-          */
+         /* INFO IN */
          timeline.to(
             nameElement,
             {
                y: 0,
                opacity: 1,
-               duration: 0.42,
+               duration: 0.5,
                ease: "power3.out",
             },
-            0.34,
+            0.32,
          );
 
          timeline.to(
@@ -617,10 +609,10 @@ export function useCharacterNavigation(stageRefs: CharacterStageRefs, background
             {
                y: 0,
                opacity: 1,
-               duration: 0.38,
+               duration: 0.46,
                ease: "power3.out",
             },
-            0.39,
+            0.37,
          );
 
          timeline.to(
@@ -628,10 +620,10 @@ export function useCharacterNavigation(stageRefs: CharacterStageRefs, background
             {
                y: 0,
                opacity: 1,
-               duration: 0.42,
+               duration: 0.5,
                ease: "power3.out",
             },
-            0.44,
+            0.42,
          );
       },
       [backgroundsRef, infoRefs, stageRefs],

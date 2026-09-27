@@ -1,4 +1,12 @@
 export const id = {
+   nav: {
+      home: "Beranda",
+      characters: "Karakter",
+      gameplay: "Gameplay",
+      news: "Berita",
+      download: "Download Game",
+   },
+
    characters: {
       connor: {
          role: "Android Investigator",

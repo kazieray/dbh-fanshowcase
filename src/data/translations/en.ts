@@ -1,4 +1,12 @@
 export const en = {
+   nav: {
+      home: "Home",
+      characters: "Characters",
+      gameplay: "Gameplay",
+      news: "News",
+      download: "Download Game",
+   },
+
    characters: {
       connor: {
          role: "Android Investigator",
