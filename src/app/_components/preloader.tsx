@@ -295,7 +295,7 @@ export default function Preloader({ onEnter, onExitComplete }: PreloaderProps) {
                </p>
 
                {isReady && (
-                  <div role="group" aria-label="Pilihan masuk situs" className="mx-auto mt-[clamp(1.25rem,4vh,2.5rem)] grid w-full max-w-[580px] grid-cols-1 gap-3 sm:grid-cols-2">
+                  <div role="group" aria-label={copy.a11y.siteEntryOptions} className="mx-auto mt-[clamp(1.25rem,4vh,2.5rem)] grid w-full max-w-[580px] grid-cols-1 gap-3 sm:grid-cols-2">
                      <button type="button" disabled={isLeaving} onClick={() => handleEnter(true)} className="loader-choice group relative min-h-14 bg-transparent px-7 opacity-0 disabled:pointer-events-none sm:min-h-[62px]">
                         <span aria-hidden="true" className="absolute left-0 top-0 h-3 w-3 border-l border-t border-white/20 transition-all duration-500 ease-out group-hover:h-5 group-hover:w-5 group-hover:border-dbh-blue" />
                         <span aria-hidden="true" className="absolute right-0 top-0 h-3 w-3 border-r border-t border-white/20 transition-all duration-500 ease-out group-hover:h-5 group-hover:w-5 group-hover:border-dbh-blue" />

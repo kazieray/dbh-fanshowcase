@@ -18,10 +18,10 @@ import { useHomeIntro } from "@/context/home-intro-context";
 
 export default function HomeExperience() {
    const { setAudioEnabled } = useAudio();
-   const { hasEnteredHome, markHomeEntered } = useHomeIntro();
-
-   const [heroActive, setHeroActive] = useState(hasEnteredHome);
-   const [preloaderVisible, setPreloaderVisible] = useState(!hasEnteredHome);
+   const { hasEnteredHome, isHomeIntroReady, markHomeEntered } = useHomeIntro();
+   const heroActive = hasEnteredHome;
+   const [isPreloaderLeaving, setIsPreloaderLeaving] = useState(false);
+   const preloaderVisible = (isHomeIntroReady && !hasEnteredHome) || isPreloaderLeaving;
 
    useLayoutEffect(() => {
       if (!heroActive) return;
@@ -46,7 +46,7 @@ export default function HomeExperience() {
 
    async function handleEnter(withSound: boolean) {
       markHomeEntered();
-      setHeroActive(true);
+      setIsPreloaderLeaving(true);
       await setAudioEnabled(withSound);
    }
 
@@ -70,7 +70,7 @@ export default function HomeExperience() {
 
          <Navbar active={heroActive} />
 
-         {preloaderVisible && <Preloader onEnter={handleEnter} onExitComplete={() => setPreloaderVisible(false)} />}
+         {preloaderVisible && <Preloader onEnter={handleEnter} onExitComplete={() => setIsPreloaderLeaving(false)} />}
       </main>
    );
 }

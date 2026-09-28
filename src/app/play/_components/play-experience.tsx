@@ -20,7 +20,6 @@ const platforms = [
       logo: "https://cdn.simpleicons.org/steam/FFFFFF",
       logoAlt: "Steam",
       image: "/img/connor-cover.jpg",
-      imageAlt: "Connor, android penyelidik RK800",
       accent: "from-cyan-300/25",
    },
    {
@@ -32,7 +31,6 @@ const platforms = [
       logo: "https://cdn.simpleicons.org/epicgames/FFFFFF",
       logoAlt: "Epic Games",
       image: "/img/dbh-kara.jpg",
-      imageAlt: "Kara dalam Detroit: Become Human",
       accent: "from-white/20",
    },
    {
@@ -44,15 +42,14 @@ const platforms = [
       logo: "https://cdn.simpleicons.org/playstation/FFFFFF",
       logoAlt: "PlayStation",
       image: "/img/markus-cover.jpg",
-      imageAlt: "Markus, android revolutioner",
       accent: "from-rose-300/25",
    },
 ];
 
 const protagonists = [
-   { name: "Kara", image: "/img/kara.png", alt: "Kara, android yang melindungi Alice" },
-   { name: "Markus", image: "/img/markus.png", alt: "Markus, pemimpin para android" },
-   { name: "Connor", image: "/img/connor.png", alt: "Connor, android penyelidik RK800" },
+   { name: "Kara", image: "/img/kara.png" },
+   { name: "Markus", image: "/img/markus.png" },
+   { name: "Connor", image: "/img/connor.png" },
 ];
 
 export default function PlayExperience() {
@@ -80,7 +77,7 @@ export default function PlayExperience() {
                      <div key={protagonist.name} className={`relative h-[88%] min-w-0 ${index === 1 ? "z-10 h-full" : "z-0"}`}>
                         <Image
                            src={protagonist.image}
-                           alt={protagonist.alt}
+                           alt={copy.play.protagonistImageAlts[index]}
                            fill
                            priority
                            sizes="(max-width: 1024px) 32vw, 21vw"
@@ -91,7 +88,7 @@ export default function PlayExperience() {
                </div>
 
                <div className="absolute inset-x-5 bottom-6 z-30 grid grid-cols-2 gap-3 sm:inset-x-8 sm:bottom-8 sm:gap-5 lg:inset-0 lg:block">
-                  {platforms.map((platform) => {
+                  {platforms.map((platform, index) => {
                      const placement = platform.detail === "Epic Games"
                         ? "order-1 mx-auto min-w-[132px] w-[min(34vw,190px)] sm:min-w-[170px] sm:w-[min(34vw,230px)] lg:order-none lg:absolute lg:left-[3.5%] lg:top-[57%] lg:w-[min(27.5vw,410px)] lg:p-6"
                         : platform.detail === "PS4 · PS5"
@@ -103,7 +100,7 @@ export default function PlayExperience() {
                            ? "play-platform-playstation"
                            : "play-platform-steam";
 
-                     return <PlatformStoreCard key={platform.detail} platform={{ ...platform, action: copy.play.downloadGame, officialLabel: copy.play.officialStore }} className={`${motionClass} ${placement}`} />;
+                     return <PlatformStoreCard key={platform.detail} platform={{ ...platform, imageAlt: copy.play.platformImageAlts[index], action: copy.play.downloadGame, officialLabel: copy.play.officialStore }} className={`${motionClass} ${placement}`} />;
                   })}
                </div>
             </div>

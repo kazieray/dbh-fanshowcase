@@ -40,6 +40,56 @@ body {
    text-rendering: optimizeLegibility;
 }
 
+.language-transition-overlay {
+   position: fixed;
+   z-index: 10000;
+   inset: 0;
+   display: grid;
+   place-items: center;
+   background: rgb(3 6 9 / 28%);
+   -webkit-backdrop-filter: blur(8px) saturate(125%);
+   backdrop-filter: blur(8px) saturate(125%);
+   animation: language-overlay-in 1.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.language-transition-status {
+   display: flex;
+   min-height: 48px;
+   align-items: center;
+   gap: 12px;
+   border: 1px solid rgb(255 255 255 / 18%);
+   border-radius: 999px;
+   padding: 0 20px;
+   background: rgb(7 13 19 / 82%);
+   color: rgb(243 246 248 / 88%);
+   font-family: var(--font-mono);
+   font-size: 10px;
+   letter-spacing: 0.08em;
+   text-transform: uppercase;
+   box-shadow: 0 12px 40px rgb(0 0 0 / 32%), 0 0 30px rgb(82 199 255 / 10%);
+}
+
+.language-transition-spinner {
+   width: 14px;
+   height: 14px;
+   flex: none;
+   border: 1px solid rgb(82 199 255 / 30%);
+   border-top-color: var(--color-dbh-blue);
+   border-radius: 50%;
+   animation: language-spinner 700ms linear infinite;
+}
+
+@keyframes language-overlay-in {
+   0% { opacity: 0; }
+   22%,
+   76% { opacity: 1; }
+   100% { opacity: 0; }
+}
+
+@keyframes language-spinner {
+   to { transform: rotate(360deg); }
+}
+
 button,
 a {
    font: inherit;
@@ -263,10 +313,20 @@ a {
 }
 
 .feel-game-title-motion {
-   display: inline-block;
+   display: block;
+   max-width: 100%;
    transform-origin: center;
    will-change: transform;
    transition: translate 120ms ease-out, opacity 120ms ease-out, filter 120ms ease-out;
+}
+
+.feel-game-title-motion.is-visible .feel-game-letter {
+   animation: feelGameLetterReveal 2.55s cubic-bezier(0.22, 0.75, 0.24, 1) both;
+}
+
+.feel-game-word {
+   display: inline-block;
+   white-space: nowrap;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -285,15 +345,14 @@ a {
 .feel-game-letter {
    display: inline-block;
    white-space: pre;
-   animation: feelGameLetterReveal 2.55s cubic-bezier(0.22, 0.75, 0.24, 1) both;
 }
 
-.feel-game-letter:nth-child(odd) {
-   --feel-game-origin-x: -42px;
+.feel-game-word .feel-game-letter:nth-child(odd) {
+   --feel-game-origin-x: clamp(-42px, -4vw, -14px);
 }
 
-.feel-game-letter:nth-child(even) {
-   --feel-game-origin-x: 42px;
+.feel-game-word .feel-game-letter:nth-child(even) {
+   --feel-game-origin-x: clamp(14px, 4vw, 42px);
 }
 
 @keyframes feelGameLetterReveal {

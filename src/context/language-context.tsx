@@ -22,6 +22,7 @@ const translations = {
 
 export function LanguageProvider({ children }: { children: React.ReactNode }) {
    const [language, setLanguageState] = useState<Language>("en");
+   const [languageTransitionMessage, setLanguageTransitionMessage] = useState<string | null>(null);
 
    useEffect(() => {
       const timeout = window.setTimeout(() => {
@@ -29,6 +30,7 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
 
          if (savedLanguage === "en" || savedLanguage === "id") {
             setLanguageState(savedLanguage);
+            document.documentElement.lang = savedLanguage;
          }
       }, 0);
 
@@ -40,19 +42,16 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
    }, [language]);
 
    const setLanguage = useCallback((nextLanguage: Language) => {
-      setLanguageState(nextLanguage);
+      if (nextLanguage === language) return;
+
+      const messageKey = nextLanguage === "en" ? "switchingToEnglish" : "switchingToIndonesian";
+      setLanguageTransitionMessage(translations[language].a11y[messageKey]);
       localStorage.setItem("dbh-language", nextLanguage);
-   }, []);
+   }, [language]);
 
    const toggleLanguage = useCallback(() => {
-      setLanguageState((currentLanguage) => {
-         const nextLanguage: Language = currentLanguage === "en" ? "id" : "en";
-
-         localStorage.setItem("dbh-language", nextLanguage);
-
-         return nextLanguage;
-      });
-   }, []);
+      setLanguage(language === "en" ? "id" : "en");
+   }, [language, setLanguage]);
 
    const value = useMemo(
       () => ({
@@ -64,5 +63,26 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
       [language, setLanguage, toggleLanguage],
    );
 
-   return <LanguageContext.Provider value={value}>{children}</LanguageContext.Provider>;
+   return (
+      <LanguageContext.Provider value={value}>
+         {children}
+         {languageTransitionMessage && (
+            <div
+               className="language-transition-overlay"
+               role="status"
+               aria-live="polite"
+               onAnimationEnd={(event) => {
+                  if (event.target === event.currentTarget && event.animationName === "language-overlay-in") {
+                     window.location.reload();
+                  }
+               }}
+            >
+               <div className="language-transition-status">
+                  <span className="language-transition-spinner" aria-hidden="true" />
+                  <span>{languageTransitionMessage}</span>
+               </div>
+            </div>
+         )}
+      </LanguageContext.Provider>
+   );
 }

@@ -10,6 +10,20 @@ export const en = {
       closeMenu: "Close menu",
    },
 
+   a11y: {
+      homeLink: "Detroit: Become Human home",
+      mainNavigation: "Main navigation",
+      mobileNavigation: "Mobile navigation",
+      footerNavigation: "Footer navigation",
+      languageSelector: "Language selector",
+      switchingToEnglish: "Switching to English",
+      switchingToIndonesian: "Switching to Indonesian",
+      characterSelection: "Select character",
+      previousCharacter: "Previous character",
+      nextCharacter: "Next character",
+      siteEntryOptions: "Site entry options",
+   },
+
    footer: {
       description: "An interactive drama from Quantic Dream about people, androids, choices, and the meaning of freedom in a future Detroit.",
       menu: "Menu",
@@ -90,6 +104,7 @@ export const en = {
       kicker: "Detroit / News network",
       title: ["Your gateway", "to Detroit"],
       description: "The latest news and stories from Detroit, gathered for you in one place.",
+      backgroundAlt: "Detroit at night",
       featured: "Featured stories",
       readArticle: "Read Story",
       readMore: "Read More",
@@ -104,6 +119,8 @@ export const en = {
       heroTitle: "Feel the Game",
       downloadGame: "Download Game",
       officialStore: "Official store",
+      protagonistImageAlts: ["Kara, an android protecting Alice", "Markus, a leader of the androids", "Connor, an RK800 android investigator"],
+      platformImageAlts: ["Connor, an RK800 android investigator", "Kara in Detroit: Become Human", "Markus, an android revolutionary"],
       aboutKicker: "Quantic Dream · Paris",
       aboutTitle: "More stories begin at the studio.",
       aboutLink: "About Quantic Dream",
@@ -115,9 +132,9 @@ export const en = {
       folderTitle: "More games from Quantic Dream",
       exploreGame: "Explore game",
       games: [
-         { category: "Psychological thriller · 2010", description: "Four perspectives, one mystery, and choices that decide who survives." },
-         { category: "Interactive drama · 2018", description: "Three androids. Thousands of choices. Detroit's fate is in your hands." },
-         { category: "Supernatural thriller · 2013", description: "Follow Jodie Holmes and her extraordinary bond with an entity named Aiden." },
+         { category: "Psychological thriller · 2010", description: "Four perspectives, one mystery, and choices that decide who survives.", imageAlt: "Heavy Rain artwork from Steam" },
+         { category: "Interactive drama · 2018", description: "Three androids. Thousands of choices. Detroit's fate is in your hands.", imageAlt: "Connor and the world of Detroit: Become Human" },
+         { category: "Supernatural thriller · 2013", description: "Follow Jodie Holmes and her extraordinary bond with an entity named Aiden.", imageAlt: "Official Beyond: Two Souls artwork from Steam" },
       ],
    },
 

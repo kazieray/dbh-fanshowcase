@@ -10,6 +10,20 @@ export const id = {
       closeMenu: "Tutup menu",
    },
 
+   a11y: {
+      homeLink: "Beranda Detroit: Become Human",
+      mainNavigation: "Navigasi utama",
+      mobileNavigation: "Navigasi seluler",
+      footerNavigation: "Navigasi footer",
+      languageSelector: "Pilihan bahasa",
+      switchingToEnglish: "Mengganti ke Bahasa Inggris",
+      switchingToIndonesian: "Mengganti ke Bahasa Indonesia",
+      characterSelection: "Pilih karakter",
+      previousCharacter: "Karakter sebelumnya",
+      nextCharacter: "Karakter berikutnya",
+      siteEntryOptions: "Pilihan masuk situs",
+   },
+
    footer: {
       description: "Drama interaktif dari Quantic Dream tentang manusia, android, pilihan, dan arti kebebasan di masa depan Detroit.",
       menu: "Menu",
@@ -90,6 +104,7 @@ export const id = {
       kicker: "Detroit / Jaringan berita",
       title: ["Gerbangmu", "menuju Detroit"],
       description: "Berita dan cerita terbaru dari Detroit, dirangkum untuk kamu ikuti dengan mudah.",
+      backgroundAlt: "Detroit di malam hari",
       featured: "Berita pilihan",
       readArticle: "Baca Berita",
       readMore: "Baca Selengkapnya",
@@ -104,6 +119,8 @@ export const id = {
       heroTitle: "Rasakan Permainannya",
       downloadGame: "Unduh Game",
       officialStore: "Toko resmi",
+      protagonistImageAlts: ["Kara, android yang melindungi Alice", "Markus, pemimpin para android", "Connor, android penyelidik RK800"],
+      platformImageAlts: ["Connor, android penyelidik RK800", "Kara dalam Detroit: Become Human", "Markus, pemimpin revolusi android"],
       aboutKicker: "Quantic Dream · Paris",
       aboutTitle: "Lebih banyak cerita dimulai di studio.",
       aboutLink: "Tentang Quantic Dream",
@@ -115,15 +132,15 @@ export const id = {
       folderTitle: "Game lainnya dari Quantic Dream",
       exploreGame: "Jelajahi game",
       games: [
-         { category: "Thriller psikologis · 2010", description: "Empat sudut pandang, satu misteri, dan pilihan yang menentukan siapa yang bertahan." },
-         { category: "Drama interaktif · 2018", description: "Tiga android. Ribuan pilihan. Nasib Detroit ada di tanganmu." },
-         { category: "Thriller supernatural · 2013", description: "Ikuti Jodie Holmes dan ikatan istimewanya dengan entitas bernama Aiden." },
+         { category: "Thriller psikologis · 2010", description: "Empat sudut pandang, satu misteri, dan pilihan yang menentukan siapa yang bertahan.", imageAlt: "Artwork Heavy Rain dari Steam" },
+         { category: "Drama interaktif · 2018", description: "Tiga android. Ribuan pilihan. Nasib Detroit ada di tanganmu.", imageAlt: "Connor dan dunia Detroit: Become Human" },
+         { category: "Thriller supernatural · 2013", description: "Ikuti Jodie Holmes dan ikatan istimewanya dengan entitas bernama Aiden.", imageAlt: "Artwork resmi Beyond: Two Souls dari Steam" },
       ],
    },
 
    characters: {
       connor: {
-         role: "Android Investigator",
+         role: "Penyelidik Android",
          description:
             "Android canggih buatan CyberLife yang ditugaskan untuk membantu Kepolisian Detroit memburu para deviant. Seiring penyelidikan berlangsung, Connor mulai dihadapkan pada pertanyaan tentang tugas, pilihan, dan identitasnya sendiri.",
       },

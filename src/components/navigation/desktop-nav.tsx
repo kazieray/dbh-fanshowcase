@@ -14,11 +14,11 @@ export default function DesktopNav() {
 
    return (
       <div className="hidden items-center justify-center gap-3 md:flex">
-         <Link href="/" aria-label="Detroit Become Human — Home" className="mr-2 shrink-0">
+         <Link href="/" aria-label={copy.a11y.homeLink} className="mr-2 shrink-0">
             <Image src="/images/logo-white.webp" alt="Detroit: Become Human" width={180} height={55} priority className="h-auto w-[118px] lg:w-[132px]" />
          </Link>
 
-         <nav aria-label="Main navigation" className="flex h-[52px] items-center rounded-full border border-white/[0.16] bg-black/30 px-3 shadow-[inset_0_1px_0_rgba(255,255,255,0.05),0_2px_8px_rgba(0,0,0,0.16)] backdrop-blur-xl">
+         <nav aria-label={copy.a11y.mainNavigation} className="flex h-[52px] items-center rounded-full border border-white/[0.16] bg-black/30 px-3 shadow-[inset_0_1px_0_rgba(255,255,255,0.05),0_2px_8px_rgba(0,0,0,0.16)] backdrop-blur-xl">
             {navItems.map((item) => {
                const isActive = item.href === "/" ? pathname === "/" : pathname.startsWith(item.href);
 

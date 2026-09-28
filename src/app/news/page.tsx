@@ -11,15 +11,25 @@ import { stories } from "@/data/news";
 import { gsap } from "@/lib/gsap";
 import { useLanguage } from "@/hooks/use-language";
 
-const categoryEnglish: Record<string, string> = {
-   Rilis: "Release",
-   Industri: "Industry",
-   Wawancara: "Interview",
-   Pengembangan: "Development",
-   Penjualan: "Sales",
-   Karakter: "Characters",
-   Kritik: "Criticism",
+const categoryLabels: Record<string, { en: string; id: string }> = {
+   Rilis: { en: "Release", id: "Rilis" },
+   Industri: { en: "Industry", id: "Industri" },
+   Wawancara: { en: "Interview", id: "Wawancara" },
+   Pengembangan: { en: "Development", id: "Pengembangan" },
+   Penjualan: { en: "Sales", id: "Penjualan" },
+   Karakter: { en: "Characters", id: "Karakter" },
+   Kritik: { en: "Criticism", id: "Kritik" },
+   Trailer: { en: "Trailer", id: "Trailer" },
+   Studio: { en: "Studio", id: "Studio" },
+   PC: { en: "PC", id: "PC" },
+   Review: { en: "Review", id: "Ulasan" },
+   Gameplay: { en: "Gameplay", id: "Gameplay" },
+   Preview: { en: "Preview", id: "Pratinjau" },
 };
+
+function storyTitle(story: Story, language: "en" | "id") {
+   return language === "en" ? story.title : story.titleId;
+}
 
 export default function News() {
    const { copy, language } = useLanguage();
@@ -174,7 +184,7 @@ export default function News() {
          <Navbar active />
 
          <div className="fixed inset-0 z-0">
-            <Image src="/images/bg-news.jpg" alt="Detroit di malam hari" fill priority sizes="100vw" className="object-cover object-center opacity-45" />
+            <Image src="/images/bg-news.jpg" alt={copy.news.backgroundAlt} fill priority sizes="100vw" className="object-cover object-center opacity-45" />
             <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(5,8,13,0.78)_0%,rgba(5,8,13,0.55)_35%,#05080d_88%)]" />
          </div>
 
@@ -208,15 +218,16 @@ export default function News() {
 type Story = (typeof stories)[number];
 
 function StoryCard({ story, index, language, copy, onRead }: { story: Story; index: number; language: "en" | "id"; copy: (typeof import("@/data/translations/en").en)["news"]; onRead: () => void }) {
-   const category = language === "en" ? categoryEnglish[story.category] ?? story.category : story.category;
+   const category = categoryLabels[story.category]?.[language] ?? story.category;
    const date = localizeDate(story.date, language);
    const readTime = language === "en" ? story.readTime.replace("menit baca", copy.minRead) : story.readTime;
+   const title = storyTitle(story, language);
 
    return (
       <article
          role="button"
          tabIndex={0}
-         aria-label={`${copy.readArticle}: ${story.title}`}
+         aria-label={`${copy.readArticle}: ${title}`}
          onClick={onRead}
          onKeyDown={(event) => {
             if (event.key === "Enter" || event.key === " ") {
@@ -249,7 +260,7 @@ function StoryCard({ story, index, language, copy, onRead }: { story: Story; ind
          </div>
          <div className="relative flex flex-1 flex-col p-5 sm:p-6">
             <div className="mb-3 flex items-center gap-2 font-mono text-[8px] uppercase tracking-[0.12em] text-white/40"><span>{date}</span><span className="h-1 w-1 rounded-full bg-dbh-blue" /><span className="flex items-center gap-1"><Clock3 size={10} /> {readTime}</span></div>
-            <h2 className="font-display text-xl font-medium uppercase leading-[0.96] tracking-[-0.045em] text-white">{story.title}</h2>
+            <h2 className="font-display text-xl font-medium uppercase leading-[0.96] tracking-[-0.045em] text-white">{title}</h2>
             <p className="mt-3 text-xs leading-relaxed text-white/50">{language === "en" ? story.excerptEn : story.excerpt}</p>
             <div className="news-story-action mt-auto flex min-h-11 w-full items-center justify-between px-4 text-left font-mono text-[10px] tracking-[0.04em]"><span className="flex items-center gap-2"><Eye size={14} /> {copy.readArticle}</span><ArrowUpRight size={16} /></div>
          </div>
@@ -261,13 +272,14 @@ function StoryModal({ story, closing, onClose }: { story: Story; closing: boolea
    const { copy, language } = useLanguage();
    const date = localizeDate(story.date, language);
    const readTime = language === "en" ? story.readTime.replace("menit baca", copy.news.minRead) : story.readTime;
+   const title = storyTitle(story, language);
 
    return (
-      <div className={`news-modal fixed inset-0 z-50 flex min-h-svh items-center justify-center overflow-y-auto bg-[#030609]/72 p-4 backdrop-blur-xl sm:p-8 ${closing ? "news-modal-closing" : ""}`} role="dialog" aria-modal="true" aria-label={story.title}>
+      <div className={`news-modal fixed inset-0 z-50 flex min-h-svh items-center justify-center overflow-y-auto bg-[#030609]/72 p-4 backdrop-blur-xl sm:p-8 ${closing ? "news-modal-closing" : ""}`} role="dialog" aria-modal="true" aria-label={title}>
          <button type="button" onClick={onClose} aria-label={copy.news.close} className="nav-glass-control fixed right-5 top-5 z-10 flex h-11 w-11 items-center justify-center rounded-full"><X size={20} /></button>
          <article className="news-modal-window nav-glass-panel grid max-h-[calc(100svh-2rem)] w-full max-w-6xl overflow-y-auto rounded-2xl lg:grid-cols-[0.9fr_1.1fr] sm:max-h-[calc(100svh-4rem)]">
             <div className="relative min-h-70 lg:min-h-155"><Image src={story.image} alt="" fill sizes="(max-width: 1024px) 100vw, 45vw" className="object-cover" /><div className="absolute inset-0 bg-linear-to-t from-black/70 to-transparent" /></div>
-            <div className="flex flex-col justify-center p-6 sm:p-10 lg:p-14"><p className="mb-5 font-mono text-[9px] uppercase tracking-[0.2em] text-dbh-blue">{categoryEnglish[story.category] && language === "en" ? categoryEnglish[story.category] : story.category} / {date}</p><h2 className="font-display text-3xl font-medium uppercase leading-[0.9] tracking-[-0.055em] text-white sm:text-5xl">{story.title}</h2><div className="my-7 h-px w-16 bg-dbh-blue" /><div className="max-w-xl space-y-5 text-sm leading-[1.9] text-white/65">{(language === "en" ? story.bodyEn : story.body).split("\n\n").map((paragraph) => <p key={paragraph}>{paragraph}</p>)}</div><div className="mt-8 flex flex-wrap items-center justify-between gap-4 border-t border-white/10 pt-5"><p className="flex items-center gap-2 font-mono text-[9px] uppercase tracking-[0.14em] text-white/35"><Clock3 size={12} /> {readTime}</p><a href={story.source} target="_blank" rel="noreferrer" className="nav-glass-control inline-flex min-h-10 items-center gap-2 rounded-full px-4 font-mono text-[9px] tracking-[0.04em]">{copy.news.source} <ArrowUpRight size={13} /></a></div></div>
+            <div className="flex flex-col justify-center p-6 sm:p-10 lg:p-14"><p className="mb-5 font-mono text-[9px] uppercase tracking-[0.2em] text-dbh-blue">{categoryLabels[story.category]?.[language] ?? story.category} / {date}</p><h2 className="font-display text-3xl font-medium uppercase leading-[0.9] tracking-[-0.055em] text-white sm:text-5xl">{title}</h2><div className="my-7 h-px w-16 bg-dbh-blue" /><div className="max-w-xl space-y-5 text-sm leading-[1.9] text-white/65">{(language === "en" ? story.bodyEn : story.body).split("\n\n").map((paragraph) => <p key={paragraph}>{paragraph}</p>)}</div><div className="mt-8 flex flex-wrap items-center justify-between gap-4 border-t border-white/10 pt-5"><p className="flex items-center gap-2 font-mono text-[9px] uppercase tracking-[0.14em] text-white/35"><Clock3 size={12} /> {readTime}</p><a href={story.source} target="_blank" rel="noreferrer" className="nav-glass-control inline-flex min-h-10 items-center gap-2 rounded-full px-4 font-mono text-[9px] tracking-[0.04em]">{copy.news.source} <ArrowUpRight size={13} /></a></div></div>
          </article>
       </div>
    );

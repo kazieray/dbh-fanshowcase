@@ -53,7 +53,7 @@ export default function Navbar({ active }: NavbarProps) {
                <DesktopNav />
 
                <div className="flex items-center justify-between md:hidden">
-                  <Link href="/" aria-label="Detroit Become Human — Home" className="shrink-0">
+                  <Link href="/" aria-label={copy.a11y.homeLink} className="shrink-0">
                      <Image src="/images/logo-white.webp" alt="Detroit: Become Human" width={180} height={55} priority className="h-auto w-[105px] sm:w-[115px]" />
                   </Link>
 

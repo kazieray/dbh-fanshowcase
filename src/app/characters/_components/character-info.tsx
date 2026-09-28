@@ -17,7 +17,7 @@ type CharacterInfoProps = {
 };
 
 export default function CharacterInfo({ character, role, description, isTransitioning, nameRef, metaRef, descriptionRef, selectCharacter, previousCharacter, nextCharacter }: CharacterInfoProps) {
-   const { language } = useLanguage();
+   const { copy } = useLanguage();
 
    return (
       <section className="absolute inset-x-0 bottom-10 z-30 mx-auto flex w-[calc(100%-32px)] max-w-200 flex-col items-center text-center sm:bottom-9 sm:w-[calc(100%-48px)] md:bottom-10 md:w-[calc(100%-40px)]">
@@ -26,7 +26,7 @@ export default function CharacterInfo({ character, role, description, isTransiti
                type="button"
                onClick={previousCharacter}
                disabled={isTransitioning}
-               aria-label="Previous character"
+               aria-label={copy.a11y.previousCharacter}
                className="group mr-3 flex h-10 w-10 shrink-0 items-center justify-center disabled:pointer-events-none sm:mr-8 md:hidden"
             >
                <span className="text-white/30 transition-all duration-300 group-hover:-translate-x-1 group-hover:text-dbh-blue">
@@ -38,7 +38,7 @@ export default function CharacterInfo({ character, role, description, isTransiti
                {character.name}
             </h1>
 
-            <button type="button" onClick={nextCharacter} disabled={isTransitioning} aria-label="Next character" className="group ml-3 flex h-10 w-10 shrink-0 items-center justify-center disabled:pointer-events-none sm:ml-8 md:hidden">
+            <button type="button" onClick={nextCharacter} disabled={isTransitioning} aria-label={copy.a11y.nextCharacter} className="group ml-3 flex h-10 w-10 shrink-0 items-center justify-center disabled:pointer-events-none sm:ml-8 md:hidden">
                <span className="text-white/30 transition-all duration-300 group-hover:translate-x-1 group-hover:text-dbh-blue">
                   <CircleChevronRight className="h-5 w-5 sm:h-5.5 sm:w-5.5" />
                </span>
@@ -54,7 +54,7 @@ export default function CharacterInfo({ character, role, description, isTransiti
             <span className="text-white/65">{role}</span>
          </div>
 
-         <div role="group" aria-label={language === "en" ? "Select character" : "Pilih karakter"} className="mt-4 flex items-center justify-center gap-4 md:hidden">
+         <div role="group" aria-label={copy.a11y.characterSelection} className="mt-4 flex items-center justify-center gap-4 md:hidden">
             {characters.map((item) => {
                const isActive = item.id === character.id;
 

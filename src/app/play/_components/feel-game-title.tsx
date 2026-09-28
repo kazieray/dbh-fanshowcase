@@ -1,9 +1,20 @@
 "use client";
 
-import { useLayoutEffect, useRef } from "react";
+import { Fragment, useLayoutEffect, useRef } from "react";
 
 export default function FeelGameTitle({ title }: { title: string }) {
    const titleRef = useRef<HTMLSpanElement>(null);
+
+   useLayoutEffect(() => {
+      const element = titleRef.current;
+      if (!element || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+      element.classList.remove("is-visible");
+      void element.offsetWidth;
+      const frame = window.requestAnimationFrame(() => element.classList.add("is-visible"));
+
+      return () => window.cancelAnimationFrame(frame);
+   }, [title]);
 
    useLayoutEffect(() => {
       const title = titleRef.current;
@@ -56,13 +67,22 @@ export default function FeelGameTitle({ title }: { title: string }) {
       };
    }, []);
 
+   let characterIndex = 0;
+
    return (
-      <h1 aria-label={title} className="feel-game-title mt-2 whitespace-nowrap font-display text-[clamp(2.7rem,10.5vw,9.5rem)] font-semibold uppercase leading-[0.86] tracking-[-0.045em] text-white drop-shadow-[0_4px_24px_rgba(3,8,15,0.55)] sm:mt-3">
+      <h1 aria-label={title} className="feel-game-title mx-auto mt-2 max-w-full text-balance font-display text-[clamp(2.5rem,8vw,7rem)] font-semibold uppercase leading-[0.88] tracking-[-0.045em] text-white drop-shadow-[0_4px_24px_rgba(3,8,15,0.55)] sm:mt-3">
          <span ref={titleRef} aria-hidden="true" className="feel-game-title-motion">
-         {title.split("").map((character, index) => (
-               <span key={`${character}-${index}`} className="feel-game-letter" style={{ animationDelay: `${index * 100}ms` }}>
-                  {character === " " ? "\u00a0" : character}
-               </span>
+            {title.split(" ").map((word, wordIndex) => (
+               <Fragment key={`${word}-${wordIndex}`}>
+                  {wordIndex > 0 ? " " : null}
+                  <span className="feel-game-word">
+                     {word.split("").map((character) => {
+                        const currentCharacterIndex = characterIndex++;
+
+                        return <span key={`${character}-${currentCharacterIndex}`} className="feel-game-letter" style={{ animationDelay: `${currentCharacterIndex * 100}ms` }}>{character}</span>;
+                     })}
+                  </span>
+               </Fragment>
             ))}
          </span>
       </h1>

@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useCallback, useContext, useMemo, useRef, useState, type ReactNode } from "react";
+import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 
 type AudioContextValue = {
    isAudioEnabled: boolean;
@@ -13,6 +13,36 @@ const AudioContext = createContext<AudioContextValue | null>(null);
 export function AudioProvider({ children }: { children: ReactNode }) {
    const audioRef = useRef<HTMLAudioElement>(null);
    const [isAudioEnabled, setIsAudioEnabled] = useState(false);
+
+   useEffect(() => {
+      const restoreTimeout = window.setTimeout(() => {
+         const audio = audioRef.current;
+         if (!audio || localStorage.getItem("dbh-audio-enabled") !== "true") return;
+
+         const savedTime = Number(localStorage.getItem("dbh-audio-time"));
+         if (Number.isFinite(savedTime) && savedTime >= 0) audio.currentTime = savedTime;
+
+         audio.muted = false;
+         void audio.play().then(() => {
+            setIsAudioEnabled(true);
+            fadeAudioIn(audio);
+         }).catch(() => setIsAudioEnabled(false));
+      }, 0);
+
+      const saveAudioTime = () => {
+         const audio = audioRef.current;
+         if (audio && localStorage.getItem("dbh-audio-enabled") === "true") {
+            localStorage.setItem("dbh-audio-time", String(audio.currentTime));
+         }
+      };
+
+      window.addEventListener("pagehide", saveAudioTime);
+
+      return () => {
+         window.clearTimeout(restoreTimeout);
+         window.removeEventListener("pagehide", saveAudioTime);
+      };
+   }, []);
 
    function fadeAudioIn(audio: HTMLAudioElement) {
       const targetVolume = 0.35;
@@ -39,6 +69,8 @@ export function AudioProvider({ children }: { children: ReactNode }) {
       if (!audio) return;
 
       if (!enabled) {
+         localStorage.setItem("dbh-audio-enabled", "false");
+         localStorage.removeItem("dbh-audio-time");
          audio.muted = true;
          audio.volume = 0;
          audio.pause();
@@ -47,6 +79,7 @@ export function AudioProvider({ children }: { children: ReactNode }) {
          return;
       }
 
+      localStorage.setItem("dbh-audio-enabled", "true");
       audio.muted = false;
       audio.volume = 0;
 
@@ -66,11 +99,14 @@ export function AudioProvider({ children }: { children: ReactNode }) {
       if (!audio) return;
 
       if (isAudioEnabled) {
+         localStorage.setItem("dbh-audio-enabled", "false");
+         localStorage.removeItem("dbh-audio-time");
          audio.muted = true;
          setIsAudioEnabled(false);
          return;
       }
 
+      localStorage.setItem("dbh-audio-enabled", "true");
       audio.muted = false;
       audio.volume = 0;
 
