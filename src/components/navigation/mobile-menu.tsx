@@ -71,16 +71,6 @@ export default function MobileMenu({ open, onClose }: MobileMenuProps) {
                      </Link>
                   );
                })}
-
-               <Link href="/play" onClick={onClose} aria-current={pathname.startsWith("/download") ? "page" : undefined} className="mobile-menu-item group flex min-h-[58px] items-center border-b border-white/[0.08] opacity-0">
-                  <span className={`font-display text-[13px] font-medium uppercase tracking-[-0.01em] transition-colors duration-300 ${pathname.startsWith("/play") ? "text-dbh-blue" : "text-white/80 group-hover:text-white"}`}>
-                     {navCopy.download}
-                  </span>
-               </Link>
-
-               <div className="mobile-menu-item mt-6 flex items-center border-t border-white/[0.08] pt-5 opacity-0">
-                  <LanguageSwitcher />
-               </div>
             </nav>
          </div>
       </div>

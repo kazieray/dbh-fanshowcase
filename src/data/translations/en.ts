@@ -4,7 +4,7 @@ export const en = {
       characters: "Characters",
       gameplay: "Gameplay",
       news: "News",
-      download: "Download Game",
+      download: "Download",
    },
 
    home: {
