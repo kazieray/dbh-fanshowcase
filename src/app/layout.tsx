@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import CustomCursor from "./_components/custom-cursor";
+import CustomCursor from "../components/common/custom-cursor";
 import { LanguageProvider } from "@/context/language-context";
 import { Geist } from "next/font/google";
 import { cn } from "@/lib/utils";
