@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowUpRight, Clock3, Eye, MoveRight, X } from "lucide-react";
 import { useEffect, useLayoutEffect, useRef, useState, type PointerEvent } from "react";
+import { createPortal } from "react-dom";
 
 import Navbar from "@/components/navigation/navbar";
 import { stories } from "@/data/news";
@@ -199,7 +200,7 @@ export default function News() {
             </section>
 
          </div>
-         {selectedStory && <StoryModal story={selectedStory} closing={isModalClosing} onClose={closeStory} />}
+         {selectedStory && createPortal(<StoryModal story={selectedStory} closing={isModalClosing} onClose={closeStory} />, document.body)}
       </main>
    )
 }
@@ -213,7 +214,17 @@ function StoryCard({ story, index, language, copy, onRead }: { story: Story; ind
 
    return (
       <article
-         className="news-card liquid-glass group relative flex h-full flex-col overflow-hidden rounded-2xl"
+         role="button"
+         tabIndex={0}
+         aria-label={`${copy.readArticle}: ${story.title}`}
+         onClick={onRead}
+         onKeyDown={(event) => {
+            if (event.key === "Enter" || event.key === " ") {
+               event.preventDefault();
+               onRead();
+            }
+         }}
+         className="news-card liquid-glass group relative flex h-full cursor-pointer flex-col overflow-hidden rounded-2xl focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-dbh-blue"
          style={{ animationDelay: `${index * 90}ms` }}
          onPointerMove={(event) => {
             const bounds = event.currentTarget.getBoundingClientRect();
@@ -240,7 +251,7 @@ function StoryCard({ story, index, language, copy, onRead }: { story: Story; ind
             <div className="mb-3 flex items-center gap-2 font-mono text-[8px] uppercase tracking-[0.12em] text-white/40"><span>{date}</span><span className="h-1 w-1 rounded-full bg-dbh-blue" /><span className="flex items-center gap-1"><Clock3 size={10} /> {readTime}</span></div>
             <h2 className="font-display text-xl font-medium uppercase leading-[0.96] tracking-[-0.045em] text-white">{story.title}</h2>
             <p className="mt-3 text-xs leading-relaxed text-white/50">{language === "en" ? story.excerptEn : story.excerpt}</p>
-            <button type="button" onClick={onRead} className="news-story-action mt-auto flex min-h-11 w-full items-center justify-between px-4 text-left font-mono text-[10px] tracking-[0.04em]"><span className="flex items-center gap-2"><Eye size={14} /> {copy.readArticle}</span><ArrowUpRight size={16} /></button>
+            <div className="news-story-action mt-auto flex min-h-11 w-full items-center justify-between px-4 text-left font-mono text-[10px] tracking-[0.04em]"><span className="flex items-center gap-2"><Eye size={14} /> {copy.readArticle}</span><ArrowUpRight size={16} /></div>
          </div>
       </article>
    );
