@@ -23,6 +23,7 @@ const translations = {
 export function LanguageProvider({ children }: { children: React.ReactNode }) {
    const [language, setLanguageState] = useState<Language>("en");
    const [languageTransitionMessage, setLanguageTransitionMessage] = useState<string | null>(null);
+   const [pendingLanguage, setPendingLanguage] = useState<Language | null>(null);
 
    useEffect(() => {
       const timeout = window.setTimeout(() => {
@@ -46,6 +47,7 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
 
       const messageKey = nextLanguage === "en" ? "switchingToEnglish" : "switchingToIndonesian";
       setLanguageTransitionMessage(translations[language].a11y[messageKey]);
+      setPendingLanguage(nextLanguage);
       localStorage.setItem("dbh-language", nextLanguage);
    }, [language]);
 
@@ -73,7 +75,11 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
                aria-live="polite"
                onAnimationEnd={(event) => {
                   if (event.target === event.currentTarget && event.animationName === "language-overlay-in") {
-                     window.location.reload();
+                     if (pendingLanguage) {
+                        setLanguageState(pendingLanguage);
+                        setPendingLanguage(null);
+                     }
+                     setLanguageTransitionMessage(null);
                   }
                }}
             >
