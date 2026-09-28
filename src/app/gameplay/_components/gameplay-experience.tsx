@@ -1,3 +1,4 @@
+import CornerButton from "@/components/ui/corner-button";
 import Link from "next/link";
 import type { RefObject } from "react";
 
@@ -63,17 +64,7 @@ export default function GameplayExperience({ copy, sectionRef, titleRef, videoOn
                   {copy.cta.title}
                </p>
 
-               <Link
-                  href="/download"
-                  className="group relative mt-5 inline-flex min-w-[140px] items-center justify-center px-6 py-3 font-mono text-[10px] font-medium uppercase tracking-[0.22em] text-[#f3f6f8] transition-colors duration-300 hover:text-[#52c7ff] sm:min-w-[145px] md:min-w-[150px]"
-               >
-                  <span className="absolute left-0 top-0 h-2.5 w-2.5 border-l border-t border-white/45 transition-colors duration-300 group-hover:border-[#52c7ff]" />
-                  <span className="absolute right-0 top-0 h-2.5 w-2.5 border-r border-t border-white/45 transition-colors duration-300 group-hover:border-[#52c7ff]" />
-                  <span className="absolute bottom-0 left-0 h-2.5 w-2.5 border-b border-l border-white/45 transition-colors duration-300 group-hover:border-[#52c7ff]" />
-                  <span className="absolute bottom-0 right-0 h-2.5 w-2.5 border-b border-r border-white/45 transition-colors duration-300 group-hover:border-[#52c7ff]" />
-
-                  {copy.cta.button}
-               </Link>
+               <CornerButton href="/download" className="mt-5">{copy.cta.button}</CornerButton>
             </div>
          </div>
       </section>

@@ -31,7 +31,6 @@ export default function Particles({ active }: { active: boolean }) {
             this.speedX = Math.random() * 0.4 - 0.2;
             this.speedY = Math.random() * -0.5 - 0.2;
             this.opacity = Math.random() * 0.5 + 0.1;
-            // Thirium blue or white
             this.color = Math.random() > 0.3 ? "164, 227, 255" : "255, 255, 255";
          }
 
@@ -39,7 +38,6 @@ export default function Particles({ active }: { active: boolean }) {
             this.x += this.speedX;
             this.y += this.speedY;
 
-            // Reset particle if it goes off screen
             if (this.y < 0) {
                this.y = height;
                this.x = Math.random() * width;

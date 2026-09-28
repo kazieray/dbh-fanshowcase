@@ -1,5 +1,5 @@
-import HomeExperience from "./_components/home-experience";
+import Home from "./_components/home";
 
-export default function Home() {
-   return <HomeExperience />;
+export default function HomePage() {
+   return <Home />;
 }
