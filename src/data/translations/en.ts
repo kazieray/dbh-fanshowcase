@@ -7,6 +7,11 @@ export const en = {
       download: "Download",
    },
 
+   audio: {
+      mute: "Mute music",
+      unmute: "Unmute music",
+   },
+
    home: {
       hero: {
          title: "Detroit",
@@ -95,7 +100,6 @@ export const en = {
          title: "There Is No One Path.",
          description: "Every choice, every action, every hesitation can change what happens next.",
       },
-
       features: {
          title: "How Will You Respond?",
          dialogue: "Dialogue",
@@ -104,14 +108,61 @@ export const en = {
          decisions: "Decisions",
          exploration: "Exploration",
       },
-
       experience: {
          title: "Every Path Leads Somewhere.",
       },
-
       cta: {
          title: "What Will Your Story Become?",
          button: "Play Now",
       },
+   },
+
+   news: {
+      kicker: "Detroit / News network",
+      title: ["Your gateway", "to Detroit"],
+      description: "The latest news and stories from Detroit, gathered for you in one place.",
+      backgroundAlt: "Detroit at night",
+      featured: "Featured stories",
+      readArticle: "Read Story",
+      readMore: "Read More",
+      loading: "Loading stories",
+      close: "Close story",
+      source: "Open Source",
+      minRead: "min read",
+   },
+
+   play: {
+      kicker: "The next generation of play",
+      heroTitle: "Feel the Game",
+      downloadGame: "Download Game",
+      officialStore: "Official store",
+      protagonistImageAlts: ["Kara, an android protecting Alice", "Markus, a leader of the androids", "Connor, an RK800 android investigator"],
+      platformImageAlts: ["Connor, an RK800 android investigator", "Kara in Detroit: Become Human", "Markus, an android revolutionary"],
+      aboutKicker: "Quantic Dream · Paris",
+      aboutTitle: "More stories begin at the studio.",
+      aboutLink: "About Quantic Dream",
+      libraryKicker: "Quantic Dream / Game library",
+      libraryTitle: "Stories that stay with you.",
+      libraryDescription: "From the future of Detroit to stories beyond reality. Choose the world you want to enter.",
+      openLibrary: "Open the Quantic Dream game library",
+      folderLabel: "* Quantic Dream Library",
+      folderTitle: "More games from Quantic Dream",
+      exploreGame: "Explore game",
+      games: [
+         { category: "Psychological thriller · 2010", description: "Four perspectives, one mystery, and choices that decide who survives.", imageAlt: "Heavy Rain artwork from Steam" },
+         { category: "Interactive drama · 2018", description: "Three androids. Thousands of choices. Detroit's fate is in your hands.", imageAlt: "Connor and the world of Detroit: Become Human" },
+         { category: "Supernatural thriller · 2013", description: "Follow Jodie Holmes and her extraordinary bond with an entity named Aiden.", imageAlt: "Official Beyond: Two Souls artwork from Steam" },
+      ],
+   },
+
+   footer: {
+      description: "An interactive drama from Quantic Dream about people, androids, choices, and the meaning of freedom in a future Detroit.",
+      menu: "Menu",
+      follow: "Follow Quantic Dream",
+      studio: "Studio",
+      studioLocations: "Studio Locations",
+      offices: "Quantic Dream / Offices",
+      closeLocations: "Close studio locations",
+      copyright: "© 2026 Quantic Dream. Quantic Dream and the Quantic Dream logo are trademarks of Quantic Dream.",
    },
 };

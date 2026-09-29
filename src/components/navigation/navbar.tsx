@@ -13,6 +13,7 @@ type NavbarProps = {
 };
 
 export default function Navbar({ active }: NavbarProps) {
+   const { copy } = useLanguage();
    const rootRef = useRef<HTMLElement>(null);
    const [menuOpen, setMenuOpen] = useState(false);
    const { language, setLanguage } = useLanguage();

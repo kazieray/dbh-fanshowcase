@@ -7,6 +7,22 @@ export const id = {
       download: "Unduh",
    },
 
+   footer: {
+      description: "Drama interaktif dari Quantic Dream tentang manusia, android, pilihan, dan arti kebebasan di masa depan Detroit.",
+      menu: "Menu",
+      follow: "Ikuti Quantic Dream",
+      studio: "Studio",
+      studioLocations: "Lokasi Studio",
+      offices: "Quantic Dream / Kantor",
+      closeLocations: "Tutup lokasi studio",
+      copyright: "© 2026 Quantic Dream. Quantic Dream dan logo Quantic Dream adalah merek dagang Quantic Dream.",
+   },
+
+   audio: {
+      mute: "Matikan musik",
+      unmute: "Nyalakan musik",
+   },
+
    home: {
       hero: {
          title: "Detroit",
@@ -77,7 +93,7 @@ export const id = {
 
    characters: {
       connor: {
-         role: "Android Investigator",
+         role: "Penyelidik Android",
          description:
             "Android canggih buatan CyberLife yang ditugaskan untuk membantu Kepolisian Detroit memburu para deviant. Seiring penyelidikan berlangsung, Connor mulai dihadapkan pada pertanyaan tentang tugas, pilihan, dan identitasnya sendiri.",
       },
@@ -98,7 +114,6 @@ export const id = {
          title: "Tak Hanya Ada Satu Jalan.",
          description: "Setiap pilihan, setiap tindakan, bahkan setiap keraguan dapat mengubah apa yang terjadi selanjutnya.",
       },
-
       features: {
          title: "Bagaimana Kamu Akan Bertindak?",
          dialogue: "Dialog",
@@ -107,14 +122,50 @@ export const id = {
          decisions: "Keputusan",
          exploration: "Eksplorasi",
       },
-
       experience: {
          title: "Setiap Jalan Membawa ke Suatu Akhir.",
       },
-
       cta: {
          title: "Akan Menjadi Apa Ceritamu?",
          button: "Main Sekarang",
       },
+   },
+
+   news: {
+      kicker: "Detroit / Jaringan berita",
+      title: ["Gerbangmu", "menuju Detroit"],
+      description: "Berita dan cerita terbaru dari Detroit, dirangkum untuk kamu ikuti dengan mudah.",
+      backgroundAlt: "Detroit di malam hari",
+      featured: "Berita pilihan",
+      readArticle: "Baca Berita",
+      readMore: "Baca Selengkapnya",
+      loading: "Memuat berita",
+      close: "Tutup berita",
+      source: "Buka Sumber",
+      minRead: "menit baca",
+   },
+
+   play: {
+      kicker: "Generasi baru dalam bermain",
+      heroTitle: "Rasakan Permainannya",
+      downloadGame: "Unduh Game",
+      officialStore: "Toko resmi",
+      protagonistImageAlts: ["Kara, android yang melindungi Alice", "Markus, pemimpin para android", "Connor, android penyelidik RK800"],
+      platformImageAlts: ["Connor, android penyelidik RK800", "Kara dalam Detroit: Become Human", "Markus, pemimpin revolusi android"],
+      aboutKicker: "Quantic Dream · Paris",
+      aboutTitle: "Lebih banyak cerita dimulai di studio.",
+      aboutLink: "Tentang Quantic Dream",
+      libraryKicker: "Quantic Dream / Koleksi game",
+      libraryTitle: "Cerita yang terus membekas.",
+      libraryDescription: "Dari masa depan Detroit hingga kisah di luar kenyataan. Pilih dunia yang ingin kamu masuki.",
+      openLibrary: "Buka koleksi game Quantic Dream",
+      folderLabel: "* Koleksi Quantic Dream",
+      folderTitle: "Game lainnya dari Quantic Dream",
+      exploreGame: "Jelajahi game",
+      games: [
+         { category: "Thriller psikologis · 2010", description: "Empat sudut pandang, satu misteri, dan pilihan yang menentukan siapa yang bertahan.", imageAlt: "Artwork Heavy Rain dari Steam" },
+         { category: "Drama interaktif · 2018", description: "Tiga android. Ribuan pilihan. Nasib Detroit ada di tanganmu.", imageAlt: "Connor dan dunia Detroit: Become Human" },
+         { category: "Thriller supernatural · 2013", description: "Ikuti Jodie Holmes dan ikatan istimewanya dengan entitas bernama Aiden.", imageAlt: "Artwork resmi Beyond: Two Souls dari Steam" },
+      ],
    },
 };

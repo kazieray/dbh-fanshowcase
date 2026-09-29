@@ -6,7 +6,6 @@ import { usePathname } from "next/navigation";
 import gsap from "gsap";
 import { navItems } from "@/data/nav-items";
 import { useLanguage } from "@/hooks/use-language";
-import LanguageSwitcher from "./language-switcher";
 
 type MobileMenuProps = {
    open: boolean;
