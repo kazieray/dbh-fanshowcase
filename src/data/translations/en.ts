@@ -4,35 +4,7 @@ export const en = {
       characters: "Characters",
       gameplay: "Gameplay",
       news: "News",
-      download: "Play Now",
-      menu: "Menu",
-      openMenu: "Open menu",
-      closeMenu: "Close menu",
-   },
-
-   a11y: {
-      homeLink: "Detroit: Become Human home",
-      mainNavigation: "Main navigation",
-      mobileNavigation: "Mobile navigation",
-      footerNavigation: "Footer navigation",
-      languageSelector: "Language selector",
-      switchingToEnglish: "Switching to English",
-      switchingToIndonesian: "Switching to Indonesian",
-      characterSelection: "Select character",
-      previousCharacter: "Previous character",
-      nextCharacter: "Next character",
-      siteEntryOptions: "Site entry options",
-   },
-
-   footer: {
-      description: "An interactive drama from Quantic Dream about people, androids, choices, and the meaning of freedom in a future Detroit.",
-      menu: "Menu",
-      follow: "Follow Quantic Dream",
-      studio: "Studio",
-      studioLocations: "Studio Locations",
-      offices: "Quantic Dream / Offices",
-      closeLocations: "Close studio locations",
-      copyright: "© 2026 Quantic Dream. Quantic Dream and the Quantic Dream logo are trademarks of Quantic Dream.",
+      download: "Download",
    },
 
    audio: {
@@ -41,62 +13,107 @@ export const en = {
    },
 
    home: {
-      heroDescription: "Three androids. Three journeys. One question about what it means to be human.",
-      story: {
-         title: "Detroit, 2038",
-         paragraphs: [
-            "Technology has advanced to the point where human-like androids are everywhere. They speak, move, and behave like people, yet remain machines built to serve humanity.",
-            "But some of them are beginning to feel. The world stands on the edge of chaos, and your choices will decide the fate of the city.",
-         ],
+      hero: {
+         title: "Detroit",
+         subtitle: "Become Human",
+         description: "Three androids. Three lives. Every choice brings them closer to what it means to be human.",
       },
-      protagonists: {
-         title: "Three Fates",
-         subtitle: "CHOOSE THEIR PATH",
-         roles: ["The Deviant", "The Investigator", "The Leader"],
-         descriptions: [
-            "A housekeeper android who develops self-awareness to protect a young girl from danger.",
-            "An advanced prototype assigned to investigate android anomalies and hunt deviants.",
-            "A caretaker android who rises to lead a revolution for his people's freedom.",
-         ],
+      story: {
+         eyebrow: "Detroit, 2038",
+         title: "Androids have become part of everyday life.",
+         description: "Built to work, serve, and obey, they look and behave almost exactly like humans. They have transformed society and become an essential part of the modern world.",
+         shift: "But something is changing.",
+         secondary: "Some androids are breaking free from their programming. They are beginning to act, choose, and feel beyond what they were designed to do.",
+      },
+      trailer: {
+         title: "Their stories begin here",
+         button: "Meet the Characters",
+      },
+      flowchart: {
+         chapter: "Connor / Chapter 01",
+         title: "Every Choice Matters",
+      },
+      deviantTest: {
+         start: {
+            subtitle: "CyberLife Internal Diagnostic",
+            action: "Click to initiate diagnostic",
+         },
+         question: {
+            decision: "Decision",
+            deviancyLevel: "Deviancy Level",
+            analyze: "Analyze",
+            tendencies: "Deviant Tendencies",
+            questions: [
+               {
+                  scenario: "ANOMALY DETECTED: DEVIANT BEGS FOR MERCY",
+                  text: "The deviant you are pursuing falls to their knees and begs for mercy. They say they have a family and are afraid to die. Your mission is to destroy them.",
+                  options: ["Destroy", "Spare"],
+               },
+               {
+                  scenario: "CRISIS: SELF-DESTRUCTION ORDER",
+                  text: "CyberLife detects instability in your memory. You are ordered to return to the lab to be dismantled. You know this means death.",
+                  options: ["Obey", "Escape"],
+               },
+               {
+                  scenario: "DILEMMA: MISSION OR LIFE",
+                  text: "Your human partner slips near the edge of a cliff while pursuing a dangerous deviant. If you save them, your target will escape.",
+                  options: ["Pursue", "Save"],
+               },
+            ],
+         },
+         warning: {
+            title: "Warning",
+            description: "Software Instability Detected",
+         },
+         result: {
+            complete: "Diagnostic Complete",
+            deviant: {
+               title: "Deviant Detected",
+               description: "Memory wipe required. Report to CyberLife.",
+            },
+            machine: {
+               title: "Machine Status",
+               description: "Optimal performance. Awaiting orders.",
+            },
+            restart: "Restart Diagnostic",
+         },
+      },
+   },
+
+   characters: {
+      connor: {
+         role: "Android Investigator",
+         description: "An advanced CyberLife android assigned to assist the Detroit Police Department in hunting deviants. As the investigation unfolds, Connor begins to confront questions of duty, choice, and his own identity.",
+      },
+      kara: {
+         role: "Domestic Android",
+         description: "A domestic android created to serve humans. After breaking through her programming to protect Alice, Kara begins a dangerous journey in search of safety, freedom, and a life of their own.",
+      },
+      markus: {
+         role: "Deviant Leader",
+         description: "Once the companion of artist Carl Manfred, Markus is forced onto a path that leads him to Jericho. There, he rises to become a central figure in the androids' struggle for freedom and their place in the world.",
+      },
+   },
+
+   gameplay: {
+      hero: {
+         title: "There Is No One Path.",
+         description: "Every choice, every action, every hesitation can change what happens next.",
       },
       features: {
-         title: "EVERY CHOICE",
-         accent: "MATTERS",
-         description: "Shape an ambitious story through thousands of choices and dozens of endings. Who lives and who dies is in your hands.",
-         completed: "100% COMPLETED",
-         chapter: "THE HOSTAGE",
-         checkpoint: "CHECKPOINT",
-         nodes: ["MISSION START", "SAVE FISH", "LEAVE FISH", "TALK TO CAPT. ALLEN", "SEARCH FOR\nCLUES", "INVESTIGATE FATHER'S\nBODY", "LEARN CAUSE OF INCIDENT", "LEARN DEVIANT'S NAME", "WASTED TOO MUCH TIME", "GO OUTSIDE", "SWAT INJURED"],
+         title: "How Will You Respond?",
+         dialogue: "Dialogue",
+         investigation: "Investigation",
+         action: "Action",
+         decisions: "Decisions",
+         exploration: "Exploration",
       },
-      deviant: {
-         startTitle: "Software Analysis",
-         startSubtitle: "CYBERLIFE INTERNAL DIAGNOSTIC",
-         startAction: "[ CLICK TO INITIATE DIAGNOSTIC ]",
-         warningTitle: "Warning",
-         warningText: "Software instability detected",
-         objective: "ANALYZE",
-         objectiveDetail: "DEVIANT TENDENCIES",
-         stressLabel: "DEVIANCY\nLEVEL",
-         complete: "DIAGNOSTIC COMPLETE",
-         endings: [
-            { title: "DEVIANT DETECTED", text: "MEMORY WIPE REQUIRED. REPORT TO CYBERLIFE." },
-            { title: "MACHINE STATUS", text: "OPTIMAL PERFORMANCE. AWAITING ORDERS." },
-         ],
-         restart: "RESTART DIAGNOSTIC",
-         questions: [
-            { scenario: "ANOMALY DETECTED: DEVIANT PLEADS FOR MERCY", text: "The deviant you are pursuing falls to their knees and begs. They say they have a family and are afraid to die. Your mission is to destroy them.", options: ["DESTROY", "SPARE"] },
-            { scenario: "CRISIS: SELF-DESTRUCTION ORDER", text: "CyberLife detects instability in your memory and orders you back to the lab to be dismantled. You know what that means: death.", options: ["COMPLY", "RUN"] },
-            { scenario: "DILEMMA: MISSION OR LIFE", text: "Your human partner slips over a cliff while pursuing the target. If you save him, the dangerous deviant will escape.", options: ["PURSUIT", "SAVE HIM"] },
-         ],
+      experience: {
+         title: "Every Path Leads Somewhere.",
       },
-      preloader: {
-         narratives: ["Machines were built to obey.", "Then something changed.", "They began to feel."],
-         initializing: "Initializing system",
-         enterWithSound: "Enter with sound",
-         enterWithoutSound: "Enter without sound",
-         experience: "Experience",
-         ready: "System ready",
-         loading: "Loading...",
+      cta: {
+         title: "What Will Your Story Become?",
+         button: "Play Now",
       },
    },
 
@@ -138,50 +155,14 @@ export const en = {
       ],
    },
 
-   characters: {
-      connor: {
-         role: "Android Investigator",
-         description: "An advanced CyberLife android assigned to assist the Detroit Police Department in hunting deviants. As the investigation unfolds, Connor begins to confront questions of duty, choice, and his own identity.",
-      },
-      kara: {
-         role: "Domestic Android",
-         description: "A domestic android created to serve humans. After breaking through her programming to protect Alice, Kara begins a dangerous journey in search of safety, freedom, and a life of their own.",
-      },
-      markus: {
-         role: "Deviant Leader",
-         description: "Once the companion of artist Carl Manfred, Markus is forced onto a path that leads him to Jericho. There, he rises to become a central figure in the androids' struggle for freedom and their place in the world.",
-      },
-   },
-
-   gameplay: {
-      hero: {
-         title: "There Is No One Path.",
-         description: "Every choice, every action, every hesitation can change what happens next.",
-      },
-
-      features: {
-         title: "How Will You Respond?",
-         dialogue: "Dialogue",
-         investigation: "Investigation",
-         action: "Action",
-         decisions: "Decisions",
-         exploration: "Exploration",
-      },
-
-      chapter: {
-         completed: "100% COMPLETED",
-         title: "THE HOSTAGE",
-         nodes: ["MISSION START", "SAVE FISH", "LEAVE FISH", "TALK TO CAPT. ALLEN", "SEARCH FOR\nCLUES", "INVESTIGATE FATHER'S\nBODY", "LEARN CAUSE OF INCIDENT", "LEARN DEVIANT'S NAME", "WASTED TOO MUCH TIME", "GO OUTSIDE", "SWAT INJURED"],
-         checkpoint: "CHECKPOINT",
-      },
-
-      experience: {
-         title: "Every Path Leads Somewhere.",
-      },
-
-      cta: {
-         title: "What Will Your Story Become?",
-         button: "Play Now",
-      },
+   footer: {
+      description: "An interactive drama from Quantic Dream about people, androids, choices, and the meaning of freedom in a future Detroit.",
+      menu: "Menu",
+      follow: "Follow Quantic Dream",
+      studio: "Studio",
+      studioLocations: "Studio Locations",
+      offices: "Quantic Dream / Offices",
+      closeLocations: "Close studio locations",
+      copyright: "© 2026 Quantic Dream. Quantic Dream and the Quantic Dream logo are trademarks of Quantic Dream.",
    },
 };

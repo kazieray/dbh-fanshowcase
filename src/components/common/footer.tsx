@@ -70,7 +70,7 @@ export default function Footer({ tightTop = false }: { tightTop?: boolean }) {
             </div>
             <div className="flex flex-col items-center">
                <p className="mb-4 font-mono text-[9px] uppercase tracking-[0.18em] text-dbh-blue">{footerCopy.menu}</p>
-               <nav aria-label={copy.a11y.footerNavigation} className="flex flex-col items-center gap-3">
+               <nav className="flex flex-col items-center gap-3">
                   {navItems.map((item) => <Link key={item.href} href={item.href} className="footer-navigation-link font-mono text-[10px] uppercase tracking-[0.1em] text-white/55 transition-colors">{copy.nav[item.key]}</Link>)}
                   <Link href="/play" className="footer-navigation-link font-mono text-[10px] uppercase tracking-[0.1em] text-white/55 transition-colors">{copy.nav.download}</Link>
                </nav>

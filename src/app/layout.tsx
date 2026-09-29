@@ -1,15 +1,10 @@
-import type { Metadata } from "next";
 import "./globals.css";
-import { AudioProvider } from "./_components/audio-provider";
+import CustomCursor from "../components/common/custom-cursor";
 import { LanguageProvider } from "@/context/language-context";
-import Footer from "@/components/navigation/footer";
-import AudioToggle from "@/components/navigation/audio-toggle";
-import { HomeIntroProvider } from "@/context/home-intro-context";
+import { Geist } from "next/font/google";
+import { cn } from "@/lib/utils";
 
-export const metadata: Metadata = {
-   title: "Detroit: Become Human",
-   description: "Detroit: Become Human Fan Showcase",
-};
+const geist = Geist({subsets:['latin'],variable:'--font-sans'});
 
 export default function RootLayout({
    children,
@@ -17,19 +12,12 @@ export default function RootLayout({
    children: React.ReactNode;
 }>) {
    return (
-      <html lang="en">
-         <body>
-            <HomeIntroProvider>
-               <LanguageProvider>
-                  <AudioProvider>
-                     {children}
-                     <div className="footer-backdrop relative z-10 px-5 sm:px-8 lg:px-14">
-                        <Footer tightTop />
-                     </div>
-                     <AudioToggle />
-                  </AudioProvider>
-               </LanguageProvider>
-            </HomeIntroProvider>
+      <html lang="en" suppressHydrationWarning className={cn("font-sans", geist.variable)}>
+         <body suppressHydrationWarning>
+            <LanguageProvider>
+               {children}
+               <CustomCursor />
+            </LanguageProvider>
          </body>
       </html>
    );

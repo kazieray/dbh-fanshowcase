@@ -1,3 +1,4 @@
+import CornerButton from "@/components/ui/corner-button";
 import Link from "next/link";
 import type { RefObject } from "react";
 
@@ -63,12 +64,7 @@ export default function GameplayExperience({ copy, sectionRef, titleRef, videoOn
                   {copy.cta.title}
                </p>
 
-               <Link
-                  href="/play"
-                  className="nav-glass-control relative mt-5 inline-flex min-h-12 min-w-[140px] items-center justify-center rounded-full px-7 font-mono text-[10px] font-medium tracking-[0.04em] sm:min-w-[145px] md:min-w-[150px]"
-               >
-                  {copy.cta.button}
-               </Link>
+               <CornerButton href="/download" className="mt-5">{copy.cta.button}</CornerButton>
             </div>
          </div>
       </section>

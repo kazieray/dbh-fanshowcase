@@ -4,9 +4,9 @@ import { useLayoutEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import gsap from "gsap";
+import { useLanguage } from "@/hooks/use-language";
 import DesktopNav from "./desktop-nav";
 import MobileMenu from "./mobile-menu";
-import { useLanguage } from "@/hooks/use-language";
 
 type NavbarProps = {
    active: boolean;
@@ -16,6 +16,7 @@ export default function Navbar({ active }: NavbarProps) {
    const { copy } = useLanguage();
    const rootRef = useRef<HTMLElement>(null);
    const [menuOpen, setMenuOpen] = useState(false);
+   const { language, setLanguage } = useLanguage();
 
    useLayoutEffect(() => {
       if (!rootRef.current) return;
@@ -53,25 +54,51 @@ export default function Navbar({ active }: NavbarProps) {
                <DesktopNav />
 
                <div className="flex items-center justify-between md:hidden">
-                  <Link href="/" aria-label={copy.a11y.homeLink} className="shrink-0">
+                  <Link href="/" aria-label="Detroit Become Human — Home" className="shrink-0">
                      <Image src="/images/logo-white.webp" alt="Detroit: Become Human" width={180} height={55} priority className="h-auto w-[105px] sm:w-[115px]" />
                   </Link>
 
-                  <button
-                     type="button"
-                     aria-label={menuOpen ? copy.nav.closeMenu : copy.nav.openMenu}
-                     aria-expanded={menuOpen}
-                     onClick={() => setMenuOpen((current) => !current)}
-                     className="flex h-9 items-center gap-2 rounded-full border border-white/15 bg-black/30 py-1 pl-4 pr-1 backdrop-blur-md transition-colors duration-300 hover:bg-white/10"
-                  >
-                     <span className="font-mono text-[8px] font-medium uppercase tracking-[0.12em] text-white/80">{copy.nav.menu}</span>
+                  <div className="flex items-center gap-3">
+                     {/* LANGUAGE */}
+                     <div className="flex items-center gap-1.5 font-mono text-[8px] font-medium uppercase tracking-[0.12em] sm:text-[9px]">
+                        <button
+                           type="button"
+                           onClick={() => setLanguage("en")}
+                           aria-label="Switch language to English"
+                           className={`transition-colors duration-300 ${language === "en" ? "text-dbh-blue" : "text-white/40 hover:text-white/70"}`}
+                        >
+                           EN
+                        </button>
 
-                     <span aria-hidden="true" className="flex h-7 w-7 flex-col items-center justify-center gap-[3px] rounded-full bg-white/10">
-                        <span className="h-px w-2.5 bg-white/70" />
-                        <span className="h-px w-2.5 bg-white/70" />
-                        <span className="h-px w-2.5 bg-white/70" />
-                     </span>
-                  </button>
+                        <span className="text-white/20">/</span>
+
+                        <button
+                           type="button"
+                           onClick={() => setLanguage("id")}
+                           aria-label="Ganti bahasa ke Indonesia"
+                           className={`transition-colors duration-300 ${language === "id" ? "text-dbh-blue" : "text-white/40 hover:text-white/70"}`}
+                        >
+                           ID
+                        </button>
+                     </div>
+
+                     {/* MENU */}
+                     <button
+                        type="button"
+                        aria-label={menuOpen ? "Close menu" : "Open menu"}
+                        aria-expanded={menuOpen}
+                        onClick={() => setMenuOpen((current) => !current)}
+                        className="flex h-9 items-center gap-2 rounded-full border border-white/15 bg-black/30 py-1 pl-4 pr-1 backdrop-blur-md transition-colors duration-300 hover:bg-white/10"
+                     >
+                        <span className="font-mono text-[8px] font-medium uppercase tracking-[0.12em] text-white/80">Menu</span>
+
+                        <span aria-hidden="true" className="flex h-7 w-7 flex-col items-center justify-center gap-[3px] rounded-full bg-white/10">
+                           <span className="h-px w-2.5 bg-white/70" />
+                           <span className="h-px w-2.5 bg-white/70" />
+                           <span className="h-px w-2.5 bg-white/70" />
+                        </span>
+                     </button>
+                  </div>
                </div>
             </div>
          </header>

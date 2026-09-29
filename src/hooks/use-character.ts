@@ -103,7 +103,6 @@ function setDesktopComposition(stageRefs: CharacterStageRefs, activeIndex: numbe
             opacity: slot === "active" ? 1 : 0,
             y: 0,
             scale: 1,
-               filter: "blur(0px)",
          });
       }
 
@@ -238,7 +237,6 @@ export function useCharacterIdle(stageRefs: CharacterStageRefs, activeIndex: num
 
             gsap.set(activeLayer, {
                y: 0,
-                 filter: "blur(0px)",
             });
          };
       }
@@ -254,7 +252,6 @@ export function useCharacterIdle(stageRefs: CharacterStageRefs, activeIndex: num
 
          gsap.set(mobileCharacterElement, {
             y: 0,
-               filter: "blur(0px)",
          });
       };
    }, [activeIndex, isTransitioning, stageRefs]);
@@ -262,13 +259,12 @@ export function useCharacterIdle(stageRefs: CharacterStageRefs, activeIndex: num
 
 export function useCharacterNavigation(stageRefs: CharacterStageRefs, backgroundsRef: RefObject<HTMLDivElement | null>, infoRefs: CharacterInfoRefs) {
    const [activeIndex, setActiveIndex] = useState(0);
-   const [infoIndex, setInfoIndex] = useState(0);
    const [isTransitioning, setIsTransitioning] = useState(false);
 
    const activeIndexRef = useRef(0);
    const transitionLockRef = useRef(false);
 
-   const character = characters[infoIndex];
+   const character = characters[activeIndex];
 
    useEffect(() => {
       activeIndexRef.current = activeIndex;
@@ -327,7 +323,6 @@ export function useCharacterNavigation(stageRefs: CharacterStageRefs, background
                activeIndexRef.current = nextIndex;
                setActiveIndex(nextIndex);
             }
-            setInfoIndex(nextIndex);
 
             const backgrounds = backgroundsElement.querySelectorAll<HTMLElement>("[data-background-index]");
 
@@ -455,10 +450,6 @@ export function useCharacterNavigation(stageRefs: CharacterStageRefs, background
             0.05,
          );
 
-         if (isDesktop) {
-            timeline.call(() => setInfoIndex(nextIndex), [], 0.26);
-         }
-
          /* LAPTOP + DESKTOP */
          if (isDesktop) {
             const oldSlots = getDesktopSlots(currentIndex);
@@ -505,6 +496,7 @@ export function useCharacterNavigation(stageRefs: CharacterStageRefs, background
                      timeline.to(
                         sideLayer,
                         {
+                           opacity: 0,
                            y: -6,
                            scale: 1.025,
                            duration: 0.52,
@@ -530,14 +522,14 @@ export function useCharacterNavigation(stageRefs: CharacterStageRefs, background
                      timeline.fromTo(
                         activeLayer,
                         {
+                           opacity: 0,
                            y: 10,
                            scale: 0.975,
-                           filter: "blur(6px)",
                         },
                         {
+                           opacity: 1,
                            y: 0,
                            scale: 1,
-                           filter: "blur(0px)",
                            duration: 0.72,
                            ease: "power3.out",
                         },
@@ -554,9 +546,9 @@ export function useCharacterNavigation(stageRefs: CharacterStageRefs, background
                      timeline.to(
                         activeLayer,
                         {
+                           opacity: 0,
                            y: 5,
                            scale: 0.98,
-                           filter: "blur(4px)",
                            duration: 0.46,
                            ease: "power2.inOut",
                         },
@@ -568,6 +560,7 @@ export function useCharacterNavigation(stageRefs: CharacterStageRefs, background
                      timeline.set(
                         sideLayer,
                         {
+                           opacity: 0,
                            y: 8,
                            scale: 0.985,
                            pointerEvents: "none",
@@ -578,6 +571,7 @@ export function useCharacterNavigation(stageRefs: CharacterStageRefs, background
                      timeline.to(
                         sideLayer,
                         {
+                           opacity: 1,
                            y: 0,
                            scale: 1,
                            duration: 0.68,
@@ -626,10 +620,12 @@ export function useCharacterNavigation(stageRefs: CharacterStageRefs, background
                   timeline.fromTo(
                      sideLayer,
                      {
+                        opacity: 0,
                         y: 5,
                         scale: 0.99,
                      },
                      {
+                        opacity: 1,
                         y: 0,
                         scale: 1,
                         duration: 0.62,
@@ -642,8 +638,7 @@ export function useCharacterNavigation(stageRefs: CharacterStageRefs, background
          } else {
             /* MOBILE + SMALL TABLET */
             const mobileCharacterElement = stageRefs.mobileCharacterRef.current;
-            const forwardDistance = (nextIndex - currentIndex + characters.length) % characters.length;
-            const direction = forwardDistance <= characters.length / 2 ? 1 : -1;
+            const direction = nextIndex > currentIndex ? 1 : -1;
 
             if (mobileCharacterElement) {
                gsap.killTweensOf(mobileCharacterElement);
@@ -656,7 +651,6 @@ export function useCharacterNavigation(stageRefs: CharacterStageRefs, background
                      y: 4,
                      opacity: 0,
                      scale: 0.99,
-                     filter: "blur(5px)",
                      duration: 0.3,
                      ease: "power2.inOut",
                   },
@@ -668,7 +662,6 @@ export function useCharacterNavigation(stageRefs: CharacterStageRefs, background
                   () => {
                      activeIndexRef.current = nextIndex;
                      setActiveIndex(nextIndex);
-                     setInfoIndex(nextIndex);
                   },
                   [],
                   0.3,
@@ -682,7 +675,6 @@ export function useCharacterNavigation(stageRefs: CharacterStageRefs, background
                      y: 4,
                      opacity: 0,
                      scale: 0.99,
-                     filter: "blur(5px)",
                   },
                   0.32,
                );
@@ -695,7 +687,6 @@ export function useCharacterNavigation(stageRefs: CharacterStageRefs, background
                      y: 0,
                      opacity: 1,
                      scale: 1,
-                     filter: "blur(0px)",
                      duration: 0.52,
                      ease: "power3.out",
                   },
@@ -779,10 +770,8 @@ export function useCharacterNavigation(stageRefs: CharacterStageRefs, background
       changeCharacter(nextIndex);
    };
 
-   const selectCharacter = (characterId: CharacterId) => {
-      const index = characters.findIndex((item) => item.id === characterId);
-
-      if (index !== -1) changeCharacter(index);
+   const selectCharacter = (index: number) => {
+      changeCharacter(index);
    };
 
    return {

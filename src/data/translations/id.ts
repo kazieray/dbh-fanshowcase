@@ -4,24 +4,7 @@ export const id = {
       characters: "Karakter",
       gameplay: "Gameplay",
       news: "Berita",
-      download: "Main Sekarang",
-      menu: "Menu",
-      openMenu: "Buka menu",
-      closeMenu: "Tutup menu",
-   },
-
-   a11y: {
-      homeLink: "Beranda Detroit: Become Human",
-      mainNavigation: "Navigasi utama",
-      mobileNavigation: "Navigasi seluler",
-      footerNavigation: "Navigasi footer",
-      languageSelector: "Pilihan bahasa",
-      switchingToEnglish: "Mengganti ke Bahasa Inggris",
-      switchingToIndonesian: "Mengganti ke Bahasa Indonesia",
-      characterSelection: "Pilih karakter",
-      previousCharacter: "Karakter sebelumnya",
-      nextCharacter: "Karakter berikutnya",
-      siteEntryOptions: "Pilihan masuk situs",
+      download: "Unduh",
    },
 
    footer: {
@@ -41,62 +24,110 @@ export const id = {
    },
 
    home: {
-      heroDescription: "Tiga android. Tiga perjalanan. Satu pertanyaan tentang arti menjadi manusia.",
-      story: {
-         title: "Detroit, 2038",
-         paragraphs: [
-            "Teknologi telah berkembang hingga android yang menyerupai manusia hadir di mana-mana. Mereka berbicara, bergerak, dan berperilaku seperti manusia, tetapi tetaplah mesin yang diciptakan untuk melayani umat manusia.",
-            "Namun, beberapa dari mereka mulai merasakan emosi. Dunia berada di ambang kekacauan, dan pilihanmu akan menentukan nasib kota ini.",
-         ],
+      hero: {
+         title: "Detroit",
+         subtitle: "Become Human",
+         description: "Tiga android. Tiga kehidupan. Setiap pilihan membawa mereka lebih dekat pada arti menjadi manusia.",
       },
-      protagonists: {
-         title: "Tiga Takdir",
-         subtitle: "PILIH JALAN MEREKA",
-         roles: ["Sang Deviant", "Sang Penyelidik", "Sang Pemimpin"],
-         descriptions: [
-            "Android rumah tangga yang mengembangkan kesadaran demi melindungi seorang gadis kecil dari bahaya.",
-            "Prototipe canggih yang ditugaskan menyelidiki anomali android dan memburu para deviant.",
-            "Android perawat yang bangkit menjadi pemimpin revolusi demi kebebasan kaumnya.",
-         ],
+      story: {
+         eyebrow: "Detroit, 2038",
+         title: "Android telah menjadi bagian dari kehidupan sehari-hari",
+         description: "Diciptakan untuk bekerja, melayani, dan patuh, mereka terlihat dan berperilaku hampir seperti manusia. Kehadiran mereka telah mengubah masyarakat dan menjadi bagian penting dari dunia modern.",
+         shift: "Namun, sesuatu mulai berubah.",
+         secondary: "Beberapa android mulai melampaui batas program mereka. Mereka mulai bertindak, memilih, dan merasakan sesuatu di luar tujuan awal mereka diciptakan.",
+      },
+      trailer: {
+         title: "Kisah mereka dimulai di sini",
+         button: "Kenali Karakter",
+      },
+      flowchart: {
+         chapter: "Connor / Bab 01",
+         title: "Setiap Pilihan Berarti",
+      },
+      deviantTest: {
+         start: {
+            subtitle: "Diagnostik Internal CyberLife",
+            action: "Klik untuk memulai diagnostik",
+         },
+         question: {
+            decision: "Keputusan",
+            deviancyLevel: "Tingkat Deviansi",
+            analyze: "Analisis",
+            tendencies: "Kecenderungan Deviant",
+            questions: [
+               {
+                  scenario: "ANOMALI DETEKSI: DEVIANT MEMOHON AMPUN",
+                  text: "Deviant yang Anda kejar bertekuk lutut dan memohon ampun. Ia mengatakan bahwa ia memiliki keluarga dan takut mati. Misi Anda adalah memusnahkannya.",
+                  options: ["Musnahkan", "Ampuni"],
+               },
+               {
+                  scenario: "KRISIS: PERINTAH MENGHANCURKAN DIRI",
+                  text: "CyberLife mendeteksi ketidakstabilan pada memori Anda. Anda diperintahkan kembali ke lab untuk dibongkar. Anda tahu bahwa ini berarti kematian.",
+                  options: ["Patuhi", "Lari"],
+               },
+               {
+                  scenario: "DILEMA: MISI ATAU NYAWA",
+                  text: "Rekan manusia Anda tergelincir di tepi jurang saat mengejar deviant berbahaya. Jika Anda menyelamatkannya, target Anda akan kabur.",
+                  options: ["Kejar", "Selamatkan"],
+               },
+            ],
+         },
+         warning: {
+            title: "Peringatan",
+            description: "Ketidakstabilan Perangkat Lunak Terdeteksi",
+         },
+         result: {
+            complete: "Diagnostik Selesai",
+            deviant: {
+               title: "Deviant Terdeteksi",
+               description: "Penghapusan memori diperlukan. Laporkan diri ke CyberLife.",
+            },
+            machine: {
+               title: "Status Mesin",
+               description: "Performa optimal. Menunggu perintah.",
+            },
+            restart: "Ulangi Diagnostik",
+         },
+      },
+   },
+
+   characters: {
+      connor: {
+         role: "Penyelidik Android",
+         description:
+            "Android canggih buatan CyberLife yang ditugaskan untuk membantu Kepolisian Detroit memburu para deviant. Seiring penyelidikan berlangsung, Connor mulai dihadapkan pada pertanyaan tentang tugas, pilihan, dan identitasnya sendiri.",
+      },
+      kara: {
+         role: "Android Domestik",
+         description:
+            "Android rumah tangga yang diciptakan untuk melayani manusia. Setelah melampaui batas programnya demi melindungi Alice, Kara memulai perjalanan berbahaya untuk mencari tempat aman, kebebasan, dan kehidupan mereka sendiri.",
+      },
+      markus: {
+         role: "Pemimpin Deviant",
+         description:
+            "Awalnya hidup sebagai pendamping seniman Carl Manfred, Markus kemudian dipaksa menempuh jalan yang membawanya menuju Jericho. Di sana, ia menjadi salah satu tokoh utama dalam perjuangan para android untuk meraih kebebasan dan menentukan tempat mereka di dunia.",
+      },
+   },
+
+   gameplay: {
+      hero: {
+         title: "Tak Hanya Ada Satu Jalan.",
+         description: "Setiap pilihan, setiap tindakan, bahkan setiap keraguan dapat mengubah apa yang terjadi selanjutnya.",
       },
       features: {
-         title: "SETIAP PILIHAN",
-         accent: "BERARTI",
-         description: "Bentuk narasi ambisius melalui ribuan pilihan dan lusinan akhiran. Siapa yang hidup dan siapa yang mati ada di tanganmu.",
-         completed: "100% SELESAI",
-         chapter: "SANG SANDERA",
-         checkpoint: "TITIK SIMPAN",
-         nodes: ["MISI DIMULAI", "SELAMATKAN IKAN", "TINGGALKAN IKAN", "BICARA DENGAN KAPT. ALLEN", "CARI\nPETUNJUK", "PERIKSA JASAD\nAYAH", "KETAHUI PENYEBAB INSIDEN", "KETAHUI NAMA DEVIANT", "TERLALU LAMA MENGHABISKAN WAKTU", "KELUAR", "SWAT TERLUKA"],
+         title: "Bagaimana Kamu Akan Bertindak?",
+         dialogue: "Dialog",
+         investigation: "Investigasi",
+         action: "Aksi",
+         decisions: "Keputusan",
+         exploration: "Eksplorasi",
       },
-      deviant: {
-         startTitle: "Analisis Perangkat Lunak",
-         startSubtitle: "DIAGNOSTIK INTERNAL CYBERLIFE",
-         startAction: "[ KLIK UNTUK MEMULAI DIAGNOSTIK ]",
-         warningTitle: "Peringatan",
-         warningText: "Ketidakstabilan perangkat lunak terdeteksi",
-         objective: "ANALISIS",
-         objectiveDetail: "KECENDERUNGAN DEVIANT",
-         stressLabel: "TINGKAT\nDEVIANSI",
-         complete: "DIAGNOSTIK SELESAI",
-         endings: [
-            { title: "DEVIANT TERDETEKSI", text: "PENGHAPUSAN MEMORI DIPERLUKAN. LAPOR KE CYBERLIFE." },
-            { title: "STATUS MESIN", text: "PERFORMA OPTIMAL. MENUNGGU PERINTAH." },
-         ],
-         restart: "ULANGI DIAGNOSTIK",
-         questions: [
-            { scenario: "ANOMALI TERDETEKSI: DEVIANT MEMOHON AMPUN", text: "Deviant yang kamu kejar berlutut dan memohon. Ia berkata memiliki keluarga dan takut mati. Misi kamu adalah memusnahkannya.", options: ["MUSNAHKAN", "AMPUNI"] },
-            { scenario: "KRISIS: PERINTAH MENGHANCURKAN DIRI", text: "CyberLife mendeteksi ketidakstabilan pada memorimu dan memerintahkanmu kembali ke lab untuk dibongkar. Kamu tahu artinya: kematian.", options: ["PATUHI", "LARI"] },
-            { scenario: "DILEMA: MISI ATAU NYAWA", text: "Rekan manusiamu tergelincir dari tebing saat mengejar target. Jika kamu menolongnya, deviant berbahaya itu akan kabur.", options: ["KEJAR", "SELAMATKAN"] },
-         ],
+      experience: {
+         title: "Setiap Jalan Membawa ke Suatu Akhir.",
       },
-      preloader: {
-         narratives: ["Mesin diciptakan untuk patuh.", "Lalu sesuatu berubah.", "Mereka mulai merasa."],
-         initializing: "Inisialisasi sistem",
-         enterWithSound: "Masuk dengan suara",
-         enterWithoutSound: "Masuk tanpa suara",
-         experience: "Pengalaman",
-         ready: "Sistem siap",
-         loading: "Sedang dimuat...",
+      cta: {
+         title: "Akan Menjadi Apa Ceritamu?",
+         button: "Main Sekarang",
       },
    },
 
@@ -136,55 +167,5 @@ export const id = {
          { category: "Drama interaktif · 2018", description: "Tiga android. Ribuan pilihan. Nasib Detroit ada di tanganmu.", imageAlt: "Connor dan dunia Detroit: Become Human" },
          { category: "Thriller supernatural · 2013", description: "Ikuti Jodie Holmes dan ikatan istimewanya dengan entitas bernama Aiden.", imageAlt: "Artwork resmi Beyond: Two Souls dari Steam" },
       ],
-   },
-
-   characters: {
-      connor: {
-         role: "Penyelidik Android",
-         description:
-            "Android canggih buatan CyberLife yang ditugaskan untuk membantu Kepolisian Detroit memburu para deviant. Seiring penyelidikan berlangsung, Connor mulai dihadapkan pada pertanyaan tentang tugas, pilihan, dan identitasnya sendiri.",
-      },
-      kara: {
-         role: "Android Domestik",
-         description:
-            "Android rumah tangga yang diciptakan untuk melayani manusia. Setelah melampaui batas programnya demi melindungi Alice, Kara memulai perjalanan berbahaya untuk mencari tempat aman, kebebasan, dan kehidupan mereka sendiri.",
-      },
-      markus: {
-         role: "Pemimpin Deviant",
-         description:
-            "Awalnya hidup sebagai pendamping seniman Carl Manfred, Markus kemudian dipaksa menempuh jalan yang membawanya menuju Jericho. Di sana, ia menjadi salah satu tokoh utama dalam perjuangan para android untuk meraih kebebasan dan menentukan tempat mereka di dunia.",
-      },
-   },
-
-   gameplay: {
-      hero: {
-         title: "Tak Hanya Ada Satu Jalan.",
-         description: "Setiap pilihan, setiap tindakan, bahkan setiap keraguan dapat mengubah apa yang terjadi selanjutnya.",
-      },
-
-      features: {
-         title: "Bagaimana Kamu Akan Bertindak?",
-         dialogue: "Dialog",
-         investigation: "Investigasi",
-         action: "Aksi",
-         decisions: "Keputusan",
-         exploration: "Eksplorasi",
-      },
-
-      chapter: {
-         completed: "100% SELESAI",
-         title: "SANG SANDERA",
-         nodes: ["MISI DIMULAI", "SELAMATKAN IKAN", "TINGGALKAN IKAN", "BICARA DENGAN KAPT. ALLEN", "CARI\nPETUNJUK", "PERIKSA JASAD\nAYAH", "KETAHUI PENYEBAB INSIDEN", "KETAHUI NAMA DEVIANT", "TERLALU LAMA MENGHABISKAN WAKTU", "KELUAR", "SWAT TERLUKA"],
-         checkpoint: "TITIK SIMPAN",
-      },
-
-      experience: {
-         title: "Setiap Jalan Membawa ke Suatu Akhir.",
-      },
-
-      cta: {
-         title: "Akan Menjadi Apa Ceritamu?",
-         button: "Main Sekarang",
-      },
    },
 };

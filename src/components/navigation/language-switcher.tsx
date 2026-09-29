@@ -3,10 +3,10 @@
 import { useLanguage } from "@/hooks/use-language";
 
 export default function LanguageSwitcher() {
-   const { language, setLanguage, copy } = useLanguage();
+   const { language, setLanguage } = useLanguage();
 
    return (
-      <div role="group" className="flex items-center gap-2 font-mono text-[9px] font-medium uppercase tracking-[0.1em] lg:text-[10px]" aria-label={copy.a11y.languageSelector}>
+      <div className="flex items-center gap-2 font-mono text-[9px] font-medium uppercase tracking-[0.1em] lg:text-[10px]" aria-label="Language selector">
          <button type="button" onClick={() => setLanguage("en")} aria-pressed={language === "en"} className={`transition-colors duration-300 ${language === "en" ? "text-dbh-blue" : "text-white/40 hover:text-white/80"}`}>
             EN
          </button>

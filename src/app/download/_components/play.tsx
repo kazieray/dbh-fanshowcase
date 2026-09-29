@@ -9,6 +9,7 @@ import FeelGameTitle from "./feel-game-title";
 import PlatformStoreCard from "./platform-store-card";
 import StudioGameLibrary from "./studio-game-library";
 import { useLanguage } from "@/hooks/use-language";
+import Footer from "@/components/common/footer";
 
 const platforms = [
    {
@@ -52,7 +53,7 @@ const protagonists = [
    { name: "Connor", image: "/img/connor.png" },
 ];
 
-export default function PlayExperience() {
+export default function Play() {
    const { copy } = useLanguage();
 
    return (
@@ -117,6 +118,8 @@ export default function PlayExperience() {
                <ArrowUpRight size={14} />
             </Link>
          </section>
+
+         <Footer />
       </main>
    );
 }

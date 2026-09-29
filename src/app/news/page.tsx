@@ -10,6 +10,7 @@ import Navbar from "@/components/navigation/navbar";
 import { stories } from "@/data/news";
 import { gsap } from "@/lib/gsap";
 import { useLanguage } from "@/hooks/use-language";
+import Footer from "@/components/common/footer";
 
 const categoryLabels: Record<string, { en: string; id: string }> = {
    Rilis: { en: "Release", id: "Rilis" },
@@ -181,7 +182,7 @@ export default function News() {
 
    return (
       <main className="relative isolate min-h-svh overflow-hidden bg-dbh-bg text-white">
-         <Navbar active />
+         <Navbar active={true} />
 
          <div className="fixed inset-0 z-0">
             <Image src="/images/bg-news.jpg" alt={copy.news.backgroundAlt} fill priority sizes="100vw" className="object-cover object-center opacity-45" />
@@ -211,6 +212,8 @@ export default function News() {
 
          </div>
          {selectedStory && createPortal(<StoryModal story={selectedStory} closing={isModalClosing} onClose={closeStory} />, document.body)}
+
+         <Footer />
       </main>
    )
 }

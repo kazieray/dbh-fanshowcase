@@ -10,7 +10,7 @@ type CharacterStageProps = {
    isTransitioning: boolean;
    mobileCharacterRef: RefObject<HTMLDivElement | null>;
    desktopCharacterRefs: DesktopCharacterRefs;
-   selectCharacter: (characterId: CharacterId) => void;
+   selectCharacter: (index: number) => void;
 };
 
 type CharacterSlot = "left" | "active" | "right";
@@ -59,10 +59,10 @@ export default function CharacterStage({ character, activeIndex, isTransitioning
                         <button
                            type="button"
                            data-side-layer
-                           onClick={() => selectCharacter(item.id)}
+                           onClick={() => selectCharacter(index)}
                            disabled={isTransitioning || isActive}
                            aria-label={`View ${item.name}`}
-                                                      className={`group pointer-events-auto absolute bottom-0 ${sideSlotClass} h-[82svh] w-[min(46vw,680px)] -translate-x-1/2 cursor-pointer transition-[left,opacity] duration-700 ease-out motion-reduce:transition-none disabled:pointer-events-none`}
+                           className={`group pointer-events-auto absolute bottom-0 ${sideSlotClass} h-[82svh] w-[min(46vw,680px)] -translate-x-1/2 cursor-pointer transition-[left] duration-500 ease-out disabled:pointer-events-none`}
                            style={{ opacity: isActive ? 0 : 1 }}
                         >
                            <div data-side-visual className="relative h-full w-full opacity-65 brightness-75 transition-[filter,opacity] duration-500 group-hover:opacity-90 group-hover:brightness-95">
@@ -71,7 +71,7 @@ export default function CharacterStage({ character, activeIndex, isTransitioning
                         </button>
 
                         {/* Active asset */}
-                        <div data-active-layer className="pointer-events-none absolute bottom-0 left-1/2 h-[84svh] w-[min(56vw,800px)] -translate-x-1/2 transition-opacity duration-700 ease-out motion-reduce:transition-none" style={{ opacity: isActive ? 1 : 0 }}>
+                        <div data-active-layer className="pointer-events-none absolute bottom-0 left-1/2 h-[84svh] w-[min(56vw,800px)] -translate-x-1/2" style={{ opacity: isActive ? 1 : 0 }}>
                            <div className={`relative h-full w-full ${item.imagePosition}`}>
                               <Image src={item.image} alt={item.name} fill priority sizes="56vw" className="object-contain object-bottom" />
                            </div>
