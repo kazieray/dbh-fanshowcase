@@ -1,6 +1,7 @@
 "use client";
 
 import { useLayoutEffect, useRef } from "react";
+import Image from "next/image";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
@@ -89,9 +90,10 @@ export default function HomeBackground() {
 
    return (
       <>
-         <div ref={backgroundRef} className="pointer-events-none fixed inset-0 z-0 bg-[url('/images/home/bg-home.jpg')] bg-cover bg-center bg-no-repeat" style={{ willChange: "transform" }} />
-
-         <div className="pointer-events-none fixed inset-0 z-[1] bg-black/25" />
+         <div id="home-global-background" ref={backgroundRef} className="pointer-events-none fixed inset-0 z-0 overflow-hidden" style={{ willChange: "transform" }}>
+            <Image src="/images/home/bg-home.jpg" alt="" fill priority sizes="100vw" className="home-global-artwork object-cover object-center transition-transform duration-300" style={{ transform: "translate(0px, 0px) scale(1.06)" }} />
+            <div aria-hidden="true" className="absolute inset-0 bg-black/50" />
+         </div>
       </>
    );
 }

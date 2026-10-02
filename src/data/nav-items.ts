@@ -15,4 +15,8 @@ export const navItems = [
       key: "news",
       href: "/news",
    },
+   {
+      key: "download",
+      href: "/download",
+   },
 ] as const;

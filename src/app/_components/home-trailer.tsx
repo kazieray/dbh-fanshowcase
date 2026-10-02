@@ -271,9 +271,7 @@ export default function HomeTrailer() {
 
    return (
       <section ref={rootRef} className="relative z-10 min-h-svh overflow-hidden bg-transparent">
-         <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-[#05080d]/72 via-[#05080d]/58 via-[45%] to-[#05080d]/78" />
-
-         <div className="relative z-10 mx-auto flex min-h-svh w-full max-w-[1600px] items-center px-4 pb-24 pt-8 sm:px-6 sm:pb-28 sm:pt-10 md:px-8 md:pb-32 md:pt-12 lg:px-12 lg:pb-32 lg:pt-12">
+         <div className="relative z-10 mx-auto flex min-h-svh w-full max-w-[1600px] items-center px-4 pb-24 pt-12 sm:px-6 sm:pb-28 sm:pt-14 md:px-8 md:pb-32 md:pt-16 lg:px-12 lg:pb-32 lg:pt-16">
             <div className="relative w-full lg:min-h-[620px]">
                {/* TRAILER MEDIA POSITION */}
                <div className="relative z-20 w-full lg:absolute lg:left-[5%] lg:top-1/2 lg:w-[58%] lg:-translate-y-1/2 lg:-rotate-[2.5deg]">
@@ -307,7 +305,7 @@ export default function HomeTrailer() {
                </div>
 
                {/* CONTENT */}
-               <div className="relative z-30 mt-16 max-w-[440px] sm:mt-20 md:ml-auto md:max-w-[520px] lg:absolute lg:right-[5%] lg:top-1/2 lg:mt-0 lg:w-[28%] lg:max-w-[440px] lg:-translate-y-1/2">
+               <div className="relative z-30 mt-20 max-w-[440px] sm:mt-24 md:ml-auto md:max-w-[520px] lg:absolute lg:right-[5%] lg:top-1/2 lg:mt-0 lg:w-[28%] lg:max-w-[440px] lg:-translate-y-1/2">
                   <div className="overflow-hidden pb-[0.08em]">
                      <h2 className="trailer-title font-display text-[clamp(2.25rem,10vw,3.25rem)] font-medium uppercase leading-[0.9] tracking-[-0.05em] text-[#f3f6f8] sm:text-[clamp(2.75rem,7.5vw,4rem)] md:text-[clamp(3.5rem,6vw,4.75rem)] lg:text-[clamp(2.75rem,4vw,4.5rem)]">
                         {copy.home.trailer.title}

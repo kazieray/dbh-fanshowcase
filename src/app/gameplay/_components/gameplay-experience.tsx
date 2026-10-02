@@ -1,6 +1,5 @@
-import CornerButton from "@/components/ui/corner-button";
-import Link from "next/link";
 import type { RefObject } from "react";
+import CornerButton from "@/components/ui/corner-button";
 
 type GameplayExperienceProps = {
    copy: {
@@ -38,7 +37,6 @@ export default function GameplayExperience({ copy, sectionRef, titleRef, videoOn
                   <video className="h-full w-full object-cover" autoPlay muted loop playsInline preload="metadata">
                      <source src="/videos/gameplay-1.mp4" type="video/mp4" />
                   </video>
-
                   <div className="pointer-events-none absolute inset-0 bg-black/10" />
                </div>
             </div>
@@ -51,7 +49,6 @@ export default function GameplayExperience({ copy, sectionRef, titleRef, videoOn
                   <video className="h-full w-full object-cover" autoPlay muted loop playsInline preload="metadata">
                      <source src="/videos/gameplay-2.mp4" type="video/mp4" />
                   </video>
-
                   <div className="pointer-events-none absolute inset-0 bg-black/10" />
                </div>
             </div>
@@ -63,8 +60,9 @@ export default function GameplayExperience({ copy, sectionRef, titleRef, videoOn
                <p className="max-w-[12ch] font-display text-[clamp(1.45rem,6.2vw,1.7rem)] font-medium uppercase leading-[0.9] tracking-[-0.04em] text-[#f3f6f8] sm:max-w-[13ch] sm:text-[1.8rem] md:text-[2rem] lg:text-[2.1rem]">
                   {copy.cta.title}
                </p>
-
-               <CornerButton href="/download" className="mt-5">{copy.cta.button}</CornerButton>
+               <CornerButton href="/download" className="mt-5">
+                  {copy.cta.button}
+               </CornerButton>
             </div>
          </div>
       </section>

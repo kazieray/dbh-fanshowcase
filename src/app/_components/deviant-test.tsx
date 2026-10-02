@@ -186,9 +186,6 @@ export default function DeviantTest() {
 
    return (
       <section ref={containerRef} className="relative flex min-h-svh w-full items-center justify-center overflow-hidden bg-transparent font-mono">
-         {/* BACKGROUND */}
-         <div className="pointer-events-none absolute inset-0 z-0 bg-gradient-to-b from-[#05080d]/78 via-[#05080d]/70 to-[#05080d]/85" />
-
          {/* TECH LINES */}
          <div className="pointer-events-none absolute inset-0 z-0">
             <div className="absolute left-0 top-[20%] h-px w-full bg-white/5" />
