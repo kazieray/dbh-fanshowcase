@@ -9,7 +9,7 @@ import CharacterBackground from "./character-background";
 import CharacterStage from "./character-stage";
 import CharacterInfo from "./character-info";
 import CharacterGallery from "./character-gallery";
-import DeviantTest from "@/app/_components/deviant-test";
+import DeviantTest from "@/app/characters/_components/deviant-test";
 
 export default function Characters() {
    const mobileCharacterRef = useRef<HTMLDivElement>(null);
