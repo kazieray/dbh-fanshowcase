@@ -30,7 +30,7 @@ export const characters: Character[] = [
       imagePosition: "translate-x-0",
       sideImagePosition: "scale-[0.94] translate-y-[2%]",
       gallery: [
-         { src: "/images/connor.jpeg", label: "Scene 1" },
+         { src: "/images/characters/connor.jpeg", label: "Scene 1" },
          { src: "/images/characters/connor-hank.jpeg", label: "Scene 2" },
          { src: "/images/Android.jpeg", label: "Scene 3" },
       ],
