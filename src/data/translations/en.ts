@@ -8,8 +8,8 @@ export const en = {
    },
 
    audio: {
-      mute: "Mute music",
-      unmute: "Unmute music",
+      mute: "Mute",
+      unmute: "Unmute",
    },
 
    home: {
@@ -123,7 +123,6 @@ export const en = {
       description: "The latest news and stories from Detroit, gathered for you in one place.",
       backgroundAlt: "Detroit at night",
       featured: "Featured stories",
-      readArticle: "Read Story",
       readMore: "Read More",
       loading: "Loading stories",
       close: "Close story",

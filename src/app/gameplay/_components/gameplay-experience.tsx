@@ -1,5 +1,4 @@
 import CornerButton from "@/components/ui/corner-button";
-import Link from "next/link";
 import type { RefObject } from "react";
 
 type GameplayExperienceProps = {
@@ -22,7 +21,14 @@ type GameplayExperienceProps = {
 export default function GameplayExperience({ copy, sectionRef, titleRef, videoOneRef, videoTwoRef, ctaRef }: GameplayExperienceProps) {
    return (
       <section ref={sectionRef} className="relative h-svh w-full snap-start snap-always overflow-hidden bg-[#05080d] md:min-h-[600px]">
-         <div className="relative mx-auto h-full w-full max-w-[1600px] px-5 sm:px-8 md:px-10 lg:px-16 xl:px-20">
+         {/* DOT BACKGROUND */}
+         <div className="pointer-events-none absolute inset-0 z-0">
+            <div className="absolute inset-0 bg-[radial-gradient(circle,rgba(255,255,255,0.11)_1px,transparent_1px)] bg-[size:22px_22px]" />
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_20%,rgba(5,8,13,0.3)_65%,rgba(5,8,13,0.9)_100%)]" />
+            <div className="absolute inset-0 bg-gradient-to-b from-[#05080d]/30 via-transparent to-[#05080d]/80" />
+         </div>
+
+         <div className="relative z-10 mx-auto h-full w-full max-w-[1600px] px-5 sm:px-8 md:px-10 lg:px-16 xl:px-20">
             <h2
                ref={titleRef}
                className="absolute left-5 top-[15%] z-30 max-w-[12ch] font-display text-[clamp(2.15rem,10vw,2.7rem)] font-medium uppercase leading-[0.86] tracking-[-0.05em] text-[#f3f6f8] sm:left-8 sm:top-[14%] sm:max-w-[13ch] sm:text-[clamp(2.7rem,6.5vw,3.4rem)] md:left-10 md:top-[13%] md:max-w-[13ch] md:text-[4.8rem] md:leading-[0.84] lg:left-16 lg:top-[15%] lg:max-w-[15ch] lg:text-[4.15rem] lg:leading-[0.86] xl:left-20 xl:text-[4.5rem]"
@@ -64,7 +70,9 @@ export default function GameplayExperience({ copy, sectionRef, titleRef, videoOn
                   {copy.cta.title}
                </p>
 
-               <CornerButton href="/download" className="mt-5">{copy.cta.button}</CornerButton>
+               <CornerButton href="/download" className="mt-5">
+                  {copy.cta.button}
+               </CornerButton>
             </div>
          </div>
       </section>

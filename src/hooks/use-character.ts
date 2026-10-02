@@ -131,6 +131,7 @@ export function useCharacterEntrance(stageRefs: CharacterStageRefs, infoRefs: Ch
          gsap.set([...characterElements, nameElement, metaElement, descriptionElement], {
             opacity: 1,
             y: 0,
+            filter: "blur(0px)",
          });
 
          return;
@@ -161,10 +162,12 @@ export function useCharacterEntrance(stageRefs: CharacterStageRefs, infoRefs: Ch
          {
             opacity: 0,
             y: 10,
+            filter: "blur(4px)",
          },
          {
             opacity: 1,
             y: 0,
+            filter: "blur(0px)",
             duration: 0.65,
             ease: "power3.out",
          },
@@ -176,10 +179,12 @@ export function useCharacterEntrance(stageRefs: CharacterStageRefs, infoRefs: Ch
          {
             opacity: 0,
             y: 8,
+            filter: "blur(3px)",
          },
          {
             opacity: 1,
             y: 0,
+            filter: "blur(0px)",
             duration: 0.6,
             ease: "power3.out",
          },
@@ -191,10 +196,12 @@ export function useCharacterEntrance(stageRefs: CharacterStageRefs, infoRefs: Ch
          {
             opacity: 0,
             y: 6,
+            filter: "blur(3px)",
          },
          {
             opacity: 1,
             y: 0,
+            filter: "blur(0px)",
             duration: 0.65,
             ease: "power3.out",
          },
@@ -205,7 +212,7 @@ export function useCharacterEntrance(stageRefs: CharacterStageRefs, infoRefs: Ch
          timeline.kill();
 
          gsap.set([...characterElements, nameElement, metaElement, descriptionElement], {
-            clearProps: "opacity,transform",
+            clearProps: "opacity,transform,filter",
          });
       };
    }, [stageRefs, infoRefs]);
@@ -312,17 +319,9 @@ export function useCharacterNavigation(stageRefs: CharacterStageRefs, background
          transitionLockRef.current = true;
          setIsTransitioning(true);
 
-         /* DESKTOP and MOBILE */
-         if (isDesktop) {
+         if (reduceMotion) {
             activeIndexRef.current = nextIndex;
             setActiveIndex(nextIndex);
-         }
-
-         if (reduceMotion) {
-            if (!isDesktop) {
-               activeIndexRef.current = nextIndex;
-               setActiveIndex(nextIndex);
-            }
 
             const backgrounds = backgroundsElement.querySelectorAll<HTMLElement>("[data-background-index]");
 
@@ -331,6 +330,12 @@ export function useCharacterNavigation(stageRefs: CharacterStageRefs, background
                   opacity: index === nextIndex ? 1 : 0,
                   zIndex: 0,
                });
+            });
+
+            gsap.set([nameElement, metaElement, descriptionElement], {
+               opacity: 1,
+               y: 0,
+               filter: "blur(0px)",
             });
 
             if (isDesktop) {
@@ -372,7 +377,7 @@ export function useCharacterNavigation(stageRefs: CharacterStageRefs, background
                });
 
                gsap.set([nameElement, metaElement, descriptionElement], {
-                  clearProps: "transform,opacity",
+                  clearProps: "transform,opacity,filter",
                });
 
                if (isDesktop) {
@@ -422,6 +427,7 @@ export function useCharacterNavigation(stageRefs: CharacterStageRefs, background
             {
                y: -6,
                opacity: 0,
+               filter: "blur(4px)",
                duration: 0.22,
                ease: "power2.in",
             },
@@ -433,6 +439,7 @@ export function useCharacterNavigation(stageRefs: CharacterStageRefs, background
             {
                y: -5,
                opacity: 0,
+               filter: "blur(3px)",
                duration: 0.2,
                ease: "power2.in",
             },
@@ -444,11 +451,24 @@ export function useCharacterNavigation(stageRefs: CharacterStageRefs, background
             {
                y: -4,
                opacity: 0,
+               filter: "blur(3px)",
                duration: 0.2,
                ease: "power2.in",
             },
             0.05,
          );
+
+         /* SWAP DESKTOP CONTENT WHILE INFO IS INVISIBLE */
+         if (isDesktop) {
+            timeline.call(
+               () => {
+                  activeIndexRef.current = nextIndex;
+                  setActiveIndex(nextIndex);
+               },
+               [],
+               0.26,
+            );
+         }
 
          /* LAPTOP + DESKTOP */
          if (isDesktop) {
@@ -497,9 +517,7 @@ export function useCharacterNavigation(stageRefs: CharacterStageRefs, background
                         sideLayer,
                         {
                            opacity: 0,
-                           y: -6,
-                           scale: 1.025,
-                           duration: 0.52,
+                           duration: 0.42,
                            ease: "power2.inOut",
                         },
                         0,
@@ -510,8 +528,8 @@ export function useCharacterNavigation(stageRefs: CharacterStageRefs, background
                      timeline.to(
                         sideVisual,
                         {
-                           opacity: 0.82,
-                           duration: 0.4,
+                           opacity: 0.88,
+                           duration: 0.32,
                            ease: "sine.inOut",
                         },
                         0,
@@ -523,17 +541,17 @@ export function useCharacterNavigation(stageRefs: CharacterStageRefs, background
                         activeLayer,
                         {
                            opacity: 0,
-                           y: 10,
-                           scale: 0.975,
+                           y: 7,
+                           scale: 0.985,
                         },
                         {
                            opacity: 1,
                            y: 0,
                            scale: 1,
-                           duration: 0.72,
+                           duration: 0.62,
                            ease: "power3.out",
                         },
-                        0.1,
+                        0.12,
                      );
                   }
 
@@ -547,9 +565,9 @@ export function useCharacterNavigation(stageRefs: CharacterStageRefs, background
                         activeLayer,
                         {
                            opacity: 0,
-                           y: 5,
-                           scale: 0.98,
-                           duration: 0.46,
+                           y: 3,
+                           scale: 0.99,
+                           duration: 0.38,
                            ease: "power2.inOut",
                         },
                         0,
@@ -561,8 +579,8 @@ export function useCharacterNavigation(stageRefs: CharacterStageRefs, background
                         sideLayer,
                         {
                            opacity: 0,
-                           y: 8,
-                           scale: 0.985,
+                           y: 0,
+                           scale: 1,
                            pointerEvents: "none",
                         },
                         0,
@@ -572,12 +590,10 @@ export function useCharacterNavigation(stageRefs: CharacterStageRefs, background
                         sideLayer,
                         {
                            opacity: 1,
-                           y: 0,
-                           scale: 1,
-                           duration: 0.68,
-                           ease: "power3.out",
+                           duration: 0.55,
+                           ease: "power2.out",
                         },
-                        0.14,
+                        0.18,
                      );
 
                      timeline.set(
@@ -585,7 +601,7 @@ export function useCharacterNavigation(stageRefs: CharacterStageRefs, background
                         {
                            pointerEvents: "auto",
                         },
-                        0.82,
+                        0.76,
                      );
                   }
 
@@ -593,11 +609,11 @@ export function useCharacterNavigation(stageRefs: CharacterStageRefs, background
                      timeline.fromTo(
                         sideVisual,
                         {
-                           opacity: 0.72,
+                           opacity: 0.82,
                         },
                         {
                            opacity: 1,
-                           duration: 0.56,
+                           duration: 0.48,
                            ease: "sine.inOut",
                         },
                         0.18,
@@ -609,7 +625,7 @@ export function useCharacterNavigation(stageRefs: CharacterStageRefs, background
                      {
                         zIndex: 1,
                      },
-                     0.46,
+                     0.4,
                   );
 
                   return;
@@ -617,21 +633,24 @@ export function useCharacterNavigation(stageRefs: CharacterStageRefs, background
 
                /* SUPPORT -> OPPOSITE SUPPORT */
                if (oldSlot !== "active" && newSlot !== "active" && oldSlot !== newSlot && sideLayer) {
-                  timeline.fromTo(
+                  timeline.to(
                      sideLayer,
                      {
-                        opacity: 0,
-                        y: 5,
-                        scale: 0.99,
+                        opacity: 0.72,
+                        duration: 0.22,
+                        ease: "power2.inOut",
                      },
+                     0,
+                  );
+
+                  timeline.to(
+                     sideLayer,
                      {
                         opacity: 1,
-                        y: 0,
-                        scale: 1,
-                        duration: 0.62,
-                        ease: "power3.out",
+                        duration: 0.42,
+                        ease: "power2.out",
                      },
-                     0.16,
+                     0.24,
                   );
                }
             });
@@ -692,6 +711,15 @@ export function useCharacterNavigation(stageRefs: CharacterStageRefs, background
                   },
                   0.36,
                );
+            } else {
+               timeline.call(
+                  () => {
+                     activeIndexRef.current = nextIndex;
+                     setActiveIndex(nextIndex);
+                  },
+                  [],
+                  0.3,
+               );
             }
          }
 
@@ -701,8 +729,9 @@ export function useCharacterNavigation(stageRefs: CharacterStageRefs, background
             {
                y: 10,
                opacity: 0,
+               filter: "blur(4px)",
             },
-            0.24,
+            0.28,
          );
 
          timeline.set(
@@ -710,8 +739,9 @@ export function useCharacterNavigation(stageRefs: CharacterStageRefs, background
             {
                y: 8,
                opacity: 0,
+               filter: "blur(3px)",
             },
-            0.24,
+            0.28,
          );
 
          timeline.set(
@@ -719,8 +749,9 @@ export function useCharacterNavigation(stageRefs: CharacterStageRefs, background
             {
                y: 6,
                opacity: 0,
+               filter: "blur(3px)",
             },
-            0.24,
+            0.28,
          );
 
          /* INFO IN */
@@ -729,6 +760,7 @@ export function useCharacterNavigation(stageRefs: CharacterStageRefs, background
             {
                y: 0,
                opacity: 1,
+               filter: "blur(0px)",
                duration: 0.5,
                ease: "power3.out",
             },
@@ -740,6 +772,7 @@ export function useCharacterNavigation(stageRefs: CharacterStageRefs, background
             {
                y: 0,
                opacity: 1,
+               filter: "blur(0px)",
                duration: 0.46,
                ease: "power3.out",
             },
@@ -751,6 +784,7 @@ export function useCharacterNavigation(stageRefs: CharacterStageRefs, background
             {
                y: 0,
                opacity: 1,
+               filter: "blur(0px)",
                duration: 0.5,
                ease: "power3.out",
             },

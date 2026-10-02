@@ -38,6 +38,8 @@
 
 html {
    background: var(--color-dbh-bg);
+   scrollbar-width: thin;
+   scrollbar-color: rgb(255 255 255 / 28%) var(--color-dbh-bg);
 }
 
 body {
@@ -52,6 +54,29 @@ body {
 
    -webkit-font-smoothing: antialiased;
    text-rendering: optimizeLegibility;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+   width: 4px;
+   height: 4px;
+}
+
+::-webkit-scrollbar-track {
+   background: var(--color-dbh-bg);
+}
+
+::-webkit-scrollbar-thumb {
+   background: rgb(255 255 255 / 28%);
+   border-radius: 999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+   background: rgb(255 255 255 / 48%);
+}
+
+::-webkit-scrollbar-corner {
+   background: var(--color-dbh-bg);
 }
 
 .language-transition-overlay {
@@ -94,14 +119,24 @@ body {
 }
 
 @keyframes language-overlay-in {
-   0% { opacity: 0; }
+   0% {
+      opacity: 0;
+   }
+
    22%,
-   76% { opacity: 1; }
-   100% { opacity: 0; }
+   76% {
+      opacity: 1;
+   }
+
+   100% {
+      opacity: 0;
+   }
 }
 
 @keyframes language-spinner {
-   to { transform: rotate(360deg); }
+   to {
+      transform: rotate(360deg);
+   }
 }
 
 button,
@@ -811,13 +846,15 @@ a {
 }
 
 @layer base {
-  * {
-    @apply border-border outline-ring/50;
+   * {
+      @apply border-border outline-ring/50;
    }
-  body {
-    @apply bg-background text-foreground;
+
+   body {
+      @apply bg-background text-foreground;
    }
-  html {
-    @apply font-sans;
+
+   html {
+      @apply font-sans;
    }
 }

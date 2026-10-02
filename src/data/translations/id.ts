@@ -19,8 +19,8 @@ export const id = {
    },
 
    audio: {
-      mute: "Matikan musik",
-      unmute: "Nyalakan musik",
+      mute: "Matikan",
+      unmute: "Nyalakan",
    },
 
    home: {
@@ -137,7 +137,6 @@ export const id = {
       description: "Berita dan cerita terbaru dari Detroit, dirangkum untuk kamu ikuti dengan mudah.",
       backgroundAlt: "Detroit di malam hari",
       featured: "Berita pilihan",
-      readArticle: "Baca Berita",
       readMore: "Baca Selengkapnya",
       loading: "Memuat berita",
       close: "Tutup berita",
