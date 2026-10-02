@@ -1,3 +1,4 @@
+import Footer from "@/components/common/footer";
 import CornerButton from "@/components/ui/corner-button";
 import type { RefObject } from "react";
 

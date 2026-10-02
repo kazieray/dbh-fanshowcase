@@ -10,6 +10,7 @@ import CharacterStage from "./character-stage";
 import CharacterInfo from "./character-info";
 import CharacterGallery from "./character-gallery";
 import DeviantTest from "@/app/characters/_components/deviant-test";
+import Footer from "@/components/common/footer";
 
 export default function Characters() {
    const mobileCharacterRef = useRef<HTMLDivElement>(null);
@@ -85,6 +86,8 @@ export default function Characters() {
          </div>
 
          <DeviantTest />
+
+         <Footer />
       </main>
    );
 }

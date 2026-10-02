@@ -14,20 +14,24 @@ export default function News() {
    const { selectedStory, isModalClosing, openStory, closeStory } = useNews();
 
    return (
-      <main className="relative isolate min-h-svh overflow-hidden bg-dbh-bg text-white">
-         <Navbar active={true} />
+      <>
+         <main className="relative isolate min-h-svh overflow-hidden bg-dbh-bg text-white">
+            <Navbar active={true} />
 
-         <NewsBackground />
+            <NewsBackground />
 
-         <div className="relative z-10 mx-auto max-w-360 px-4 pb-20 pt-32 sm:px-8 sm:pt-40 lg:px-12">
-            <NewsHero />
+            <div className="relative z-10 mx-auto max-w-360 px-4 pb-20 pt-32 sm:px-8 sm:pt-40 lg:px-12">
+               <NewsHero />
 
-            <NewsGrid onRead={openStory} />
+               <NewsGrid onRead={openStory} />
+            </div>
+
+            {selectedStory && createPortal(<StoryModal story={selectedStory} closing={isModalClosing} onClose={closeStory} />, document.body)}
+         </main>
+
+         <div className="relative bg-[#071019] text-white">
+            <Footer tightTop />
          </div>
-
-         {selectedStory && createPortal(<StoryModal story={selectedStory} closing={isModalClosing} onClose={closeStory} />, document.body)}
-
-         <Footer />
-      </main>
+      </>
    );
 }
