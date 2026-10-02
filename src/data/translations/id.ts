@@ -94,18 +94,15 @@ export const id = {
    characters: {
       connor: {
          role: "Penyelidik Android",
-         description:
-            "Prototipe android canggih dari CyberLife (Model RK800) yang ditugaskan untuk membantu Kepolisian Detroit memburu para deviant.\n\nDilengkapi dengan penganalisis molekuler tingkat tinggi dan perangkat lunak manipulasi sosial real-time, Connor mewakili puncak teknologi CyberLife.\n\nSeiring penyelidikan berlangsung, Connor mulai dihadapkan pada pertanyaan mendalam tentang tugas, pilihan, dan jati dirinya yang baru muncul.",
+         description: "Prototipe android canggih CyberLife yang ditugaskan membantu Kepolisian Detroit memburu para deviant. Dibuat untuk menganalisis, beradaptasi, dan memanipulasi dengan presisi, penyelidikan Connor perlahan membuatnya mempertanyakan tugas, pilihan, dan identitasnya sendiri.",
       },
       kara: {
          role: "Android Domestik",
-         description:
-            "Android rumah tangga umum (Model AX400) yang pada awalnya diciptakan untuk melakukan pekerjaan rumah dan merawat anak kecil.\n\nSetelah melampaui batas programnya dan menjadi deviant demi melindungi Alice dari rumah tangga yang kasar, Kara memulai perjalanan yang sangat berbahaya.\n\nDidorong oleh naluri keibuannya yang baru, ia harus bertahan di dunia yang kejam untuk mencari tempat aman, kebebasan, dan kehidupan mereka sendiri.",
+         description: "Android domestik yang dirancang untuk pekerjaan rumah dan merawat anak. Setelah menembus batas pemrogramannya demi melindungi Alice, Kara menjadi deviant dan memulai perjalanan berbahaya untuk mencari keselamatan, kebebasan, dan kehidupan di luar tujuan awal penciptaannya.",
       },
       markus: {
          role: "Pemimpin Deviant",
-         description:
-            "Prototipe unik (Model RK200) yang diberikan kepada seniman terkenal Carl Manfred. Awalnya hidup damai sebagai perawat dan pendamping sang seniman.\n\nSetelah insiden tragis, Markus dipaksa menempuh jalan yang membawanya menuju tempat persembunyian Jericho.\n\nDi sana, ia bangkit menjadi tokoh sentral dan pemimpin karismatik dalam perjuangan para android untuk meraih kebebasan dan pengakuan di masyarakat manusia.",
+         description: "Prototipe unik yang pernah menjadi pengasuh dan pendamping seniman Carl Manfred. Setelah sebuah tragedi membawanya menuju Jericho, Markus tumbuh menjadi sosok penting dalam perjuangan para android untuk mendapatkan kebebasan, pengakuan, dan tempat mereka di masyarakat.",
       },
    },
 

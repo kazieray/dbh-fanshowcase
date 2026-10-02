@@ -56,7 +56,6 @@ export default function Characters() {
 
    return (
       <main className="relative bg-[#05080d] text-white">
-         {/* CHARACTER VIEWER — full viewport height */}
          <div className="relative h-svh overflow-hidden">
             <CharacterBackground backgroundsRef={backgroundsRef} />
 
@@ -85,7 +84,6 @@ export default function Characters() {
             />
          </div>
 
-         {/* SOFTWARE ANALYSIS — below character viewer */}
          <DeviantTest />
       </main>
    );

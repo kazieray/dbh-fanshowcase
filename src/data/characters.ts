@@ -30,9 +30,9 @@ export const characters: Character[] = [
       imagePosition: "translate-x-0",
       sideImagePosition: "scale-[0.94] translate-y-[2%]",
       gallery: [
-         { src: "/images/Connor.jpeg", label: "RK800 Portrait" },
-         { src: "/images/Sanningthetruth.jpeg", label: "Crime Scene" },
-         { src: "/images/Android.jpeg", label: "Android" },
+         { src: "/images/connor.jpeg", label: "Scene 1" },
+         { src: "/images/characters/connor-hank.jpeg", label: "Scene 2" },
+         { src: "/images/Android.jpeg", label: "Scene 3" },
       ],
    },
    {
@@ -46,9 +46,9 @@ export const characters: Character[] = [
       imagePosition: "-translate-x-[1%]",
       sideImagePosition: "scale-[0.94] translate-y-[4%]",
       gallery: [
-         { src: "/images/characters/markus-bazooka.jpg", label: "Holding Bazooka" },
-         { src: "/images/characters/markus-holding-hand.jpg", label: "Holding Hand" },
-         { src: "/images/characters/markus-revolution.webp", label: "Revolution" },
+         { src: "/images/characters/markus-bazooka.jpg", label: "Scene 1" },
+         { src: "/images/characters/markus-holding-hand.jpg", label: "Scene 2" },
+         { src: "/images/characters/markus-revolution.webp", label: "Scene 3" },
       ],
    },
    {
@@ -62,9 +62,9 @@ export const characters: Character[] = [
       imagePosition: "translate-x-0",
       sideImagePosition: "scale-[0.82] -translate-y-[2%]",
       gallery: [
-         { src: "/images/Kara.jpeg", label: "Portrait" },
-         { src: "/images/Fall.jpeg", label: "The Fall" },
-         { src: "/images/Kara.webp", label: "AX400" },
+         { src: "/images/Kara.jpeg", label: "Scene 1" },
+         { src: "/images/Fall.jpeg", label: "Scene 2" },
+         { src: "/images/characters/kara-alice.jpeg", label: "Scene 3" },
       ],
    },
 ];

@@ -4,7 +4,9 @@ import { forwardRef, useLayoutEffect, useRef } from "react";
 import type { RefObject } from "react";
 import { Circle, Square, Triangle, X } from "lucide-react";
 import gsap from "gsap";
+
 import { useLanguage } from "@/hooks/use-language";
+
 import type { DeviantIcon, DeviantQuestion } from "./deviant-test";
 
 type DeviantTestQuestionProps = {
@@ -33,6 +35,7 @@ const DeviantTestQuestion = forwardRef<HTMLDivElement, DeviantTestQuestionProps>
    const hasEnteredRef = useRef(false);
 
    const questionCopy = copy.home.deviantTest.question.questions[questionIndex];
+
    const currentNumber = String(questionIndex + 1).padStart(2, "0");
    const totalNumber = String(totalQuestions).padStart(2, "0");
 
@@ -258,16 +261,17 @@ const DeviantTestQuestion = forwardRef<HTMLDivElement, DeviantTestQuestionProps>
                ref.current = node;
             }
          }}
-         className="pointer-events-none relative z-10 flex h-full min-h-[600px] w-full max-w-7xl flex-col items-center justify-between p-8 md:flex-row md:p-16"
+         className="pointer-events-none relative z-10 flex min-h-svh w-full max-w-7xl flex-col px-5 pb-7 pt-20 sm:px-7 sm:pb-9 sm:pt-24 md:min-h-[600px] md:flex-row md:items-center md:justify-between md:p-16"
       >
          {/* OBJECTIVE */}
-         <div className="objective-text absolute left-4 top-8 max-w-[90%] sm:left-6 sm:top-10 md:left-12 md:top-20">
-            <p className="question-objective-analyze font-sans text-xs font-light uppercase tracking-[0.1em] text-white/70 md:text-xl">{copy.home.deviantTest.question.analyze}</p>
+         <div className="objective-text relative w-full shrink-0 md:absolute md:left-12 md:top-20 md:max-w-[90%]">
+            <p className="question-objective-analyze font-sans text-[10px] font-light uppercase tracking-[0.1em] text-white/60 sm:text-xs md:text-xl md:text-white/70">{copy.home.deviantTest.question.analyze}</p>
 
-            <h2 className="question-objective-title mt-1 font-sans text-xl font-bold uppercase tracking-wide text-white drop-shadow-md md:text-4xl md:tracking-widest">{copy.home.deviantTest.question.tendencies}</h2>
+            <h2 className="question-objective-title mt-1 max-w-[300px] font-sans text-[clamp(1.4rem,7vw,2rem)] font-bold uppercase leading-[1.05] tracking-[0.04em] text-white drop-shadow-md sm:max-w-none sm:text-3xl md:text-4xl md:tracking-widest">
+               {copy.home.deviantTest.question.tendencies}
+            </h2>
 
-            {/* QUESTION PROGRESS */}
-            <div className="question-progress mt-3 flex items-center gap-3 font-mono text-[9px] font-medium tracking-[0.2em] text-dbh-blue/70 sm:text-[10px] md:text-xs">
+            <div className="question-progress mt-3 flex items-center gap-3 font-mono text-[8px] font-medium tracking-[0.18em] text-dbh-blue/70 sm:text-[10px] md:text-xs md:tracking-[0.2em]">
                <span>{currentNumber}</span>
 
                <div className="relative h-px w-8 overflow-hidden bg-white/15 md:w-12">
@@ -278,54 +282,62 @@ const DeviantTestQuestion = forwardRef<HTMLDivElement, DeviantTestQuestionProps>
             </div>
          </div>
 
-         {/* SCENARIO */}
-         <div ref={contentRef} className="absolute left-1/2 top-[40%] w-[90%] max-w-xl -translate-x-1/2 -translate-y-1/2 text-center md:ml-12 md:top-1/2 md:w-full md:text-left">
-            <div className="mb-6 md:mb-8">
-               <h3 className="question-scenario-label mb-3 font-mono text-[10px] uppercase leading-relaxed tracking-[0.2em] text-dbh-blue/80 md:text-xs">[ {questionCopy.scenario} ]</h3>
+         {/* MOBILE CONTENT */}
+         <div className="flex min-h-0 flex-1 flex-col justify-center py-7 md:contents">
+            {/* SCENARIO */}
+            <div ref={contentRef} className="relative w-full text-left md:absolute md:left-1/2 md:top-1/2 md:ml-12 md:w-full md:max-w-xl md:-translate-x-1/2 md:-translate-y-1/2">
+               <div className="mb-5 sm:mb-6 md:mb-8">
+                  <h3 className="question-scenario-label mb-2 font-mono text-[8px] uppercase leading-relaxed tracking-[0.16em] text-dbh-blue/80 sm:text-[10px] sm:tracking-[0.2em] md:mb-3 md:text-xs">[ {questionCopy.scenario} ]</h3>
 
-               <p className="question-text mx-auto max-w-md font-sans text-sm font-light leading-relaxed text-white drop-shadow-md md:mx-0 md:text-base">{questionCopy.text}</p>
-            </div>
+                  <p className="question-text max-w-[520px] font-sans text-[13px] font-light leading-[1.65] text-white/90 drop-shadow-md sm:text-sm sm:leading-relaxed md:text-base md:text-white">{questionCopy.text}</p>
+               </div>
 
-            {/* DEVIANCY LEVEL */}
-            <div className="question-deviancy mt-2 inline-flex flex-col gap-2 md:mt-4">
-               <div className="flex items-center justify-center gap-4 md:justify-start">
-                  <div ref={stressRef} className={`font-display text-4xl font-light transition-colors duration-500 md:text-5xl ${stressLevel > 0 ? "text-red-500" : "text-dbh-blue"}`}>
-                     {stressLevel}%
+               {/* DEVIANCY LEVEL */}
+               <div className="question-deviancy inline-flex w-full max-w-[260px] flex-col gap-2 md:mt-4 md:w-auto">
+                  <div className="flex items-center gap-3 sm:gap-4">
+                     <div ref={stressRef} className={`shrink-0 font-display text-[2.25rem] font-light leading-none transition-colors duration-500 sm:text-4xl md:text-5xl ${stressLevel > 0 ? "text-red-500" : "text-dbh-blue"}`}>
+                        {stressLevel}%
+                     </div>
+
+                     <p className="max-w-[110px] text-left font-mono text-[8px] uppercase leading-[1.45] tracking-[0.13em] text-white/45 sm:text-[10px] sm:tracking-[0.16em] md:text-xs md:tracking-widest">
+                        {copy.home.deviantTest.question.deviancyLevel}
+                     </p>
                   </div>
 
-                  <p className="max-w-[100px] text-left font-mono text-[9px] uppercase leading-[1.45] tracking-[0.16em] text-white/45 sm:text-[10px] md:text-xs md:tracking-widest">{copy.home.deviantTest.question.deviancyLevel}</p>
-               </div>
-
-               <div className="relative mx-auto h-[2px] w-48 overflow-hidden bg-white/10 md:mx-0">
-                  <div className={`absolute inset-y-0 left-0 transition-[width,background-color] duration-1000 ease-out ${stressLevel > 0 ? "bg-red-500" : "bg-dbh-blue"}`} style={{ width: `${stressLevel}%` }} />
+                  <div className="relative h-[2px] w-full overflow-hidden bg-white/10 md:w-48">
+                     <div className={`absolute inset-y-0 left-0 transition-[width,background-color] duration-1000 ease-out ${stressLevel > 0 ? "bg-red-500" : "bg-dbh-blue"}`} style={{ width: `${stressLevel}%` }} />
+                  </div>
                </div>
             </div>
-         </div>
 
-         {/* CHOICES */}
-         <div ref={optionsRef} className={`absolute right-4 top-[78%] flex -translate-y-1/2 flex-col items-end gap-4 sm:right-6 md:right-24 md:top-1/2 md:gap-6 ${isProcessing ? "pointer-events-none" : "pointer-events-auto"}`}>
-            {question.options.map((option, optionIndex) => {
-               const Icon = optionIcons[option.icon];
-               const label = questionCopy.options[optionIndex];
+            {/* CHOICES */}
+            <div
+               ref={optionsRef}
+               className={`relative mt-8 flex w-full flex-col gap-2.5 sm:mt-10 sm:gap-3 md:absolute md:right-24 md:top-1/2 md:mt-0 md:w-auto md:-translate-y-1/2 md:items-end md:gap-6 ${isProcessing ? "pointer-events-none" : "pointer-events-auto"}`}
+            >
+               {question.options.map((option, optionIndex) => {
+                  const Icon = optionIcons[option.icon];
+                  const label = questionCopy.options[optionIndex];
 
-               return (
-                  <button
-                     type="button"
-                     key={`${question.id}-${optionIndex}`}
-                     onClick={() => onAnswer(option.isDeviant)}
-                     disabled={isProcessing}
-                     className="question-choice group flex cursor-pointer items-center justify-end gap-4 py-1 text-right disabled:cursor-default"
-                  >
-                     <span className="font-sans text-sm font-light uppercase tracking-[0.15em] text-white/70 transition-[color,letter-spacing,transform] duration-300 [@media(hover:hover)]:group-hover:-translate-x-1 [@media(hover:hover)]:group-hover:tracking-[0.18em] [@media(hover:hover)]:group-hover:text-dbh-blue sm:text-base md:text-lg">
-                        [ {label} ]
-                     </span>
+                  return (
+                     <button
+                        type="button"
+                        key={`${question.id}-${optionIndex}`}
+                        onClick={() => onAnswer(option.isDeviant)}
+                        disabled={isProcessing}
+                        className="question-choice group flex min-h-12 w-full cursor-pointer items-center justify-between gap-4 border-b border-white/10 py-2.5 text-left disabled:cursor-default sm:min-h-14 sm:py-3 md:min-h-0 md:w-auto md:justify-end md:border-0 md:py-1 md:text-right"
+                     >
+                        <span className="font-sans text-[12px] font-light uppercase tracking-[0.11em] text-white/70 transition-[color,letter-spacing,transform] duration-300 [@media(hover:hover)]:group-hover:-translate-x-1 [@media(hover:hover)]:group-hover:tracking-[0.18em] [@media(hover:hover)]:group-hover:text-dbh-blue sm:text-sm sm:tracking-[0.15em] md:text-lg">
+                           [ {label} ]
+                        </span>
 
-                     <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full border border-white/35 text-white/70 transition-[color,border-color,background-color,box-shadow] duration-300 [@media(hover:hover)]:group-hover:border-dbh-blue/75 [@media(hover:hover)]:group-hover:bg-dbh-blue/10 [@media(hover:hover)]:group-hover:text-dbh-blue [@media(hover:hover)]:group-hover:shadow-[0_0_16px_rgba(82,199,255,0.15)] md:h-8 md:w-8">
-                        <Icon className="h-3 w-3 fill-current md:h-3.5 md:w-3.5" strokeWidth={1.4} />
-                     </span>
-                  </button>
-               );
-            })}
+                        <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-white/35 text-white/70 transition-[color,border-color,background-color,box-shadow] duration-300 [@media(hover:hover)]:group-hover:border-dbh-blue/75 [@media(hover:hover)]:group-hover:bg-dbh-blue/10 [@media(hover:hover)]:group-hover:text-dbh-blue [@media(hover:hover)]:group-hover:shadow-[0_0_16px_rgba(82,199,255,0.15)] md:h-8 md:w-8">
+                           <Icon className="h-3 w-3 fill-current md:h-3.5 md:w-3.5" strokeWidth={1.4} />
+                        </span>
+                     </button>
+                  );
+               })}
+            </div>
          </div>
       </div>
    );

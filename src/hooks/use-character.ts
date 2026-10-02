@@ -83,6 +83,7 @@ function setDesktopComposition(stageRefs: CharacterStageRefs, activeIndex: numbe
             opacity: slot === "active" ? 0 : 1,
             y: 0,
             scale: 1,
+            filter: "blur(0px)",
             pointerEvents: slot === "active" ? "none" : "auto",
          });
       }
@@ -91,8 +92,9 @@ function setDesktopComposition(stageRefs: CharacterStageRefs, activeIndex: numbe
          gsap.killTweensOf(sideVisual);
 
          gsap.set(sideVisual, {
-            opacity: 1,
+            clearProps: "opacity",
             scale: 1,
+            filter: "blur(0px)",
          });
       }
 
@@ -103,6 +105,7 @@ function setDesktopComposition(stageRefs: CharacterStageRefs, activeIndex: numbe
             opacity: slot === "active" ? 1 : 0,
             y: 0,
             scale: 1,
+            filter: "blur(0px)",
          });
       }
 
@@ -120,19 +123,43 @@ export function useCharacterEntrance(stageRefs: CharacterStageRefs, infoRefs: Ch
       const nameElement = infoRefs.nameRef.current;
       const metaElement = infoRefs.metaRef.current;
       const descriptionElement = infoRefs.descriptionRef.current;
+      const mobileCharacterElement = stageRefs.mobileCharacterRef.current;
+
+      /*
+       * MOBILE INITIAL STATE
+       */
+      if (!isDesktop && mobileCharacterElement) {
+         gsap.killTweensOf(mobileCharacterElement);
+
+         gsap.set(mobileCharacterElement, {
+            x: 0,
+            y: 0,
+            opacity: 1,
+            scale: 1,
+            filter: "blur(0px)",
+         });
+      }
 
       if (!nameElement || !metaElement || !descriptionElement) return;
 
-      const characterElements = isDesktop ? getDesktopCharacterElements(stageRefs).map(({ element }) => element) : stageRefs.mobileCharacterRef.current ? [stageRefs.mobileCharacterRef.current] : [];
+      const characterElements = isDesktop ? getDesktopCharacterElements(stageRefs).map(({ element }) => element) : [];
 
-      if (!characterElements.length) return;
+      if (isDesktop && !characterElements.length) return;
 
       if (reduceMotion) {
-         gsap.set([...characterElements, nameElement, metaElement, descriptionElement], {
+         gsap.set([nameElement, metaElement, descriptionElement], {
             opacity: 1,
             y: 0,
             filter: "blur(0px)",
          });
+
+         if (isDesktop) {
+            gsap.set(characterElements, {
+               opacity: 1,
+               y: 0,
+               filter: "blur(0px)",
+            });
+         }
 
          return;
       }
@@ -141,21 +168,28 @@ export function useCharacterEntrance(stageRefs: CharacterStageRefs, infoRefs: Ch
          delay: 0.15,
       });
 
-      timeline.fromTo(
-         characterElements,
-         {
-            opacity: 0,
-            y: 14,
-         },
-         {
-            opacity: 1,
-            y: 0,
-            duration: 0.9,
-            stagger: isDesktop ? 0.08 : 0,
-            ease: "power3.out",
-         },
-         0,
-      );
+      /*
+       * DESKTOP INITIAL ENTRANCE
+       */
+      if (isDesktop) {
+         timeline.fromTo(
+            characterElements,
+            {
+               opacity: 0,
+               y: 10,
+               filter: "blur(2px)",
+            },
+            {
+               opacity: 1,
+               y: 0,
+               filter: "blur(0px)",
+               duration: 0.9,
+               stagger: 0.06,
+               ease: "power2.out",
+            },
+            0,
+         );
+      }
 
       timeline.fromTo(
          nameElement,
@@ -211,9 +245,23 @@ export function useCharacterEntrance(stageRefs: CharacterStageRefs, infoRefs: Ch
       return () => {
          timeline.kill();
 
-         gsap.set([...characterElements, nameElement, metaElement, descriptionElement], {
+         gsap.set([nameElement, metaElement, descriptionElement], {
             clearProps: "opacity,transform,filter",
          });
+
+         if (isDesktop) {
+            gsap.set(characterElements, {
+               clearProps: "opacity,transform,filter",
+            });
+         } else if (mobileCharacterElement) {
+            gsap.set(mobileCharacterElement, {
+               x: 0,
+               y: 0,
+               opacity: 1,
+               scale: 1,
+               filter: "blur(0px)",
+            });
+         }
       };
    }, [stageRefs, infoRefs]);
 }
@@ -283,6 +331,21 @@ export function useCharacterNavigation(stageRefs: CharacterStageRefs, background
 
          if (isDesktop) {
             setDesktopComposition(stageRefs, activeIndexRef.current);
+            return;
+         }
+
+         const mobileCharacterElement = stageRefs.mobileCharacterRef.current;
+
+         if (mobileCharacterElement) {
+            gsap.killTweensOf(mobileCharacterElement);
+
+            gsap.set(mobileCharacterElement, {
+               x: 0,
+               y: 0,
+               opacity: 1,
+               scale: 1,
+               filter: "blur(0px)",
+            });
          }
       };
 
@@ -340,6 +403,18 @@ export function useCharacterNavigation(stageRefs: CharacterStageRefs, background
 
             if (isDesktop) {
                setDesktopComposition(stageRefs, nextIndex);
+            } else {
+               const mobileCharacterElement = stageRefs.mobileCharacterRef.current;
+
+               if (mobileCharacterElement) {
+                  gsap.set(mobileCharacterElement, {
+                     x: 0,
+                     y: 0,
+                     opacity: 1,
+                     scale: 1,
+                     filter: "blur(0px)",
+                  });
+               }
             }
 
             transitionLockRef.current = false;
@@ -365,6 +440,7 @@ export function useCharacterNavigation(stageRefs: CharacterStageRefs, background
             defaults: {
                overwrite: "auto",
             },
+
             onComplete: () => {
                gsap.set(currentBackground, {
                   opacity: 0,
@@ -391,6 +467,7 @@ export function useCharacterNavigation(stageRefs: CharacterStageRefs, background
                         y: 0,
                         opacity: 1,
                         scale: 1,
+                        filter: "blur(0px)",
                      });
                   }
                }
@@ -400,7 +477,9 @@ export function useCharacterNavigation(stageRefs: CharacterStageRefs, background
             },
          });
 
-         /* BACKGROUND */
+         /*
+          * BACKGROUND
+          */
          timeline.to(
             currentBackground,
             {
@@ -421,7 +500,9 @@ export function useCharacterNavigation(stageRefs: CharacterStageRefs, background
             0,
          );
 
-         /* INFO OUT */
+         /*
+          * INFO OUT
+          */
          timeline.to(
             nameElement,
             {
@@ -458,7 +539,9 @@ export function useCharacterNavigation(stageRefs: CharacterStageRefs, background
             0.05,
          );
 
-         /* SWAP DESKTOP CONTENT WHILE INFO IS INVISIBLE */
+         /*
+          * LAPTOP + DESKTOP
+          */
          if (isDesktop) {
             timeline.call(
                () => {
@@ -468,10 +551,7 @@ export function useCharacterNavigation(stageRefs: CharacterStageRefs, background
                [],
                0.26,
             );
-         }
 
-         /* LAPTOP + DESKTOP */
-         if (isDesktop) {
             const oldSlots = getDesktopSlots(currentIndex);
             const newSlots = getDesktopSlots(nextIndex);
             const desktopCharacters = getDesktopCharacterElements(stageRefs);
@@ -495,10 +575,13 @@ export function useCharacterNavigation(stageRefs: CharacterStageRefs, background
 
                   gsap.set(activeLayer, {
                      y: 0,
+                     scale: 1,
                   });
                }
 
-               /* SUPPORT -> ACTIVE */
+               /*
+                * SUPPORT -> ACTIVE
+                */
                if (oldSlot !== "active" && newSlot === "active") {
                   gsap.set(element, {
                      zIndex: 10,
@@ -517,58 +600,56 @@ export function useCharacterNavigation(stageRefs: CharacterStageRefs, background
                         sideLayer,
                         {
                            opacity: 0,
-                           duration: 0.42,
-                           ease: "power2.inOut",
-                        },
-                        0,
-                     );
-                  }
-
-                  if (sideVisual) {
-                     timeline.to(
-                        sideVisual,
-                        {
-                           opacity: 0.88,
-                           duration: 0.32,
-                           ease: "sine.inOut",
+                           duration: 0.28,
+                           ease: "power2.in",
                         },
                         0,
                      );
                   }
 
                   if (activeLayer) {
-                     timeline.fromTo(
+                     timeline.set(
                         activeLayer,
                         {
                            opacity: 0,
-                           y: 7,
-                           scale: 0.985,
+                           y: 0,
+                           scale: 1,
+                           filter: "blur(2px)",
                         },
+                        0,
+                     );
+
+                     timeline.to(
+                        activeLayer,
                         {
                            opacity: 1,
                            y: 0,
                            scale: 1,
-                           duration: 0.62,
-                           ease: "power3.out",
+                           filter: "blur(0px)",
+                           duration: 0.58,
+                           ease: "power2.out",
                         },
-                        0.12,
+                        0.24,
                      );
                   }
 
                   return;
                }
 
-               /* ACTIVE -> SUPPORT */
+               /*
+                * ACTIVE -> SUPPORT
+                */
                if (oldSlot === "active" && newSlot !== "active") {
                   if (activeLayer) {
                      timeline.to(
                         activeLayer,
                         {
                            opacity: 0,
-                           y: 3,
-                           scale: 0.99,
-                           duration: 0.38,
-                           ease: "power2.inOut",
+                           y: 0,
+                           scale: 1,
+                           filter: "blur(2px)",
+                           duration: 0.28,
+                           ease: "power2.in",
                         },
                         0,
                      );
@@ -581,6 +662,7 @@ export function useCharacterNavigation(stageRefs: CharacterStageRefs, background
                            opacity: 0,
                            y: 0,
                            scale: 1,
+                           filter: "blur(0px)",
                            pointerEvents: "none",
                         },
                         0,
@@ -590,10 +672,10 @@ export function useCharacterNavigation(stageRefs: CharacterStageRefs, background
                         sideLayer,
                         {
                            opacity: 1,
-                           duration: 0.55,
+                           duration: 0.52,
                            ease: "power2.out",
                         },
-                        0.18,
+                        0.24,
                      );
 
                      timeline.set(
@@ -605,64 +687,34 @@ export function useCharacterNavigation(stageRefs: CharacterStageRefs, background
                      );
                   }
 
-                  if (sideVisual) {
-                     timeline.fromTo(
-                        sideVisual,
-                        {
-                           opacity: 0.82,
-                        },
-                        {
-                           opacity: 1,
-                           duration: 0.48,
-                           ease: "sine.inOut",
-                        },
-                        0.18,
-                     );
-                  }
-
                   timeline.set(
                      element,
                      {
                         zIndex: 1,
                      },
-                     0.4,
+                     0.32,
                   );
 
                   return;
                }
 
-               /* SUPPORT -> OPPOSITE SUPPORT */
-               if (oldSlot !== "active" && newSlot !== "active" && oldSlot !== newSlot && sideLayer) {
-                  timeline.to(
-                     sideLayer,
-                     {
-                        opacity: 0.72,
-                        duration: 0.22,
-                        ease: "power2.inOut",
-                     },
-                     0,
-                  );
-
-                  timeline.to(
-                     sideLayer,
-                     {
-                        opacity: 1,
-                        duration: 0.42,
-                        ease: "power2.out",
-                     },
-                     0.24,
-                  );
+               /*
+                * SUPPORT -> OPPOSITE SUPPORT
+                */
+               if (oldSlot !== "active" && newSlot !== "active" && oldSlot !== newSlot) {
+                  return;
                }
             });
          } else {
-            /* MOBILE + SMALL TABLET */
+            /*
+             * MOBILE + SMALL TABLET
+             */
             const mobileCharacterElement = stageRefs.mobileCharacterRef.current;
             const direction = nextIndex > currentIndex ? 1 : -1;
 
             if (mobileCharacterElement) {
                gsap.killTweensOf(mobileCharacterElement);
 
-               /* OLD CHARACTER OUT */
                timeline.to(
                   mobileCharacterElement,
                   {
@@ -676,7 +728,6 @@ export function useCharacterNavigation(stageRefs: CharacterStageRefs, background
                   0,
                );
 
-               /* SWAP CHARACTER WHILE INVISIBLE */
                timeline.call(
                   () => {
                      activeIndexRef.current = nextIndex;
@@ -686,7 +737,9 @@ export function useCharacterNavigation(stageRefs: CharacterStageRefs, background
                   0.3,
                );
 
-               /* PREPARE NEW CHARACTER */
+               /*
+                * PREPARE NEW CHARACTER
+                */
                timeline.set(
                   mobileCharacterElement,
                   {
@@ -698,7 +751,9 @@ export function useCharacterNavigation(stageRefs: CharacterStageRefs, background
                   0.32,
                );
 
-               /* NEW CHARACTER IN */
+               /*
+                * NEW CHARACTER IN
+                */
                timeline.to(
                   mobileCharacterElement,
                   {
@@ -723,7 +778,9 @@ export function useCharacterNavigation(stageRefs: CharacterStageRefs, background
             }
          }
 
-         /* INFO PREPARE */
+         /*
+          * INFO PREPARE
+          */
          timeline.set(
             nameElement,
             {
@@ -754,7 +811,9 @@ export function useCharacterNavigation(stageRefs: CharacterStageRefs, background
             0.28,
          );
 
-         /* INFO IN */
+         /*
+          * INFO IN
+          */
          timeline.to(
             nameElement,
             {
@@ -796,11 +855,13 @@ export function useCharacterNavigation(stageRefs: CharacterStageRefs, background
 
    const previousCharacter = () => {
       const previousIndex = (activeIndexRef.current - 1 + characters.length) % characters.length;
+
       changeCharacter(previousIndex);
    };
 
    const nextCharacter = () => {
       const nextIndex = (activeIndexRef.current + 1) % characters.length;
+
       changeCharacter(nextIndex);
    };
 

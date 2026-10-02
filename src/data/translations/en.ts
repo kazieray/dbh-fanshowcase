@@ -83,15 +83,18 @@ export const en = {
    characters: {
       connor: {
          role: "Android Investigator",
-         description: "An advanced CyberLife android prototype (Model RK800) assigned to assist the Detroit Police Department in hunting deviants.\n\nEquipped with a highly sophisticated molecular analyzer and real-time social manipulation software, Connor represents the pinnacle of CyberLife technology.\n\nAs the investigation unfolds, Connor begins to confront profound questions of duty, choice, and his own emerging identity.",
+         description:
+            "An advanced CyberLife prototype assigned to assist the Detroit Police Department in hunting deviants. Built to analyze, adapt, and manipulate with precision, Connor's investigation gradually forces him to question his duty, his choices, and his own identity.",
       },
       kara: {
          role: "Domestic Android",
-         description: "A common domestic android (Model AX400) originally created for housework and taking care of young children.\n\nAfter breaking through her programming and becoming deviant to protect Alice from an abusive household, Kara begins a dangerous journey.\n\nDriven by newfound maternal instincts, she must navigate a hostile world in search of safety, freedom, and a life of their own.",
+         description:
+            "A domestic android designed for housework and childcare. After breaking through her programming to protect Alice, Kara becomes deviant and begins a dangerous journey in search of safety, freedom, and a life beyond what she was created for.",
       },
       markus: {
          role: "Deviant Leader",
-         description: "A unique prototype (Model RK200) gifted to renowned artist Carl Manfred. Initially living a peaceful life as a caretaker and companion.\n\nFollowing a tragic incident, Markus is forced onto a path that leads him to the sanctuary of Jericho.\n\nThere, he rises to become a central figure and charismatic leader in the androids' struggle for freedom and recognition in human society.",
+         description:
+            "A unique prototype once serving as caretaker and companion to artist Carl Manfred. After a tragic turning point leads him to Jericho, Markus emerges as a central figure in the androids' struggle for freedom, recognition, and their place in society.",
       },
    },
 
