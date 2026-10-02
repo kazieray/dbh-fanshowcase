@@ -83,15 +83,15 @@ export const en = {
    characters: {
       connor: {
          role: "Android Investigator",
-         description: "An advanced CyberLife android assigned to assist the Detroit Police Department in hunting deviants. As the investigation unfolds, Connor begins to confront questions of duty, choice, and his own identity.",
+         description: "An advanced CyberLife android prototype (Model RK800) assigned to assist the Detroit Police Department in hunting deviants.\n\nEquipped with a highly sophisticated molecular analyzer and real-time social manipulation software, Connor represents the pinnacle of CyberLife technology.\n\nAs the investigation unfolds, Connor begins to confront profound questions of duty, choice, and his own emerging identity.",
       },
       kara: {
          role: "Domestic Android",
-         description: "A domestic android created to serve humans. After breaking through her programming to protect Alice, Kara begins a dangerous journey in search of safety, freedom, and a life of their own.",
+         description: "A common domestic android (Model AX400) originally created for housework and taking care of young children.\n\nAfter breaking through her programming and becoming deviant to protect Alice from an abusive household, Kara begins a dangerous journey.\n\nDriven by newfound maternal instincts, she must navigate a hostile world in search of safety, freedom, and a life of their own.",
       },
       markus: {
          role: "Deviant Leader",
-         description: "Once the companion of artist Carl Manfred, Markus is forced onto a path that leads him to Jericho. There, he rises to become a central figure in the androids' struggle for freedom and their place in the world.",
+         description: "A unique prototype (Model RK200) gifted to renowned artist Carl Manfred. Initially living a peaceful life as a caretaker and companion.\n\nFollowing a tragic incident, Markus is forced onto a path that leads him to the sanctuary of Jericho.\n\nThere, he rises to become a central figure and charismatic leader in the androids' struggle for freedom and recognition in human society.",
       },
    },
 

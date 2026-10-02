@@ -6,7 +6,6 @@ import HomeHero from "./home-hero";
 import HomeStory from "./home-story";
 import HomeTrailer from "./home-trailer";
 import HomeFlowchart from "./home-flowchart";
-import DeviantTest from "./deviant-test";
 
 export default function Home() {
    return (
@@ -17,7 +16,6 @@ export default function Home() {
          <HomeStory />
          <HomeFlowchart />
          <HomeTrailer />
-         <DeviantTest />
       </main>
    );
 }

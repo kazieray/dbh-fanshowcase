@@ -95,17 +95,17 @@ export const id = {
       connor: {
          role: "Penyelidik Android",
          description:
-            "Android canggih buatan CyberLife yang ditugaskan untuk membantu Kepolisian Detroit memburu para deviant. Seiring penyelidikan berlangsung, Connor mulai dihadapkan pada pertanyaan tentang tugas, pilihan, dan identitasnya sendiri.",
+            "Prototipe android canggih dari CyberLife (Model RK800) yang ditugaskan untuk membantu Kepolisian Detroit memburu para deviant.\n\nDilengkapi dengan penganalisis molekuler tingkat tinggi dan perangkat lunak manipulasi sosial real-time, Connor mewakili puncak teknologi CyberLife.\n\nSeiring penyelidikan berlangsung, Connor mulai dihadapkan pada pertanyaan mendalam tentang tugas, pilihan, dan jati dirinya yang baru muncul.",
       },
       kara: {
          role: "Android Domestik",
          description:
-            "Android rumah tangga yang diciptakan untuk melayani manusia. Setelah melampaui batas programnya demi melindungi Alice, Kara memulai perjalanan berbahaya untuk mencari tempat aman, kebebasan, dan kehidupan mereka sendiri.",
+            "Android rumah tangga umum (Model AX400) yang pada awalnya diciptakan untuk melakukan pekerjaan rumah dan merawat anak kecil.\n\nSetelah melampaui batas programnya dan menjadi deviant demi melindungi Alice dari rumah tangga yang kasar, Kara memulai perjalanan yang sangat berbahaya.\n\nDidorong oleh naluri keibuannya yang baru, ia harus bertahan di dunia yang kejam untuk mencari tempat aman, kebebasan, dan kehidupan mereka sendiri.",
       },
       markus: {
          role: "Pemimpin Deviant",
          description:
-            "Awalnya hidup sebagai pendamping seniman Carl Manfred, Markus kemudian dipaksa menempuh jalan yang membawanya menuju Jericho. Di sana, ia menjadi salah satu tokoh utama dalam perjuangan para android untuk meraih kebebasan dan menentukan tempat mereka di dunia.",
+            "Prototipe unik (Model RK200) yang diberikan kepada seniman terkenal Carl Manfred. Awalnya hidup damai sebagai perawat dan pendamping sang seniman.\n\nSetelah insiden tragis, Markus dipaksa menempuh jalan yang membawanya menuju tempat persembunyian Jericho.\n\nDi sana, ia bangkit menjadi tokoh sentral dan pemimpin karismatik dalam perjuangan para android untuk meraih kebebasan dan pengakuan di masyarakat manusia.",
       },
    },
 
