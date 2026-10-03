@@ -9,13 +9,18 @@ import Footer from "@/components/common/footer";
 
 export default function Home() {
    return (
-      <main className="relative min-h-svh bg-dbh-bg">
-         <Navbar active={true} />
-         <HomeBackground />
-         <HomeHero active={true} />
-         <HomeFlowchart />
-         <HomeTrailer />
-         <Footer />
-      </main>
+      <>
+         <main className="relative min-h-svh bg-dbh-bg">
+            <Navbar active={true} />
+            <HomeBackground />
+            <HomeHero active={true} />
+            <HomeFlowchart />
+            <HomeTrailer />
+         </main>
+
+         <div className="relative bg-[#071019] text-white">
+            <Footer />
+         </div>
+      </>
    );
 }

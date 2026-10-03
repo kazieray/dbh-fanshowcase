@@ -15,7 +15,7 @@ export default function News() {
 
    return (
       <>
-         <main className="relative isolate min-h-svh overflow-hidden bg-dbh-bg text-white">
+         <main className="relative min-h-svh bg-dbh-bg text-white">
             <Navbar active={true} />
 
             <NewsBackground />
