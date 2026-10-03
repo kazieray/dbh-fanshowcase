@@ -20,7 +20,7 @@ const platforms = [
       action: "Download game",
       logo: "https://cdn.simpleicons.org/steam/FFFFFF",
       logoAlt: "Steam",
-      image: "/img/connor-cover.jpg",
+      image: "/images/connor-cover.jpg",
       accent: "from-cyan-300/25",
    },
    {
@@ -31,7 +31,7 @@ const platforms = [
       action: "Download game",
       logo: "https://cdn.simpleicons.org/epicgames/FFFFFF",
       logoAlt: "Epic Games",
-      image: "/img/dbh-kara.jpg",
+      image: "/images/dbh-kara.jpg",
       accent: "from-white/20",
    },
    {
@@ -42,15 +42,15 @@ const platforms = [
       action: "Download game",
       logo: "https://cdn.simpleicons.org/playstation/FFFFFF",
       logoAlt: "PlayStation",
-      image: "/img/markus-cover.jpg",
+      image: "/images/markus-cover.jpg",
       accent: "from-rose-300/25",
    },
 ];
 
 const protagonists = [
-   { name: "Kara", image: "/img/kara.png" },
-   { name: "Markus", image: "/img/markus.png" },
-   { name: "Connor", image: "/img/connor.png" },
+   { name: "Kara", image: "/images/kara.png" },
+   { name: "Markus", image: "/images/markus.png" },
+   { name: "Connor", image: "/images/connor.png" },
 ];
 
 export default function Play() {
@@ -61,7 +61,7 @@ export default function Play() {
          <Navbar active />
 
          <section className="play-hero relative isolate min-h-[880px] overflow-hidden bg-[#071017] lg:min-h-svh">
-            <Image src="/img/detroit-become-human.avif" alt="Detroit: Become Human" fill priority sizes="100vw" className="-z-30 object-cover object-center" />
+            <Image src="/images/detroit-become-human.avif" alt="Detroit: Become Human" fill priority sizes="100vw" className="-z-30 object-cover object-center" />
             <div className="absolute inset-0 -z-20 bg-[linear-gradient(180deg,rgba(4,10,17,0.28)_0%,rgba(4,10,17,0.08)_38%,rgba(4,10,17,0.52)_72%,#071017_100%)]" />
             <div className="absolute inset-0 -z-20 bg-[linear-gradient(90deg,rgba(4,10,17,0.44),transparent_48%,rgba(4,10,17,0.3))]" />
             <div className="play-grid pointer-events-none absolute inset-0 -z-20 opacity-20" />

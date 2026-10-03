@@ -14,9 +14,27 @@ export const en = {
 
    home: {
       hero: {
-         title: "Detroit",
-         subtitle: "Become Human",
+         title: "DETROIT",
+         subtitle: "BECOME HUMAN",
          description: "Three androids. Three lives. Every choice brings them closer to what it means to be human.",
+      },
+      preloader: {
+         narratives: [
+            "A new world is taking shape.",
+            "Every choice can change the future.",
+            "The story is waiting for you.",
+         ],
+         initializing: "Initializing experience",
+         enterWithSound: "Enter with sound",
+         enterWithoutSound: "Enter without sound",
+         experience: "An interactive experience",
+         ready: "Ready",
+         loading: "Loading",
+      },
+      cast: {
+         kicker: "Androids / Detroit, 2038",
+         description: "Choose a perspective. Every android sees a different future for Detroit.",
+         select: "Meet",
       },
       story: {
          eyebrow: "Detroit, 2038",
@@ -30,8 +48,13 @@ export const en = {
          button: "Meet the Characters",
       },
       flowchart: {
-         chapter: "Connor / Chapter 01",
-         title: "Every Choice Matters",
+         title: "Chapters",
+         chapters: "Chapters",
+         statistics: "Statistics",
+         statisticsDescription: "Trace the choices and outcomes that shape every android's path.",
+         chaptersDescription: "Step into the moments that shape Detroit's story.",
+         preview: "A story shaped by every choice. Revisit the moments that changed Detroit, trace the decisions that set each android on a different path, and discover where Connor, Kara, and Markus first begin to question the lives they were designed to live.",
+         close: "Close chapter preview",
       },
       deviantTest: {
          start: {

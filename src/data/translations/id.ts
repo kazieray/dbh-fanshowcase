@@ -25,9 +25,27 @@ export const id = {
 
    home: {
       hero: {
-         title: "Detroit",
-         subtitle: "Become Human",
+         title: "DETROIT",
+         subtitle: "BECOME HUMAN",
          description: "Tiga android. Tiga kehidupan. Setiap pilihan membawa mereka lebih dekat pada arti menjadi manusia.",
+      },
+      preloader: {
+         narratives: [
+            "Sebuah dunia baru sedang terbentuk.",
+            "Setiap pilihan dapat mengubah masa depan.",
+            "Kisah ini menunggumu.",
+         ],
+         initializing: "Menyiapkan pengalaman",
+         enterWithSound: "Masuk dengan suara",
+         enterWithoutSound: "Masuk tanpa suara",
+         experience: "Sebuah pengalaman interaktif",
+         ready: "Siap",
+         loading: "Memuat",
+      },
+      cast: {
+         kicker: "Android / Detroit, 2038",
+         description: "Pilih sudut pandangmu. Setiap android melihat masa depan Detroit dengan cara berbeda.",
+         select: "Kenali",
       },
       story: {
          eyebrow: "Detroit, 2038",
@@ -41,8 +59,13 @@ export const id = {
          button: "Kenali Karakter",
       },
       flowchart: {
-         chapter: "Connor / Bab 01",
-         title: "Setiap Pilihan Berarti",
+         title: "Bab",
+         chapters: "Daftar Bab",
+         statistics: "Statistik",
+         statisticsDescription: "Telusuri pilihan dan akhir yang membentuk perjalanan setiap android.",
+         chaptersDescription: "Masuki momen-momen penting yang membentuk kisah Detroit.",
+         preview: "Kisah yang dibentuk oleh setiap pilihan. Telusuri kembali momen-momen yang mengubah Detroit, keputusan yang membawa tiap android ke jalan berbeda, serta awal ketika Connor, Kara, dan Markus mempertanyakan hidup yang dirancang untuk mereka.",
+         close: "Tutup pratinjau bab",
       },
       deviantTest: {
          start: {
@@ -94,7 +117,7 @@ export const id = {
    characters: {
       connor: {
          role: "Penyelidik Android",
-         description: "Prototipe android canggih CyberLife yang ditugaskan membantu Kepolisian Detroit memburu para deviant. Dibuat untuk menganalisis, beradaptasi, dan memanipulasi dengan presisi, penyelidikan Connor perlahan membuatnya mempertanyakan tugas, pilihan, dan identitasnya sendiri.",
+         description: "Android canggih buatan CyberLife yang ditugaskan untuk membantu Kepolisian Detroit memburu para deviant. Seiring penyelidikan berlangsung, Connor mulai dihadapkan pada pertanyaan tentang tugas, pilihan, dan identitasnya sendiri.",
       },
       kara: {
          role: "Android Domestik",

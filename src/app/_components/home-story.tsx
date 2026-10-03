@@ -313,8 +313,6 @@ export default function HomeStory() {
 
    return (
       <section ref={rootRef} id="story-section" className="relative z-10 min-h-svh overflow-hidden bg-transparent">
-         <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-black/65 via-[#05080d]/55 via-[45%] to-[#05080d]/68" />
-
          <div className="relative z-10 mx-auto flex min-h-svh w-full max-w-[1600px] flex-col justify-center px-4 py-16 sm:px-6 sm:py-20 md:px-8 md:py-20 lg:px-12 lg:py-20">
             <div className="story-group w-full">
                {/* OPENING RULE + SETTING */}

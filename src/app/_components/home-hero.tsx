@@ -1,6 +1,7 @@
 "use client";
 
-import { useLayoutEffect, useRef } from "react";
+import { useLayoutEffect, useRef, type PointerEvent } from "react";
+import Link from "next/link";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Particles from "./particles";
@@ -16,29 +17,96 @@ export default function HomeHero({ active }: HeroProps) {
    const { copy } = useLanguage();
 
    const rootRef = useRef<HTMLElement>(null);
-   const darknessRef = useRef<HTMLDivElement>(null);
+   const titleRef = useRef<HTMLButtonElement>(null);
+
+   const handlePointerMove = (event: PointerEvent<HTMLElement>) => {
+      if (event.pointerType !== "mouse" || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+      const bounds = event.currentTarget.getBoundingClientRect();
+      const horizontalOffset = (event.clientX - bounds.left) / bounds.width - 0.5;
+      const verticalOffset = (event.clientY - bounds.top) / bounds.height - 0.5;
+      const artwork = document.querySelector<HTMLImageElement>("#home-global-background img");
+      if (!artwork) return;
+
+      artwork.style.transform = `translate(${horizontalOffset * -16}px, ${verticalOffset * -12}px) scale(1.06)`;
+   };
+
+   const handleTitlePointerMove = (event: PointerEvent<HTMLButtonElement>) => {
+      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+      event.currentTarget.querySelectorAll<HTMLElement>(".hero-title-char").forEach((character) => {
+         const bounds = character.getBoundingClientRect();
+         const distanceX = event.clientX - (bounds.left + bounds.width / 2);
+         const distanceY = event.clientY - (bounds.top + bounds.height / 2);
+         const influence = Math.max(0, 1 - Math.hypot(distanceX, distanceY) / 190);
+
+         gsap.to(character, {
+            x: -distanceX * 0.12 * influence,
+            y: -distanceY * 0.16 * influence,
+            rotation: distanceX * 0.1 * influence,
+            duration: 0.24,
+            ease: "power3.out",
+            overwrite: "auto",
+         });
+      });
+   };
+
+   const resetTitleMotion = () => {
+      if (!titleRef.current || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+      gsap.to(titleRef.current.querySelectorAll<HTMLElement>(".hero-title-char"), {
+         x: 0,
+         y: 0,
+         rotation: 0,
+         duration: 0.7,
+         stagger: 0.012,
+         ease: "elastic.out(1, 0.55)",
+         overwrite: "auto",
+      });
+   };
+
+   const animateTitleClick = () => {
+      if (!titleRef.current || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+      const characters = titleRef.current.querySelectorAll<HTMLElement>(".hero-title-char");
+      gsap.timeline({ defaults: { overwrite: "auto" } })
+         .to(characters, {
+            x: () => gsap.utils.random(-4, 4),
+            y: () => gsap.utils.random(-2, 2),
+            rotation: () => gsap.utils.random(-2.5, 2.5),
+            duration: 0.14,
+            stagger: { each: 0.012, from: "center" },
+            ease: "power2.out",
+         })
+         .to(characters, {
+            x: 0,
+            y: 0,
+            rotation: 0,
+            duration: 0.55,
+            stagger: { each: 0.012, from: "center" },
+            ease: "elastic.out(1, 0.55)",
+         }, "+=0.04");
+   };
+
+   const resetPointerPosition = (event: PointerEvent<HTMLElement>) => {
+      const artwork = document.querySelector<HTMLImageElement>("#home-global-background img");
+      if (artwork) artwork.style.transform = "translate(0px, 0px) scale(1.06)";
+   };
 
    useLayoutEffect(() => {
       if (!rootRef.current) return;
 
       const ctx = gsap.context(() => {
+         if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
          gsap.set(".hero-title", {
             yPercent: 110,
-         });
-
-         gsap.set(".hero-subtitle", {
-            yPercent: 110,
             opacity: 0,
+            filter: "blur(24px)",
+            scale: 0.98,
          });
+         gsap.set(".hero-description, .hero-action", { y: 16, autoAlpha: 0 });
 
-         gsap.set(".hero-description", {
-            y: 14,
-            opacity: 0,
-         });
-
-         gsap.set(darknessRef.current, {
-            opacity: 1,
-         });
       }, rootRef);
 
       return () => ctx.revert();
@@ -48,6 +116,12 @@ export default function HomeHero({ active }: HeroProps) {
       if (!active || !rootRef.current) return;
 
       const ctx = gsap.context(() => {
+         if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+            gsap.set(".hero-title", { yPercent: 0, opacity: 1, filter: "blur(0px)", scale: 1 });
+            gsap.set(".hero-description, .hero-action", { y: 0, autoAlpha: 1 });
+            return;
+         }
+
          const entranceTimeline = gsap.timeline({
             delay: 0.25,
             defaults: {
@@ -55,41 +129,28 @@ export default function HomeHero({ active }: HeroProps) {
             },
          });
 
-         entranceTimeline
-            .to(darknessRef.current, {
-               opacity: 0,
-               duration: 1.6,
-               ease: "power2.out",
-            })
-            .to(
-               ".hero-title",
-               {
-                  yPercent: 0,
-                  duration: 1.15,
-                  ease: "power4.out",
-               },
-               "-=1.05",
-            )
-            .to(
-               ".hero-subtitle",
-               {
-                  yPercent: 0,
-                  opacity: 1,
-                  duration: 0.9,
-                  ease: "power4.out",
-               },
-               "-=0.62",
-            )
-            .to(
-               ".hero-description",
-               {
-                  y: 0,
-                  opacity: 1,
-                  duration: 0.75,
-                  ease: "power3.out",
-               },
-               "-=0.42",
-            );
+         entranceTimeline.to(
+            ".hero-title",
+            {
+               yPercent: 0,
+               opacity: 1,
+               filter: "blur(0px)",
+               scale: 1,
+               duration: 2.2,
+               ease: "power3.out",
+            },
+            0,
+         ).fromTo(
+            ".hero-description",
+            { y: 16, autoAlpha: 0 },
+            { y: 0, autoAlpha: 1, duration: 1.3, ease: "power3.out" },
+            0.7,
+         ).fromTo(
+            ".hero-action",
+            { y: 16, autoAlpha: 0 },
+            { y: 0, autoAlpha: 1, duration: 1, stagger: 0.14, ease: "power3.out" },
+            1.25,
+         );
       }, rootRef);
 
       return () => ctx.revert();
@@ -101,7 +162,7 @@ export default function HomeHero({ active }: HeroProps) {
       const mm = gsap.matchMedia();
 
       const ctx = gsap.context(() => {
-         mm.add("(max-width: 767px)", () => {
+         mm.add("(prefers-reduced-motion: no-preference) and (max-width: 767px)", () => {
             const exitTimeline = gsap.timeline({
                scrollTrigger: {
                   trigger: rootRef.current,
@@ -127,26 +188,10 @@ export default function HomeHero({ active }: HeroProps) {
                      ease: "none",
                   },
                   0,
-               )
-               .to(
-                  ".hero-subtitle",
-                  {
-                     opacity: 0,
-                     ease: "none",
-                  },
-                  0.08,
-               )
-               .to(
-                  ".hero-description",
-                  {
-                     opacity: 0,
-                     ease: "none",
-                  },
-                  0.14,
                );
          });
 
-         mm.add("(min-width: 768px)", () => {
+         mm.add("(prefers-reduced-motion: no-preference) and (min-width: 768px)", () => {
             const exitTimeline = gsap.timeline({
                scrollTrigger: {
                   trigger: rootRef.current,
@@ -172,22 +217,6 @@ export default function HomeHero({ active }: HeroProps) {
                      ease: "none",
                   },
                   0,
-               )
-               .to(
-                  ".hero-subtitle",
-                  {
-                     opacity: 0,
-                     ease: "none",
-                  },
-                  0.08,
-               )
-               .to(
-                  ".hero-description",
-                  {
-                     opacity: 0,
-                     ease: "none",
-                  },
-                  0.14,
                );
          });
       }, rootRef);
@@ -199,36 +228,36 @@ export default function HomeHero({ active }: HeroProps) {
    }, [active]);
 
    return (
-      <section ref={rootRef} className="relative isolate h-svh overflow-hidden bg-transparent md:min-h-[560px]">
-         <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-black/20 via-black/5 to-black/65" />
-
+      <section ref={rootRef} onPointerMove={handlePointerMove} onPointerLeave={resetPointerPosition} className="relative isolate h-[82svh] overflow-hidden bg-transparent md:min-h-140">
          <Particles active={active} />
 
-         <div ref={darknessRef} className="pointer-events-none absolute inset-0 z-[5] bg-black" />
-
          {/* CONTENT */}
-         <div className="hero-content relative z-10 flex h-full flex-col justify-end px-4 pb-6 md:px-8 md:pb-10 lg:px-12 lg:pb-12">
-            <div className="w-full">
+         <div className="hero-content relative z-10 flex h-full flex-col justify-center px-4 py-20 md:px-8 lg:px-12">
+            <div className="mx-auto w-full max-w-7xl text-center">
                <div className="overflow-hidden pb-[0.1em]">
                   <div className="inline-block max-w-full">
-                     <h1 className="hero-title font-display text-[clamp(4.5rem,22vw,7rem)] font-medium uppercase leading-[0.74] tracking-[-0.075em] text-white transition-[letter-spacing,text-shadow] duration-700 ease-out [@media(hover:hover)]:hover:tracking-[-0.065em] [@media(hover:hover)]:hover:[text-shadow:0_0_28px_rgba(82,199,255,0.16)] md:text-[clamp(5.5rem,14vw,10rem)] md:leading-[0.74] lg:text-[clamp(7rem,13vw,12rem)] lg:leading-[0.72]">
-                        {copy.home.hero.title}
+                     <h1 className="hero-title perspective-[700px] font-display text-[clamp(2.15rem,8.2vw,7rem)] font-medium uppercase leading-[0.86] tracking-[-0.055em] text-white md:leading-[0.82]">
+                        <button ref={titleRef} type="button" aria-label={`${copy.home.hero.title} ${copy.home.hero.subtitle}`} onPointerMove={handleTitlePointerMove} onPointerLeave={resetTitleMotion} onClick={animateTitleClick} className="inline-block cursor-pointer bg-transparent p-0 text-inherit">
+                           <span className="block">{copy.home.hero.title.split("").map((letter, index) => <span aria-hidden="true" key={`title-${index}`} className="hero-title-char inline-block origin-center">{letter}</span>)}</span>
+                           <span className="block">{copy.home.hero.subtitle.split("").map((letter, index) => <span aria-hidden="true" key={`subtitle-${index}`} className="hero-title-char inline-block origin-center">{letter === " " ? "\u00a0" : letter}</span>)}</span>
+                        </button>
                      </h1>
                   </div>
                </div>
 
-               <div className="mt-4 flex flex-col gap-6 md:mt-[clamp(0.7rem,2vw,1.5rem)] md:flex-row md:items-end md:justify-between md:gap-6">
-                  <div className="overflow-hidden pb-[0.1em]">
-                     <div className="inline-block max-w-full">
-                        <p className="hero-subtitle font-display text-[clamp(1.3rem,7vw,1.85rem)] font-light uppercase leading-none tracking-[0.04em] text-white/80 transition-[color,letter-spacing,text-shadow] duration-700 ease-out [@media(hover:hover)]:hover:tracking-[0.055em] [@media(hover:hover)]:hover:text-white/95 [@media(hover:hover)]:hover:[text-shadow:0_0_20px_rgba(82,199,255,0.12)] md:text-[clamp(1.4rem,3vw,2.5rem)] lg:text-[clamp(1.15rem,3vw,3rem)]">
-                           {copy.home.hero.subtitle}
-                        </p>
-                     </div>
-                  </div>
-
-                  <p className="hero-description max-w-[330px] font-mono text-[10px] uppercase leading-[1.7] tracking-[0.11em] text-white/50 md:max-w-[310px] md:text-[9px] md:leading-[1.7] md:tracking-[0.15em] md:text-white/45">
+               <div className="mt-5 flex flex-col items-center gap-5 md:mt-7">
+                  <p className="hero-description mx-auto max-w-[42ch] text-pretty font-mono text-[10px] uppercase leading-[1.8] tracking-widest text-white/80 sm:text-[11px]">
                      {copy.home.hero.description}
                   </p>
+               </div>
+
+               <div className="mt-8 flex flex-wrap justify-center gap-2">
+                  <Link href="#flowchart-section" className="hero-action nav-glass-control inline-flex min-h-11 min-w-52 items-center justify-center rounded-full px-6 font-mono text-[9px] tracking-[0.04em]">
+                     {copy.home.flowchart.statistics}
+                  </Link>
+                  <Link href="#chapter-section" className="hero-action nav-glass-control inline-flex min-h-11 min-w-52 items-center justify-center rounded-full px-6 font-mono text-[9px] tracking-[0.04em]">
+                     {copy.home.flowchart.chapters}
+                  </Link>
                </div>
             </div>
          </div>
