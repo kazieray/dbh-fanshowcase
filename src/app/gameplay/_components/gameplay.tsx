@@ -3,6 +3,7 @@
 import GameplayHero from "./gameplay-hero";
 import GameplayFeatures from "./gameplay-features";
 import GameplayExperience from "./gameplay-experience";
+import Footer from "@/components/common/footer";
 import { useLanguage } from "@/hooks/use-language";
 import { useGameplay } from "@/hooks/use-gameplay";
 
@@ -18,6 +19,10 @@ export default function Gameplay() {
          <GameplayFeatures copy={copy.gameplay} sectionRef={featuresSectionRef} titleRef={featuresTitleRef} setCardAnimationRef={setCardAnimationRef} />
 
          <GameplayExperience copy={copy.gameplay} sectionRef={experienceSectionRef} titleRef={experienceTitleRef} videoOneRef={videoOneRef} videoTwoRef={videoTwoRef} ctaRef={ctaRef} />
+
+         <section className="snap-start bg-[#071019]">
+            <Footer tightTop />
+         </section>
       </main>
    );
 }
