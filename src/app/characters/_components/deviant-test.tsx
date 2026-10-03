@@ -2,7 +2,9 @@
 
 import { useRef, useState } from "react";
 import gsap from "gsap";
+
 import { useLanguage } from "@/hooks/use-language";
+
 import DeviantTestStart from "./deviant-test-start";
 import DeviantTestQuestion from "./deviant-test-question";
 import DeviantTestResult from "./deviant-test-result";
@@ -186,23 +188,25 @@ export default function DeviantTest() {
 
    return (
       <section ref={containerRef} className="relative flex min-h-svh w-full items-center justify-center overflow-hidden bg-transparent font-mono">
-         {/* TECH LINES */}
+         <div className="pointer-events-none absolute inset-0 z-0 bg-gradient-to-b from-[#05080d]/78 via-[#05080d]/70 to-[#05080d]/85" />
+
          <div className="pointer-events-none absolute inset-0 z-0">
             <div className="absolute left-0 top-[20%] h-px w-full bg-white/5" />
             <div className="absolute left-0 top-[75%] h-px w-full bg-white/5" />
-            <div className="absolute left-[30%] top-0 h-full w-px bg-white/5" />
+            <div className="absolute left-[30%] top-0 hidden h-full w-px bg-white/5 md:block" />
          </div>
 
-         {/* WARNING */}
-         <div className={`pointer-events-none absolute inset-0 z-50 flex items-center justify-center bg-red-900/40 backdrop-blur-sm transition-opacity duration-300 ${showWarning ? "opacity-100" : "opacity-0"}`}>
-            <div className="flex flex-col items-center border border-red-500 bg-red-950/80 p-8 shadow-[0_0_50px_rgba(255,0,0,0.5)]">
-               <span className="mb-4 text-5xl text-red-500">⚠</span>
+         <div className={`pointer-events-none absolute inset-0 z-50 flex items-center justify-center bg-red-900/40 px-5 backdrop-blur-sm transition-opacity duration-300 sm:px-8 ${showWarning ? "opacity-100" : "opacity-0"}`}>
+            <div className="flex w-full max-w-[440px] flex-col items-center border border-red-500 bg-red-950/80 px-5 py-7 shadow-[0_0_50px_rgba(255,0,0,0.5)] sm:p-8 md:max-w-none md:w-auto">
+               <span className="mb-3 text-4xl text-red-500 sm:mb-4 sm:text-5xl">⚠</span>
 
-               <h2 className="mb-2 animate-pulse text-center font-display text-3xl uppercase tracking-widest text-red-500 md:text-5xl">{copy.home.deviantTest.warning.title}</h2>
+               <h2 className="mb-2 animate-pulse text-center font-display text-[clamp(1.75rem,9vw,3rem)] uppercase leading-none tracking-[0.08em] text-red-500 sm:tracking-widest md:text-5xl">{copy.home.deviantTest.warning.title}</h2>
 
-               <p className="max-w-[320px] text-center font-mono text-sm uppercase leading-relaxed tracking-[0.2em] text-red-400 sm:max-w-[420px] md:max-w-none md:text-lg">{copy.home.deviantTest.warning.description}</p>
+               <p className="max-w-[300px] text-center font-mono text-[9px] uppercase leading-[1.7] tracking-[0.14em] text-red-400 sm:max-w-[420px] sm:text-xs sm:tracking-[0.18em] md:max-w-none md:text-lg md:tracking-[0.2em]">
+                  {copy.home.deviantTest.warning.description}
+               </p>
 
-               <div className="mt-6 h-[2px] w-full overflow-hidden bg-red-500/50">
+               <div className="mt-5 h-[2px] w-full overflow-hidden bg-red-500/50 sm:mt-6">
                   <div className="h-full w-full animate-[pulse_0.5s_ease-in-out_infinite] bg-red-500" />
                </div>
             </div>

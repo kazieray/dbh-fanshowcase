@@ -8,6 +8,9 @@ import { useLanguage } from "@/hooks/use-language";
 import CharacterBackground from "./character-background";
 import CharacterStage from "./character-stage";
 import CharacterInfo from "./character-info";
+import CharacterGallery from "./character-gallery";
+import DeviantTest from "@/app/characters/_components/deviant-test";
+import Footer from "@/components/common/footer";
 
 export default function Characters() {
    const mobileCharacterRef = useRef<HTMLDivElement>(null);
@@ -53,26 +56,38 @@ export default function Characters() {
    const characterCopy = copy.characters[character.id];
 
    return (
-      <main className="relative h-svh overflow-hidden bg-[#05080d] text-white">
-         <CharacterBackground backgroundsRef={backgroundsRef} />
+      <main className="relative bg-[#05080d] text-white">
+         <div className="relative h-svh overflow-hidden">
+            <CharacterBackground backgroundsRef={backgroundsRef} />
 
-         <Navbar active={true} />
+            <Navbar active={true} />
 
-         <CharacterStage character={character} activeIndex={activeIndex} isTransitioning={isTransitioning} mobileCharacterRef={mobileCharacterRef} desktopCharacterRefs={desktopCharacterRefs} selectCharacter={selectCharacter} />
+            <CharacterGallery
+               gallery={character.gallery}
+               characterName={character.name}
+               isTransitioning={isTransitioning}
+            />
 
-         <div className="pointer-events-none absolute inset-x-0 bottom-0 z-20 h-[58svh] bg-linear-to-t from-[#05080d] from-12% via-[#05080d]/92 via-42% to-transparent sm:h-[56svh] md:h-[54svh] lg:h-[50svh]" />
+            <CharacterStage character={character} activeIndex={activeIndex} isTransitioning={isTransitioning} mobileCharacterRef={mobileCharacterRef} desktopCharacterRefs={desktopCharacterRefs} selectCharacter={selectCharacter} />
 
-         <CharacterInfo
-            character={character}
-            role={characterCopy.role}
-            description={characterCopy.description}
-            isTransitioning={isTransitioning}
-            nameRef={nameRef}
-            metaRef={metaRef}
-            descriptionRef={descriptionRef}
-            previousCharacter={previousCharacter}
-            nextCharacter={nextCharacter}
-         />
+            <div className="pointer-events-none absolute inset-x-0 bottom-0 z-20 h-[58svh] bg-linear-to-t from-[#05080d] from-12% via-[#05080d]/92 via-42% to-transparent sm:h-[56svh] md:h-[54svh] lg:h-[50svh]" />
+
+            <CharacterInfo
+               character={character}
+               role={characterCopy.role}
+               description={characterCopy.description}
+               isTransitioning={isTransitioning}
+               nameRef={nameRef}
+               metaRef={metaRef}
+               descriptionRef={descriptionRef}
+               previousCharacter={previousCharacter}
+               nextCharacter={nextCharacter}
+            />
+         </div>
+
+         <DeviantTest />
+
+         <Footer />
       </main>
    );
 }

@@ -7,10 +7,6 @@ export const id = {
       download: "Unduh",
    },
 
-   a11y: {
-      siteEntryOptions: "Pilihan masuk situs",
-   },
-
    footer: {
       description: "Drama interaktif dari Quantic Dream tentang manusia, android, pilihan, dan arti kebebasan di masa depan Detroit.",
       menu: "Menu",
@@ -23,8 +19,8 @@ export const id = {
    },
 
    audio: {
-      mute: "Matikan musik",
-      unmute: "Nyalakan musik",
+      mute: "Matikan",
+      unmute: "Nyalakan",
    },
 
    home: {
@@ -121,18 +117,15 @@ export const id = {
    characters: {
       connor: {
          role: "Penyelidik Android",
-         description:
-            "Android canggih buatan CyberLife yang ditugaskan untuk membantu Kepolisian Detroit memburu para deviant. Seiring penyelidikan berlangsung, Connor mulai dihadapkan pada pertanyaan tentang tugas, pilihan, dan identitasnya sendiri.",
+         description: "Android canggih buatan CyberLife yang ditugaskan untuk membantu Kepolisian Detroit memburu para deviant. Seiring penyelidikan berlangsung, Connor mulai dihadapkan pada pertanyaan tentang tugas, pilihan, dan identitasnya sendiri.",
       },
       kara: {
          role: "Android Domestik",
-         description:
-            "Android rumah tangga yang diciptakan untuk melayani manusia. Setelah melampaui batas programnya demi melindungi Alice, Kara memulai perjalanan berbahaya untuk mencari tempat aman, kebebasan, dan kehidupan mereka sendiri.",
+         description: "Android domestik yang dirancang untuk pekerjaan rumah dan merawat anak. Setelah menembus batas pemrogramannya demi melindungi Alice, Kara menjadi deviant dan memulai perjalanan berbahaya untuk mencari keselamatan, kebebasan, dan kehidupan di luar tujuan awal penciptaannya.",
       },
       markus: {
          role: "Pemimpin Deviant",
-         description:
-            "Awalnya hidup sebagai pendamping seniman Carl Manfred, Markus kemudian dipaksa menempuh jalan yang membawanya menuju Jericho. Di sana, ia menjadi salah satu tokoh utama dalam perjuangan para android untuk meraih kebebasan dan menentukan tempat mereka di dunia.",
+         description: "Prototipe unik yang pernah menjadi pengasuh dan pendamping seniman Carl Manfred. Setelah sebuah tragedi membawanya menuju Jericho, Markus tumbuh menjadi sosok penting dalam perjuangan para android untuk mendapatkan kebebasan, pengakuan, dan tempat mereka di masyarakat.",
       },
    },
 
@@ -164,7 +157,6 @@ export const id = {
       description: "Berita dan cerita terbaru dari Detroit, dirangkum untuk kamu ikuti dengan mudah.",
       backgroundAlt: "Detroit di malam hari",
       featured: "Berita pilihan",
-      readArticle: "Baca Berita",
       readMore: "Baca Selengkapnya",
       loading: "Memuat berita",
       close: "Tutup berita",

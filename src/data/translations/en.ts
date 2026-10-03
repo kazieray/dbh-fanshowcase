@@ -7,13 +7,9 @@ export const en = {
       download: "Download",
    },
 
-   a11y: {
-      siteEntryOptions: "Site entry options",
-   },
-
    audio: {
-      mute: "Mute music",
-      unmute: "Unmute music",
+      mute: "Mute",
+      unmute: "Unmute",
    },
 
    home: {
@@ -110,15 +106,18 @@ export const en = {
    characters: {
       connor: {
          role: "Android Investigator",
-         description: "An advanced CyberLife android assigned to assist the Detroit Police Department in hunting deviants. As the investigation unfolds, Connor begins to confront questions of duty, choice, and his own identity.",
+         description:
+            "An advanced CyberLife prototype assigned to assist the Detroit Police Department in hunting deviants. Built to analyze, adapt, and manipulate with precision, Connor's investigation gradually forces him to question his duty, his choices, and his own identity.",
       },
       kara: {
          role: "Domestic Android",
-         description: "A domestic android created to serve humans. After breaking through her programming to protect Alice, Kara begins a dangerous journey in search of safety, freedom, and a life of their own.",
+         description:
+            "A domestic android designed for housework and childcare. After breaking through her programming to protect Alice, Kara becomes deviant and begins a dangerous journey in search of safety, freedom, and a life beyond what she was created for.",
       },
       markus: {
          role: "Deviant Leader",
-         description: "Once the companion of artist Carl Manfred, Markus is forced onto a path that leads him to Jericho. There, he rises to become a central figure in the androids' struggle for freedom and their place in the world.",
+         description:
+            "A unique prototype once serving as caretaker and companion to artist Carl Manfred. After a tragic turning point leads him to Jericho, Markus emerges as a central figure in the androids' struggle for freedom, recognition, and their place in society.",
       },
    },
 
@@ -150,7 +149,6 @@ export const en = {
       description: "The latest news and stories from Detroit, gathered for you in one place.",
       backgroundAlt: "Detroit at night",
       featured: "Featured stories",
-      readArticle: "Read Story",
       readMore: "Read More",
       loading: "Loading stories",
       close: "Close story",

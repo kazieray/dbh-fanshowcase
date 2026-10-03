@@ -1,5 +1,10 @@
 export type CharacterId = "connor" | "markus" | "kara";
 
+export type GalleryImage = {
+   src: string;
+   label: string;
+};
+
 export type Character = {
    id: CharacterId;
    name: string;
@@ -20,6 +25,7 @@ export type Character = {
    backgroundPosition: string;
    imagePosition: string;
    sideImagePosition: string;
+   gallery: GalleryImage[];
 };
 
 export const characters: Character[] = [
@@ -44,6 +50,11 @@ export const characters: Character[] = [
       backgroundPosition: "object-center",
       imagePosition: "translate-x-0",
       sideImagePosition: "scale-[0.94] translate-y-[2%]",
+      gallery: [
+         { src: "/images/characters/connor.jpeg", label: "Scene 1" },
+         { src: "/images/characters/connor-hank.jpeg", label: "Scene 2" },
+         { src: "/images/Android.jpeg", label: "Scene 3" },
+      ],
    },
    {
       id: "markus",
@@ -66,6 +77,11 @@ export const characters: Character[] = [
       backgroundPosition: "object-center",
       imagePosition: "-translate-x-[1%]",
       sideImagePosition: "scale-[0.94] translate-y-[4%]",
+      gallery: [
+         { src: "/images/characters/markus-bazooka.jpg", label: "Scene 1" },
+         { src: "/images/characters/markus-holding-hand.jpg", label: "Scene 2" },
+         { src: "/images/characters/markus-revolution.webp", label: "Scene 3" },
+      ],
    },
    {
       id: "kara",
@@ -88,5 +104,10 @@ export const characters: Character[] = [
       backgroundPosition: "object-center",
       imagePosition: "translate-x-0",
       sideImagePosition: "scale-[0.82] -translate-y-[2%]",
+      gallery: [
+         { src: "/images/Kara.jpeg", label: "Scene 1" },
+         { src: "/images/Fall.jpeg", label: "Scene 2" },
+         { src: "/images/characters/kara-alice.jpeg", label: "Scene 3" },
+      ],
    },
 ];

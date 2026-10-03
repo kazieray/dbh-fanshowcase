@@ -5,6 +5,7 @@ import HomeBackground from "./home-background";
 import HomeHero from "./home-hero";
 import HomeTrailer from "./home-trailer";
 import HomeFlowchart from "./home-flowchart";
+import Footer from "@/components/common/footer";
 
 export default function Home() {
    return (
@@ -14,6 +15,7 @@ export default function Home() {
          <HomeHero active={true} />
          <HomeFlowchart />
          <HomeTrailer />
+         <Footer />
       </main>
    );
 }

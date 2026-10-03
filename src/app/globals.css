@@ -20,6 +20,20 @@
    }
 }
 
+@media (pointer: fine) {
+   html.custom-cursor-active,
+   html.custom-cursor-active body,
+   html.custom-cursor-active a,
+   html.custom-cursor-active button,
+   html.custom-cursor-active input,
+   html.custom-cursor-active textarea,
+   html.custom-cursor-active select,
+   html.custom-cursor-active summary,
+   html.custom-cursor-active [role="button"] {
+      cursor: none !important;
+   }
+}
+
 @custom-variant dark (&:is(.dark *));
 
 @theme {
@@ -39,6 +53,8 @@
 html {
    scroll-behavior: smooth;
    background: var(--color-dbh-bg);
+   scrollbar-width: thin;
+   scrollbar-color: rgb(255 255 255 / 28%) var(--color-dbh-bg);
 }
 
 body {
@@ -53,6 +69,29 @@ body {
 
    -webkit-font-smoothing: antialiased;
    text-rendering: optimizeLegibility;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+   width: 4px;
+   height: 4px;
+}
+
+::-webkit-scrollbar-track {
+   background: var(--color-dbh-bg);
+}
+
+::-webkit-scrollbar-thumb {
+   background: rgb(255 255 255 / 28%);
+   border-radius: 999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+   background: rgb(255 255 255 / 48%);
+}
+
+::-webkit-scrollbar-corner {
+   background: var(--color-dbh-bg);
 }
 
 .language-transition-overlay {
@@ -95,14 +134,24 @@ body {
 }
 
 @keyframes language-overlay-in {
-   0% { opacity: 0; }
+   0% {
+      opacity: 0;
+   }
+
    22%,
-   76% { opacity: 1; }
-   100% { opacity: 0; }
+   76% {
+      opacity: 1;
+   }
+
+   100% {
+      opacity: 0;
+   }
 }
 
 @keyframes language-spinner {
-   to { transform: rotate(360deg); }
+   to {
+      transform: rotate(360deg);
+   }
 }
 
 button,
@@ -131,6 +180,559 @@ a {
 :focus-visible {
    outline: 1px solid var(--color-dbh-blue);
    outline-offset: 4px;
+}
+
+.play-store-action {
+   font-family: var(--font-mono);
+   font-size: 8px;
+   letter-spacing: 0.08em;
+   line-height: 1.25;
+}
+
+.liquid-glass {
+   border: 1px solid rgb(226 245 255 / 23%);
+   background:
+      linear-gradient(145deg, rgb(226 245 255 / 13%), rgb(226 245 255 / 3%) 48%, rgb(226 245 255 / 9%)),
+      rgb(8 16 25 / 48%);
+   -webkit-backdrop-filter: blur(28px) saturate(165%);
+   backdrop-filter: blur(28px) saturate(165%);
+   box-shadow:
+      inset 0 1px 0 rgb(255 255 255 / 28%),
+      inset 0 -1px 0 rgb(255 255 255 / 8%),
+      0 28px 80px rgb(0 0 0 / 42%),
+      0 8px 24px rgb(60 183 255 / 9%);
+}
+
+.nav-glass-control {
+   border: 1px solid rgb(255 255 255 / 22%);
+   background: rgb(255 255 255 / 8%);
+   color: rgb(255 255 255 / 88%);
+   box-shadow: inset 0 1px 0 rgb(255 255 255 / 8%), 0 2px 8px rgb(0 0 0 / 16%);
+   -webkit-backdrop-filter: blur(24px) saturate(160%);
+   backdrop-filter: blur(24px) saturate(160%);
+   transition: color 300ms ease, background-color 300ms ease, border-color 300ms ease, box-shadow 300ms ease, transform 300ms ease;
+}
+
+.nav-glass-control:hover,
+.nav-glass-control:focus-visible,
+.nav-glass-control:active {
+   border-color: rgb(82 199 255 / 68%);
+   background: linear-gradient(135deg, rgb(82 199 255 / 25%), rgb(82 199 255 / 9%)), rgb(255 255 255 / 10%);
+   color: var(--color-dbh-blue);
+   box-shadow: inset 0 1px 0 rgb(255 255 255 / 18%), 0 6px 20px rgb(82 199 255 / 20%);
+}
+
+.nav-glass-control:active {
+   transform: scale(0.985);
+}
+
+.news-story-action {
+   border: 0;
+   background: transparent;
+   color: var(--color-dbh-white);
+   font-size: 11px;
+   box-shadow: none;
+   transition: color 240ms ease;
+}
+
+.news-story-action:hover,
+.news-story-action:focus-visible,
+.news-story-action:active {
+   background: transparent;
+   color: var(--color-dbh-blue);
+   box-shadow: none;
+}
+
+.nav-glass-panel {
+   border: 1px solid rgb(255 255 255 / 22%);
+   background: linear-gradient(145deg, rgb(255 255 255 / 15%), rgb(255 255 255 / 5%) 55%), rgb(8 16 25 / 58%);
+   -webkit-backdrop-filter: blur(30px) saturate(170%);
+   backdrop-filter: blur(30px) saturate(170%);
+   box-shadow: inset 0 1px 0 rgb(255 255 255 / 32%), inset 0 -1px 0 rgb(255 255 255 / 8%), 0 30px 90px rgb(0 0 0 / 48%);
+}
+
+.social-brand-mark {
+   filter: saturate(0.72) contrast(0.9);
+   opacity: 0.9;
+   transition: filter 300ms ease, opacity 300ms ease;
+}
+
+.footer-backdrop {
+   background: linear-gradient(180deg, rgb(5 8 13 / 88%) 0%, #05080d 200px);
+}
+
+.nav-glass-control:hover .social-brand-mark,
+.nav-glass-control:focus-visible .social-brand-mark,
+.footer-social-link:hover .social-brand-mark,
+.footer-social-link:focus-visible .social-brand-mark {
+   filter: saturate(0.88) contrast(0.96);
+   opacity: 1;
+}
+
+.footer-social-link {
+   color: rgb(255 255 255 / 72%);
+   transition: color 240ms ease, transform 240ms ease;
+}
+
+.footer-social-link:hover,
+.footer-social-link:focus-visible {
+   color: var(--color-dbh-blue);
+   transform: translateX(2px);
+}
+
+.glass-store-card:hover .nav-glass-control,
+.glass-store-card:focus-visible .nav-glass-control,
+.glass-store-card:active .nav-glass-control {
+   color: var(--color-dbh-blue);
+}
+
+.footer-navigation-link:hover,
+.footer-navigation-link:focus-visible,
+.footer-navigation-link:active {
+   color: var(--color-dbh-blue);
+}
+
+.glass-store-card {
+   border-color: rgb(255 255 255 / 38%);
+   background:
+      linear-gradient(140deg, rgb(255 255 255 / 15%), rgb(255 255 255 / 5%) 45%, rgb(255 255 255 / 11%)),
+      rgb(255 255 255 / 9%);
+   -webkit-backdrop-filter: blur(32px) saturate(175%);
+   backdrop-filter: blur(32px) saturate(175%);
+   box-shadow:
+      inset 0 1px 0 rgb(255 255 255 / 42%),
+      inset 0 -1px 0 rgb(255 255 255 / 14%),
+      0 30px 84px rgb(0 0 0 / 48%),
+      0 9px 30px rgb(123 213 255 / 15%);
+   transition:
+      translate 120ms ease-out,
+      opacity 120ms ease-out,
+      filter 120ms ease-out,
+      transform 620ms cubic-bezier(0.16, 1, 0.3, 1),
+      border-color 520ms ease,
+      box-shadow 620ms cubic-bezier(0.16, 1, 0.3, 1),
+      background-color 520ms ease;
+}
+
+.glass-store-card:hover,
+.glass-store-card:focus-within {
+   border-color: rgb(255 255 255 / 65%);
+   background-color: rgb(255 255 255 / 13%);
+   box-shadow:
+      inset 0 1px 0 rgb(255 255 255 / 52%),
+      inset 0 -1px 0 rgb(255 255 255 / 18%),
+      0 38px 100px rgb(0 0 0 / 58%),
+      0 14px 38px rgb(123 213 255 / 22%);
+}
+
+.glass-label {
+   border: 1px solid rgb(226 245 255 / 24%);
+   border-radius: 999px;
+   background: rgb(8 16 25 / 48%);
+   padding: 8px 11px;
+   -webkit-backdrop-filter: blur(18px) saturate(155%);
+   backdrop-filter: blur(18px) saturate(155%);
+   box-shadow: inset 0 1px 0 rgb(255 255 255 / 14%), 0 8px 20px rgb(0 0 0 / 20%);
+}
+
+.glass-button {
+   border: 1px solid rgb(138 223 255 / 58%);
+   background: rgb(255 255 255 / 9%);
+   color: var(--color-dbh-blue-soft);
+   font-family: var(--font-mono);
+   font-size: 8px;
+   letter-spacing: 0.12em;
+   text-transform: uppercase;
+   -webkit-backdrop-filter: blur(18px) saturate(160%);
+   backdrop-filter: blur(18px) saturate(160%);
+   box-shadow: inset 0 1px 0 rgb(255 255 255 / 20%), 0 10px 30px rgb(0 0 0 / 28%);
+   transition: color 300ms ease, background-color 300ms ease, border-color 300ms ease, transform 300ms ease, box-shadow 300ms ease;
+}
+
+.glass-button:hover,
+.glass-button:focus-visible {
+   transform: translateX(4px);
+   border-color: var(--color-dbh-blue);
+   background: rgb(82 199 255 / 22%);
+   color: white;
+   box-shadow: inset 0 1px 0 rgb(255 255 255 / 24%), 0 12px 34px rgb(45 176 255 / 22%);
+}
+
+.glass-store-card:hover .glass-button,
+.glass-store-card:focus-visible .glass-button {
+   transform: translateX(4px);
+   border-color: var(--color-dbh-blue);
+   background: rgb(82 199 255 / 22%);
+   color: white;
+}
+
+.game-fan-stage {
+   perspective: 1500px;
+}
+
+.game-folder-stage {
+   width: min(100%, 400px);
+   aspect-ratio: 1;
+   perspective: 1400px;
+}
+
+.feel-game-title-motion {
+   display: block;
+   max-width: 100%;
+   transform-origin: center;
+   will-change: transform;
+   transition: translate 120ms ease-out, opacity 120ms ease-out, filter 120ms ease-out;
+}
+
+.feel-game-title-motion.is-visible .feel-game-letter {
+   animation: feelGameLetterReveal 2.55s cubic-bezier(0.22, 0.75, 0.24, 1) both;
+}
+
+.feel-game-word {
+   display: inline-block;
+   white-space: nowrap;
+}
+
+@media (prefers-reduced-motion: reduce) {
+   .feel-game-title-motion,
+   .play-platform-epic,
+   .play-platform-playstation,
+   .play-platform-steam {
+      animation: none;
+      animation-timeline: auto;
+      filter: none;
+      opacity: 1;
+      translate: none;
+   }
+}
+
+.feel-game-letter {
+   display: inline-block;
+   white-space: pre;
+}
+
+.feel-game-word .feel-game-letter:nth-child(odd) {
+   --feel-game-origin-x: clamp(-42px, -4vw, -14px);
+}
+
+.feel-game-word .feel-game-letter:nth-child(even) {
+   --feel-game-origin-x: clamp(14px, 4vw, 42px);
+}
+
+@keyframes feelGameLetterReveal {
+   from {
+      opacity: 0;
+      filter: blur(24px);
+      transform: translateX(var(--feel-game-origin-x));
+   }
+
+   70% {
+      opacity: 1;
+      filter: blur(1.5px);
+   }
+
+   to {
+      opacity: 1;
+      filter: blur(0);
+      transform: translateX(0);
+   }
+}
+
+.game-folder-trigger {
+   min-height: 100%;
+   overflow: visible;
+   text-align: left;
+   transition: transform 500ms cubic-bezier(0.2, 0.75, 0.25, 1);
+}
+
+.game-folder-face {
+   border-color: rgb(255 255 255 / 52%);
+   background:
+      linear-gradient(145deg, rgb(255 255 255 / 29%), rgb(239 247 255 / 13%) 40%, rgb(255 255 255 / 19%)),
+      rgb(210 226 244 / 17%);
+   -webkit-backdrop-filter: blur(48px) saturate(185%);
+   backdrop-filter: blur(48px) saturate(185%);
+   box-shadow:
+      inset 0 1px 0 rgb(255 255 255 / 68%),
+      inset 0 -1px 0 rgb(255 255 255 / 18%),
+      0 30px 82px rgb(0 0 0 / 48%),
+      0 8px 28px rgb(190 221 255 / 15%);
+   transition: background-color 400ms ease, border-color 400ms ease, box-shadow 500ms ease;
+}
+
+.game-folder-trigger:hover,
+.game-folder-trigger:focus-visible {
+   transform: translateY(-5px) rotateX(1deg);
+}
+
+.game-folder-trigger:active {
+   transform: translateX(8px) translateY(-2px) scale(0.99);
+}
+
+.game-folder-trigger:hover .game-folder-face,
+.game-folder-trigger:focus-visible .game-folder-face {
+   border-color: rgb(255 255 255 / 72%);
+   background-color: rgb(220 235 250 / 21%);
+   box-shadow: inset 0 1px 0 rgb(255 255 255 / 76%), inset 0 -1px 0 rgb(255 255 255 / 22%), 0 38px 100px rgb(0 0 0 / 55%), 0 14px 38px rgb(165 214 255 / 22%);
+}
+
+.game-folder-trigger:hover .game-folder-open-icon,
+.game-folder-trigger:focus-visible .game-folder-open-icon {
+   transform: translate(3px, -3px);
+   background-color: rgb(255 255 255 / 24%);
+}
+
+.game-folder-stack {
+   perspective: 1000px;
+}
+
+.game-folder-sheet {
+   top: 5%;
+   width: 60%;
+   height: 82%;
+   border: 1px solid rgb(255 255 255 / 36%);
+   background: rgb(255 255 255 / 9%);
+   box-shadow: 0 18px 38px rgb(0 0 0 / 46%), inset 0 1px 0 rgb(255 255 255 / 32%);
+   transition: transform 600ms cubic-bezier(0.2, 0.75, 0.25, 1), box-shadow 450ms ease;
+}
+
+.game-folder-sheet-back {
+   left: 12%;
+   z-index: 1;
+   transform: rotate(-9deg) translateY(12px);
+}
+
+.game-folder-sheet-middle {
+   left: 22%;
+   z-index: 2;
+   transform: rotate(5deg) translateY(3px);
+}
+
+.game-folder-sheet-front {
+   right: 10%;
+   z-index: 3;
+   transform: rotate(-2deg) translateY(-5px);
+}
+
+.game-folder-trigger:hover .game-folder-sheet-back,
+.game-folder-trigger:focus-visible .game-folder-sheet-back {
+   transform: rotate(-13deg) translate(-18px, -3px);
+}
+
+.game-folder-trigger:hover .game-folder-sheet-middle,
+.game-folder-trigger:focus-visible .game-folder-sheet-middle {
+   transform: rotate(0deg) translateY(-10px);
+}
+
+.game-folder-trigger:hover .game-folder-sheet-front,
+.game-folder-trigger:focus-visible .game-folder-sheet-front {
+   transform: rotate(10deg) translate(20px, -4px);
+}
+
+.game-fan-stage-open {
+   margin-top: -28px;
+}
+
+.game-fan-card-opening {
+   animation: gameCardBurst 2.2s cubic-bezier(0.22, 0.72, 0.18, 1) both;
+}
+
+@keyframes gameCardBurst {
+   from {
+      opacity: 0;
+      filter: blur(16px);
+      transform: translate(-50%, -50%) rotate(0deg) scale(0.38);
+   }
+
+   to {
+      opacity: 1;
+      filter: blur(0);
+      transform: translate(calc(-50% + var(--fan-offset)), calc(-50% + var(--fan-lift))) rotate(var(--fan-angle)) scale(1);
+   }
+}
+
+.game-fan-card {
+   translate: none;
+   transform: translate(calc(-50% + var(--fan-offset)), calc(-50% + var(--fan-lift))) rotate(var(--fan-angle));
+   transform-style: preserve-3d;
+   transition: transform 550ms cubic-bezier(0.2, 0.75, 0.25, 1), box-shadow 550ms ease, border-color 350ms ease;
+}
+
+.game-fan-card:hover,
+.game-fan-card:focus-visible {
+   z-index: 40;
+   transform: translate(calc(-50% + var(--fan-offset)), calc(-50% + var(--fan-lift) - 20px)) rotate(0deg) scale(1.035);
+   border-color: rgb(168 231 255 / 58%);
+   box-shadow: inset 0 1px 0 rgb(255 255 255 / 32%), 0 34px 100px rgb(0 0 0 / 60%), 0 12px 40px rgb(60 183 255 / 18%);
+}
+
+.game-fan-card:active {
+   transform: translate(calc(-50% + var(--fan-offset) + 12px), calc(-50% + var(--fan-lift) - 5px)) rotate(1deg) scale(1.015);
+}
+
+@media (max-width: 1023px) {
+   .game-fan-stage {
+      display: grid;
+      height: auto;
+      max-width: none;
+      gap: 14px;
+      overflow: visible;
+      padding: 0 max(4vw, 12px) 24px;
+   }
+
+   .game-fan-stage-open {
+      margin-top: 0;
+   }
+
+   .game-fan-card {
+      position: relative;
+      top: auto;
+      left: auto;
+      width: min(100%, 520px);
+      margin-inline: auto;
+      translate: none;
+      transform: none;
+   }
+
+   .game-fan-card-opening {
+      animation: gameCardStackReveal 680ms cubic-bezier(0.16, 1, 0.3, 1) both;
+   }
+
+   @keyframes gameCardStackReveal {
+      from {
+         opacity: 0;
+         filter: blur(10px);
+         transform: translateY(22px) scale(0.985);
+      }
+
+      to {
+         opacity: 1;
+         filter: blur(0);
+         transform: none;
+      }
+   }
+
+   .game-fan-card:hover,
+   .game-fan-card:focus-visible {
+      transform: translateY(-5px) scale(1.01);
+   }
+
+   .game-fan-card:active {
+      transform: translateX(9px) scale(0.99);
+   }
+}
+
+@media (prefers-reduced-motion: reduce) {
+   .game-fan-card,
+   .game-folder-trigger,
+   .game-folder-sheet,
+   .glass-button {
+      transition: none;
+   }
+
+   .game-fan-card-opening {
+      animation: none;
+   }
+
+   .feel-game-letter {
+      animation: none;
+      filter: none;
+      opacity: 1;
+      transform: none;
+   }
+
+   .feel-game-letter {
+      animation: none;
+      filter: none;
+      opacity: 1;
+      transform: none;
+   }
+}
+
+@media (max-width: 639px) {
+   .play-store-action {
+      gap: 5px;
+      padding-inline: 6px;
+      font-size: 7px;
+      letter-spacing: 0.02em;
+   }
+}
+
+@keyframes newsCardFall {
+   from {
+      opacity: 0;
+      transform: translateY(-28px) rotateX(-9deg) scale(0.97);
+   }
+
+   to {
+      opacity: 1;
+      transform: translateY(0) rotateX(0) scale(1);
+   }
+}
+
+@keyframes modalWindowOpen {
+   from {
+      opacity: 0;
+      clip-path: inset(48% 44% 48% 44% round 24px);
+      transform: translateY(72px) scale(0.12, 0.04) perspective(900px) rotateX(-12deg);
+   }
+
+   to {
+      opacity: 1;
+      clip-path: inset(0 0 0 0 round 24px);
+      transform: translateY(0) scale(1, 1) perspective(900px) rotateX(0deg);
+   }
+}
+
+@keyframes modalWindowClose {
+   from {
+      opacity: 1;
+      clip-path: inset(0 0 0 0 round 24px);
+      transform: translateY(0) scale(1, 1) perspective(900px) rotateX(0deg);
+   }
+
+   to {
+      opacity: 0;
+      clip-path: inset(48% 44% 48% 44% round 24px);
+      transform: translateY(64px) scale(0.12, 0.04) perspective(900px) rotateX(-12deg);
+   }
+}
+
+.news-card {
+   animation: newsCardFall 0.72s cubic-bezier(0.22, 1, 0.36, 1) both;
+   transition: translate 460ms cubic-bezier(0.16, 1, 0.3, 1), border-color 460ms ease, box-shadow 460ms ease;
+}
+
+.news-card:hover,
+.news-card:focus-within {
+   translate: 0 -5px;
+   border-color: rgb(226 245 255 / 42%);
+   box-shadow: 0 28px 80px rgb(0 0 0 / 40%), 0 8px 28px rgb(60 183 255 / 12%);
+}
+
+.news-modal-window {
+   animation: modalWindowOpen 1.1s cubic-bezier(0.16, 1, 0.3, 1) both;
+   transform-origin: center bottom;
+   will-change: transform, clip-path, opacity;
+}
+
+.news-modal-closing .news-modal-window {
+   animation: modalWindowClose 0.9s cubic-bezier(0.7, 0, 0.84, 0) both;
+}
+
+.news-loader {
+   height: 12px;
+   width: 12px;
+   border: 1px solid rgb(82 199 255 / 30%);
+   border-top-color: var(--color-dbh-blue);
+   border-radius: 999px;
+   animation: newsLoaderSpin 0.7s linear infinite;
+}
+
+@keyframes newsLoaderSpin {
+   to {
+      transform: rotate(360deg);
+   }
 }
 
 .play-store-action {
@@ -890,13 +1492,15 @@ a {
 }
 
 @layer base {
-  * {
-    @apply border-border outline-ring/50;
+   * {
+      @apply border-border outline-ring/50;
    }
-  body {
-    @apply bg-background text-foreground;
+
+   body {
+      @apply bg-background text-foreground;
    }
-  html {
-    @apply font-sans;
+
+   html {
+      @apply font-sans;
    }
 }

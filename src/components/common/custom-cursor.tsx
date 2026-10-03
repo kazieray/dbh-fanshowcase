@@ -23,6 +23,10 @@ export default function CustomCursor() {
          cursor.style.transform = `translate3d(${event.clientX}px, ${event.clientY}px, 0)`;
          const overFlowchart = event.target instanceof Element && event.target.closest(".flowchart-board");
          cursor.style.opacity = overFlowchart ? "0" : "1";
+
+         if (cursor.style.opacity !== "1") {
+            cursor.style.opacity = "1";
+         }
       };
 
       const onMouseEnter = () => {

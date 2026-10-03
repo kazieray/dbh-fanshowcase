@@ -48,7 +48,7 @@ export function useGameplay() {
             videoTwoRef.current,
             ctaRef.current,
             ...cardAnimationRefs.current,
-         ];
+         ].filter(Boolean);
 
          if (reducedMotion) {
             gsap.set(animationTargets, {
@@ -59,19 +59,27 @@ export function useGameplay() {
          }
 
          const animateHero = () => {
-            gsap.set(heroVideoRef.current, {
+            const heroVideo = heroVideoRef.current;
+            const heroTitle = heroTitleRef.current;
+            const heroDescription = heroDescriptionRef.current;
+
+            if (!heroVideo || !heroTitle || !heroDescription) return;
+
+            gsap.killTweensOf([heroVideo, heroTitle, heroDescription]);
+
+            gsap.set(heroVideo, {
                scale: 1.34,
                filter: "blur(3px)",
             });
 
-            gsap.set(heroTitleRef.current, {
+            gsap.set(heroTitle, {
                autoAlpha: 0,
                y: 55,
                filter: "blur(10px)",
                letterSpacing: "0.02em",
             });
 
-            gsap.set(heroDescriptionRef.current, {
+            gsap.set(heroDescription, {
                autoAlpha: 0,
                y: 24,
                filter: "blur(6px)",
@@ -84,14 +92,14 @@ export function useGameplay() {
             });
 
             timeline
-               .to(heroVideoRef.current, {
+               .to(heroVideo, {
                   scale: 1.2,
                   filter: "blur(1.5px)",
                   duration: 2.4,
                   ease: "power2.out",
                })
                .to(
-                  heroTitleRef.current,
+                  heroTitle,
                   {
                      autoAlpha: 1,
                      y: 0,
@@ -103,7 +111,7 @@ export function useGameplay() {
                   0.25,
                )
                .to(
-                  heroDescriptionRef.current,
+                  heroDescription,
                   {
                      autoAlpha: 1,
                      y: 0,
@@ -113,10 +121,18 @@ export function useGameplay() {
                   },
                   0.72,
                );
+
+            return timeline;
          };
 
          const animateFeatures = () => {
-            gsap.set(featuresTitleRef.current, {
+            const featuresSection = featuresSectionRef.current;
+            const featuresTitle = featuresTitleRef.current;
+            const cards = cardAnimationRefs.current.filter((card): card is HTMLDivElement => Boolean(card));
+
+            if (!featuresSection || !featuresTitle) return;
+
+            gsap.set(featuresTitle, {
                autoAlpha: 0,
                y: 35,
                scale: 0.97,
@@ -124,17 +140,39 @@ export function useGameplay() {
             });
 
             const cardDirections = [
-               { x: -120, y: -90, rotation: -4 },
-               { x: 15, y: -120, rotation: 3 },
-               { x: 120, y: -80, rotation: 4 },
-               { x: 10, y: 110, rotation: -2 },
-               { x: -120, y: 95, rotation: -4 },
-               { x: 120, y: 100, rotation: 4 },
+               {
+                  x: -120,
+                  y: -90,
+                  rotation: -4,
+               },
+               {
+                  x: 15,
+                  y: -120,
+                  rotation: 3,
+               },
+               {
+                  x: 120,
+                  y: -80,
+                  rotation: 4,
+               },
+               {
+                  x: 10,
+                  y: 110,
+                  rotation: -2,
+               },
+               {
+                  x: -120,
+                  y: 95,
+                  rotation: -4,
+               },
+               {
+                  x: 120,
+                  y: 100,
+                  rotation: 4,
+               },
             ];
 
-            cardAnimationRefs.current.forEach((card, index) => {
-               if (!card) return;
-
+            cards.forEach((card, index) => {
                const direction = cardDirections[index] ?? {
                   x: 0,
                   y: 80,
@@ -156,7 +194,7 @@ export function useGameplay() {
             });
 
             timeline
-               .to(featuresTitleRef.current, {
+               .to(featuresTitle, {
                   autoAlpha: 1,
                   y: 0,
                   scale: 1,
@@ -165,7 +203,7 @@ export function useGameplay() {
                   ease: "power3.out",
                })
                .to(
-                  cardAnimationRefs.current,
+                  cards,
                   {
                      autoAlpha: 1,
                      x: 0,
@@ -184,7 +222,7 @@ export function useGameplay() {
                );
 
             ScrollTrigger.create({
-               trigger: featuresSectionRef.current,
+               trigger: featuresSection,
                scroller,
                start: "top 70%",
                once: true,
@@ -193,24 +231,32 @@ export function useGameplay() {
          };
 
          const animateExperience = () => {
-            gsap.set(experienceTitleRef.current, {
+            const experienceSection = experienceSectionRef.current;
+            const experienceTitle = experienceTitleRef.current;
+            const videoOne = videoOneRef.current;
+            const videoTwo = videoTwoRef.current;
+            const cta = ctaRef.current;
+
+            if (!experienceSection || !experienceTitle || !videoOne || !videoTwo || !cta) return;
+
+            gsap.set(experienceTitle, {
                autoAlpha: 0,
                x: -45,
             });
 
-            gsap.set(videoOneRef.current, {
+            gsap.set(videoOne, {
                autoAlpha: 0,
                y: 45,
                scale: 0.96,
             });
 
-            gsap.set(videoTwoRef.current, {
+            gsap.set(videoTwo, {
                autoAlpha: 0,
                y: 55,
                scale: 0.96,
             });
 
-            gsap.set(ctaRef.current, {
+            gsap.set(cta, {
                autoAlpha: 0,
                y: 28,
             });
@@ -223,13 +269,13 @@ export function useGameplay() {
             });
 
             timeline
-               .to(experienceTitleRef.current, {
+               .to(experienceTitle, {
                   autoAlpha: 1,
                   x: 0,
                   duration: 0.85,
                })
                .to(
-                  videoOneRef.current,
+                  videoOne,
                   {
                      autoAlpha: 1,
                      y: 0,
@@ -239,7 +285,7 @@ export function useGameplay() {
                   0.15,
                )
                .to(
-                  videoTwoRef.current,
+                  videoTwo,
                   {
                      autoAlpha: 1,
                      y: 0,
@@ -249,7 +295,7 @@ export function useGameplay() {
                   0.35,
                )
                .to(
-                  ctaRef.current,
+                  cta,
                   {
                      autoAlpha: 1,
                      y: 0,
@@ -259,7 +305,7 @@ export function useGameplay() {
                );
 
             ScrollTrigger.create({
-               trigger: experienceSectionRef.current,
+               trigger: experienceSection,
                scroller,
                start: "top 65%",
                once: true,
@@ -267,7 +313,34 @@ export function useGameplay() {
             });
          };
 
+         /*
+          * HERO — FIRST PAGE LOAD
+          */
          animateHero();
+
+         /*
+          * HERO — REPLAY WHEN SCROLLING BACK UP
+          *
+          * Features berada tepat setelah Hero.
+          *
+          * Saat user scroll turun:
+          * Hero -> Features
+          *
+          * Saat user scroll balik ke atas dan Features
+          * keluar dari viewport bagian bawah,
+          * entrance Hero dimainkan ulang.
+          */
+         if (featuresSectionRef.current) {
+            ScrollTrigger.create({
+               trigger: featuresSectionRef.current,
+               scroller,
+               start: "top 70%",
+               onLeaveBack: () => {
+                  animateHero();
+               },
+            });
+         }
+
          animateFeatures();
          animateExperience();
 
